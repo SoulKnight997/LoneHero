@@ -52,6 +52,8 @@ bool HelloWorld::init()
     this->addChild(menu, 1);
 
 	auto hero = Hero::create(5, 5, 200, "hero.png");
+	hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
+		origin.y + visibleSize.height / 2));
 	this->addChild(hero);
 	this->addChild(hero->getHero());
     return true;
