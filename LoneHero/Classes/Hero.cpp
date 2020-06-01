@@ -1,5 +1,6 @@
 #include "Hero.h"
 #include "SimpleAudioEngine.h"
+#include "Bullet.h"
 
 USING_NS_CC;
 
@@ -42,11 +43,12 @@ void Hero::Press(EventKeyboard::KeyCode code, Event*event) {
 	case EventKeyboard::KeyCode::KEY_D:right = 1;break;
 	case EventKeyboard::KeyCode::KEY_W:up = 1;break;
 	case EventKeyboard::KeyCode::KEY_J: {
-		auto sp = Sprite::create("square.png");
-		auto body = PhysicsBody::createBox(sp->getContentSize());
-		sp->setPhysicsBody(body);
-		sp->setPosition(Vec2(target->getPosition()));
-		this->addChild(sp);
+		auto bullet = Bullet::create(7, 0, 5, "square.png");
+		auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
+		bullet->getBullet()->setPhysicsBody(body);
+		bullet->getBullet()->setPosition(Vec2(target->getPosition()));
+		this->addChild(bullet->getBullet());
+		this->addChild(bullet);
 		break;
 	}
 	}
