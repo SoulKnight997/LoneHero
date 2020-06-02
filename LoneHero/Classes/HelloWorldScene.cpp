@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Hero.h"
+#include "Enemy_easy.h"
 
 USING_NS_CC;
 
@@ -8,7 +9,6 @@ Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
 	auto scene = Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
@@ -50,12 +50,17 @@ bool HelloWorld::init()
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
-
+	
 	auto hero = Hero::create(5, 5, 200, "hero.png");
 	hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2));
 	this->addChild(hero);
 	this->addChild(hero->getHero());
+	auto enemy = Enemy_easy::create(12, 1, "enemy.png");
+	enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
+		origin.y + visibleSize.height / 2 - 50));
+	this->addChild(enemy);
+	this->addChild(enemy->getEnemy());
     return true;
 }
 
