@@ -42,15 +42,6 @@ void Hero::Press(EventKeyboard::KeyCode code, Event*event) {
 	case EventKeyboard::KeyCode::KEY_S:down = 1;break;
 	case EventKeyboard::KeyCode::KEY_D:right = 1;break;
 	case EventKeyboard::KeyCode::KEY_W:up = 1;break;
-	case EventKeyboard::KeyCode::KEY_J: {
-		auto bullet = Bullet::create(7, 0, 5, "square.png");
-		auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
-		bullet->getBullet()->setPhysicsBody(body);
-		bullet->getBullet()->setPosition(Vec2(target->getPosition()));
-		this->addChild(bullet->getBullet());
-		this->addChild(bullet);
-		break;
-	}
 	}
 }
 

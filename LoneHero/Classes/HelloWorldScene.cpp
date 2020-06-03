@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "Hero.h"
 #include "Enemy_easy.h"
+#include "Weapon_poorgun.h"
 
 USING_NS_CC;
 
@@ -9,10 +10,9 @@ Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
 	auto scene = Scene::createWithPhysics();
-    
+	
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
-
     // add layer as a child to scene
     scene->addChild(layer);
 
@@ -50,17 +50,29 @@ bool HelloWorld::init()
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
-	
+
 	auto hero = Hero::create(5, 5, 200, "hero.png");
 	hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2));
+	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
+	hero->getHero()->setPhysicsBody(body);
 	this->addChild(hero);
 	this->addChild(hero->getHero());
+
+	auto weapon = Weapon_poorgun::create(0.1, 5, 0, "poorgun.png",hero->getHero());
+	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+	weapon->getWeapon()->setPhysicsBody(bod);
+	weapon->getWeapon()->setPosition(Vec2(origin.x + visibleSize.width / 2,
+		origin.y + visibleSize.height / 2));
+	this->addChild(weapon);
+	this->addChild(weapon->getWeapon());
+
 	auto enemy = Enemy_easy::create(12, 1, "enemy.png");
 	enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
 		origin.y + visibleSize.height / 2 - 50));
 	this->addChild(enemy);
 	this->addChild(enemy->getEnemy());
+
     return true;
 }
 

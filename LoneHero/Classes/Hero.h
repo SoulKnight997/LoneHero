@@ -2,6 +2,7 @@
 #define __HERO_H__
 
 #include"cocos2d.h"
+#include"Weapon.h"
 
 class Hero : public cocos2d::Node {
 private:
