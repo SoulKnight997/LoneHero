@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-Enemy_easy* Enemy_easy::create(int b,int s, const std::string& filename,cocos2d::Sprite* he) {
+Enemy_easy* Enemy_easy::create(int b, int s, const std::string& filename, cocos2d::Sprite* he) {
 	Enemy_easy*p = new(std::nothrow)Enemy_easy;
 	p->init(b, s, filename, he);
 	srand(time(NULL));

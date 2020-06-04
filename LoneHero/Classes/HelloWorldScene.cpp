@@ -3,6 +3,7 @@
 #include "Hero.h"
 #include "Weapon_poorgun.h"
 #include "Enemy_easy.h"
+#include "Boss_zrt.h"
 
 USING_NS_CC;
 
@@ -58,7 +59,7 @@ bool HelloWorld::init()
 	hero->getHero()->setPhysicsBody(body);
 	this->addChild(hero);
 	this->addChild(hero->getHero());
-
+	
 	auto weapon = Weapon_poorgun::create(0.3, 5, 0, "poorgun.png",hero->getHero());
 	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 	weapon->getWeapon()->setPhysicsBody(bod);
@@ -72,6 +73,12 @@ bool HelloWorld::init()
 		origin.y + visibleSize.height / 2 - 50));
 	this->addChild(enemy);
 	this->addChild(enemy->getEnemy());
+
+	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero->getHero());
+	boss->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 + 50,
+		origin.y + visibleSize.height / 2 + 50));
+	this->addChild(boss);
+	this->addChild(boss->getEnemy());
 
     return true;
 }

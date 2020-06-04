@@ -7,7 +7,10 @@
 class Boss_zrt :public Enemy
 {
 public:
-	
+	static Boss_zrt* create(int, int, const std::string&, cocos2d::Sprite*);
+	void directionChange(float dt);
+	void Move(float dt);
+	void Attack(float dt);
 };
 #endif
 

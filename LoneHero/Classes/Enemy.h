@@ -7,7 +7,7 @@ class Enemy :public cocos2d::Node
 {
 protected:
 	int blood;
-	float direction;
+	double direction;
 	int speed;
 	cocos2d::Sprite* enemy;
 	cocos2d::Sprite* hero;
