@@ -4,13 +4,13 @@
 
 USING_NS_CC;
 
-Bullet* Bullet::create(int s, float a, int h, const std::string& filename) {
+Bullet* Bullet::create(int s, double a, int h, const std::string& filename) {
 	Bullet*p = new(std::nothrow)Bullet;
 	p->init(s, a, h, filename);
 	return p;
 }
 
-bool Bullet::init(int s, float a, int h, const std::string& filename) {
+bool Bullet::init(int s, double a, int h, const std::string& filename) {
 	speed = s, angle = a, hurt = h;
 	bullet = cocos2d::Sprite::create(filename);
 	auto listener = EventListenerKeyboard::create();

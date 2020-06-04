@@ -7,9 +7,9 @@
 
 USING_NS_CC;
 
-Enemy_easy* Enemy_easy::create(int b,int s, const std::string& filename) {
+Enemy_easy* Enemy_easy::create(int b,int s, const std::string& filename,cocos2d::Sprite* he) {
 	Enemy_easy*p = new(std::nothrow)Enemy_easy;
-	p->init(b, s, filename);
+	p->init(b, s, filename, he);
 	srand(time(NULL));
 	return p;
 }
@@ -37,6 +37,9 @@ void Enemy_easy::Move(float dt) {
 
 void Enemy_easy::Attack(float dt) {
 	auto bullet = Bullet::create(7, 0, 5, "redbullet.png");
+	double x1, y1, x2, y2;
+	x1 = enemy->getPositionX(), y1 = enemy->getPositionY(), x2 = hero->getPositionX(), y2 = hero->getPositionY();
+	bullet->setAngle(asin((y2-y1)/sqrt(pow((y2-y1),2)+pow((x2-x1),2))));
 	auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 	bullet->getBullet()->setPhysicsBody(body);
 	bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));

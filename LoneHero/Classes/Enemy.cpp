@@ -4,10 +4,11 @@
 
 USING_NS_CC;
 
-bool Enemy::init(int b,int s, const std::string& filename) {
+bool Enemy::init(int b,int s, const std::string& filename,cocos2d::Sprite* he) {
 	blood = b;
 	speed = s;
 	direction = 0;
+	hero = he;
 	enemy = cocos2d::Sprite::create(filename);
 	this->schedule(schedule_selector(Enemy::Move), 0.05f);
 	this->schedule(schedule_selector(Enemy::directionChange), 3.0f);

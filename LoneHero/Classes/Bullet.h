@@ -7,11 +7,11 @@ class Bullet :public cocos2d::Node
 private:
 	cocos2d::Sprite*bullet;
 	int speed;//子弹飞行速度
-	float angle;//子弹与水平方向夹角
+	double angle;//子弹与水平方向夹角
 	int hurt;//子弹的伤害
 public:
-	static Bullet*create(int, float, int, const std::string& filename);
-	bool init(int, float, int, const std::string& filename);
+	static Bullet*create(int, double, int, const std::string& filename);
+	bool init(int, double, int, const std::string& filename);
 	virtual void update(float dt);
 	cocos2d::Sprite* getBullet();
 	int getSpeed();

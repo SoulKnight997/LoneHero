@@ -1,8 +1,8 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Hero.h"
-#include "Enemy_easy.h"
 #include "Weapon_poorgun.h"
+#include "Enemy_easy.h"
 
 USING_NS_CC;
 
@@ -67,7 +67,7 @@ bool HelloWorld::init()
 	this->addChild(weapon);
 	this->addChild(weapon->getWeapon());
 
-	auto enemy = Enemy_easy::create(12, 1, "enemy.png");
+	auto enemy = Enemy_easy::create(12, 1, "enemy.png",hero->getHero());
 	enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
 		origin.y + visibleSize.height / 2 - 50));
 	this->addChild(enemy);

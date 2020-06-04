@@ -10,8 +10,9 @@ protected:
 	float direction;
 	int speed;
 	cocos2d::Sprite* enemy;
+	cocos2d::Sprite* hero;
 public:
-	bool init(int, int, const std::string& filename);
+	bool init(int, int, const std::string&,cocos2d::Sprite*);
 	cocos2d::Sprite* getEnemy();
 	int getBlood();
 	float getDirection();

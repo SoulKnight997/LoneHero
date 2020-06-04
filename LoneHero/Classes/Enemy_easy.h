@@ -6,7 +6,7 @@
 class Enemy_easy :public Enemy
 {
 public:
-	static Enemy_easy* create(int, int, const std::string& filename);
+	static Enemy_easy* create(int, int, const std::string&,cocos2d::Sprite*);
 	void directionChange(float dt);
 	void Move(float dt);
 	void Attack(float dt);
