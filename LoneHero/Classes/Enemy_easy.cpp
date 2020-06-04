@@ -39,7 +39,12 @@ void Enemy_easy::Attack(float dt) {
 	auto bullet = Bullet::create(7, 0, 5, "redbullet.png");
 	double x1, y1, x2, y2;
 	x1 = enemy->getPositionX(), y1 = enemy->getPositionY(), x2 = hero->getPositionX(), y2 = hero->getPositionY();
-	bullet->setAngle(asin((y2-y1)/sqrt(pow((y2-y1),2)+pow((x2-x1),2))));
+	if ((x1 != x2) || (y1 != y2)) {
+		if (x1 <= x2)
+			bullet->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+		else
+			bullet->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+	}
 	auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 	bullet->getBullet()->setPhysicsBody(body);
 	bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));
