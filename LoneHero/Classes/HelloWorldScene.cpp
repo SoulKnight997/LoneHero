@@ -59,7 +59,7 @@ bool HelloWorld::init()
 	this->addChild(hero);
 	this->addChild(hero->getHero());
 
-	auto weapon = Weapon_poorgun::create(0.1, 5, 0, "poorgun.png",hero->getHero());
+	auto weapon = Weapon_poorgun::create(0.3, 5, 0, "poorgun.png",hero->getHero());
 	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 	weapon->getWeapon()->setPhysicsBody(bod);
 	weapon->getWeapon()->setPosition(Vec2(origin.x + visibleSize.width / 2,

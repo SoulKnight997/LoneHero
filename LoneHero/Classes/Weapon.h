@@ -2,6 +2,8 @@
 #define __WEAPON_H__
 
 #include"cocos2d.h"
+#include <time.h>
+
 class Weapon :public cocos2d::Node
 {
 protected:
@@ -10,6 +12,7 @@ protected:
 	int blue_consume;
 	cocos2d::Sprite* weapon;
 	cocos2d::Sprite* hero;
+	clock_t time;
 public:
 	bool init(float, int, int, const std::string& filename,cocos2d::Sprite*);
 	cocos2d::Sprite* getWeapon();

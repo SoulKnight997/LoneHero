@@ -7,17 +7,21 @@ USING_NS_CC;
 bool Weapon::init(float a, int h, int b, const std::string& filename,cocos2d::Sprite* he) {
 	attack_interval = a, hurt = h, blue_consume = b;
 	hero = he;
+	time = clock();
 	weapon = cocos2d::Sprite::create(filename);
 	this->schedule(schedule_selector(Weapon::FollowMyHero), 0.01f);
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = [=] (EventKeyboard::KeyCode keycode,Event*event){
 		if (keycode == EventKeyboard::KeyCode::KEY_J) {
-			auto bullet = Bullet::create(7, 0, 5, "bulletpoorgun.png");
-			auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
-			bullet->getBullet()->setPhysicsBody(body);
-			bullet->getBullet()->setPosition(Vec2(weapon->getPosition()));
-			this->addChild(bullet->getBullet());
-			this->addChild(bullet);
+			if (clock() - time >= attack_interval*1000) {
+				auto bullet = Bullet::create(7, 0, 5, "bulletpoorgun.png");
+				auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
+				bullet->getBullet()->setPhysicsBody(body);
+				bullet->getBullet()->setPosition(Vec2(weapon->getPosition()));
+				this->addChild(bullet->getBullet());
+				this->addChild(bullet);
+				time = clock();
+			}
 			this->schedule(schedule_selector(Weapon::Attack), attack_interval);
 		}
 	};
