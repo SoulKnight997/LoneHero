@@ -11,6 +11,7 @@ protected:
 	int speed;
 	cocos2d::Sprite* enemy;
 	cocos2d::Sprite* hero;
+	double angle;
 public:
 	bool init(int, int, const std::string&,cocos2d::Sprite*);
 	cocos2d::Sprite* getEnemy();

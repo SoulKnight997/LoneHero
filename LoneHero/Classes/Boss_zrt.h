@@ -11,6 +11,12 @@ public:
 	void directionChange(float dt);
 	void Move(float dt);
 	void Attack(float dt);
+	void Attack_tiannvsanhua();
+	void Attack_luoxuanshengtian();
+	void Attack_huajichongzhuang();
+	void StraightBullet(float dt);
+	void CircleBullet(float dt);
+	void HuajiBullet(float dt);
 };
 #endif
 
