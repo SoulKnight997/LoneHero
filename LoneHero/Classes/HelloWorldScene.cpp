@@ -4,6 +4,7 @@
 #include "Weapon_poorgun.h"
 #include "Enemy_easy.h"
 #include "Boss_zrt.h"
+#include "Weapon_shotgun.h"
 
 USING_NS_CC;
 
@@ -94,7 +95,7 @@ bool HelloWorld::init()
 	this->addChild(hero);
 	this->addChild(hero->getHero());
 	
-	auto weapon = Weapon_poorgun::create(0.3, 5, 0, "poorgun.png",hero->getHero());
+	auto weapon = Weapon_shotgun::create(1, 5, 0, "poorgun.png",hero->getHero());
 	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 	weapon->getWeapon()->setPhysicsBody(bod);
 	weapon->getWeapon()->setPosition(Vec2(origin.x + visibleSize.width / 2,

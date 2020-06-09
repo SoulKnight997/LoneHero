@@ -13,6 +13,7 @@ protected:
 	cocos2d::Sprite* weapon;
 	cocos2d::Sprite* hero;
 	clock_t time;
+	double angle;
 public:
 	bool init(float, int, int, const std::string& filename,cocos2d::Sprite*);
 	cocos2d::Sprite* getWeapon();
