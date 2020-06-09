@@ -83,9 +83,6 @@ bool HelloWorld::init()
 
 	//
 
-	Sprite *s = Sprite::create("FirstMap.tmx");
-	s->setAnchorPoint(Point(0, 0));
-	addChild(s);
 
 	auto hero = Hero::create(5, 5, 200, "hero.png");
 	hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
