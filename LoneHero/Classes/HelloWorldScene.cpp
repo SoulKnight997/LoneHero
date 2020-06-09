@@ -52,6 +52,40 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+
+	//practice
+	
+/*
+
+	TextFieldTTF *tf = TextFieldTTF::textFieldWithPlaceHolder
+	("LoneHero", "ËÎÌו", 20);
+	tf->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	addChild(tf);
+
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->onTouchBegan = [tf](Touch *t, Event *event) {
+		if (tf->getBoundingBox().containsPoint(t->getLocation())) {
+			tf->attachWithIME();
+		}
+		else {
+			tf->detachWithIME();
+		}
+
+		return false;
+	};
+	Director::getInstance()->getEventDispatcher()->
+		addEventListenerWithSceneGraphPriority(listener, tf);
+
+
+*/
+
+
+	//
+
+	Sprite *s = Sprite::create("FirstMap.tmx");
+	s->setAnchorPoint(Point(0, 0));
+	addChild(s);
+
 	auto hero = Hero::create(5, 5, 200, "hero.png");
 	hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2));

@@ -75,10 +75,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+	auto scene = HelloWorld::createScene();
+
 
     // run
     director->runWithScene(scene);
+	//run with scene只在第一次呈现场景时展示
 
     return true;
 }
