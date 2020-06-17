@@ -88,18 +88,21 @@ bool HelloWorld::init()
 	_tileMap = CCTMXTiledMap::create("map/SnowMap.tmx");
 	log("fuck");
 	addChild(_tileMap, -1, 1000);
+
 	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
 	ValueMap spwanPoint = group->getObject("hero");
-	float x = spwanPoint["x"].asFloat();
-	float y = spwanPoint["y"].asFloat();
+	float hero_x = spwanPoint["x"].asFloat();
+	float hero_y = spwanPoint["y"].asFloat();
 
 	auto hero = Hero::create(5, 5, 200, "heropositive.png");
-	hero->getHero()->setPosition(Vec2(x, y));
+	hero->getHero()->setPosition(Vec2(hero_x, hero_y));
 	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
 	hero->getHero()->setPhysicsBody(body);
 	this->addChild(hero);
 	this->addChild(hero->getHero());
 	
+	_role = hero->getHero();
+
 	auto weapon = Weapon_shotgun::create(1, 5, 0, "poorgun.png",hero->getHero());
 	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 	weapon->getWeapon()->setPhysicsBody(bod);
@@ -120,6 +123,10 @@ bool HelloWorld::init()
 	this->addChild(boss);
 	this->addChild(boss->getEnemy());
 
+	_collidable = _tileMap->getLayer("collision");
+	setTouchEnabled(true);
+	//单点触摸
+	setTouchMode(Touch::DispatchMode::ONE_BY_ONE);
     return true;
 }
 
@@ -138,5 +145,95 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
     
-    
+}
+bool HelloWorld::onTouchBegan(Touch* touch, Event* event)
+{
+	log("onTouchBegan");
+	return true;
+}
+void HelloWorld::onTouchMoved(Touch* touch, Event* event)
+{
+	log("onTouchMoved");
+}
+void HelloWorld::onTouchEnded(Touch* touch, Event* event)
+{
+	log("onTouchEnded");
+	//获得OpenGL坐标
+	Vec2 touchLocation = touch->getLocation();
+	Vec2 rolePos = _role->getPosition();
+	Vec2 diff = touchLocation - rolePos;
+	if (abs(diff.x) > abs((diff.y)))
+	{
+		if (diff.x > 0)
+		{
+			rolePos.x+=_tileMap->getTileSize().width;
+			_role->runAction(FlipX::create(true));           
+		}
+		else
+		{
+			rolePos.x-=_tileMap->getTileSize().width;
+			_role->runAction(FlipX::create(true));
+		}
+	}
+	else
+	{
+		if (diff.y > 0)
+		{
+			rolePos.y += _tileMap->getTileSize().height;
+		}
+		else
+		{
+			rolePos.y -= _tileMap->getTileSize().height;
+		}
+	}
+	this->setRolePosition(rolePos);
+}
+//移动精灵和检测碰撞
+void HelloWorld::setRolePosition(Vec2 position)
+{
+	//从像素点坐标转化为瓦片点坐标
+	Vec2 tileCoord = this->tileCoordFromPosition(position);
+	//获得瓦片的GID
+	int tileGid = _collidable->getTileGIDAt(tileCoord);
+	if (tileGid > 0)
+	{
+		Value prop = _tileMap->getPropertiesForGID(tileGid);
+		ValueMap propValueMap = prop.asValueMap();
+		std::string collision = propValueMap["Collidable"].asString();
+
+		if (collision == "true")//碰撞检测成功
+		{
+			log("collision is true");
+			return;
+		}
+	}
+	_role->setPosition(position);
+}
+Vec2 HelloWorld::tileCoordFromPosition(Vec2 pos)
+{
+	int x = pos.x / _tileMap->getTileSize().width;
+	int y = ((_tileMap->getMapSize().height*_tileMap->getTileSize().height) - pos.y) /
+		_tileMap->getTileSize().height;
+	return Vec2(x, y);
+}
+void HelloWorld::setViewpointCenter(Vec2 position)
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	int x = MAX(position.x, visibleSize.width / 2);
+	int y = MAX(position.y, visibleSize.height / 2);
+	x = MIN(x, (_tileMap->getMapSize().width*_tileMap->getTileSize().width)
+		- visibleSize.width / 2);
+	y = MIN(y, (_tileMap->getMapSize().height*_tileMap->getTileSize().height)
+		- visibleSize.height / 2);
+	//屏幕中心点
+	Vec2 pointA =Vec2(visibleSize.width / 2, visibleSize.height / 2);
+	//是英雄处于屏幕中心，移动地图目标位置
+	Vec2 pointB = Vec2(x, y);
+	log("目标位置（%f,%f)", pointB.x, pointB.y);
+
+	//地图移动偏移量
+	Vec2 offset = pointA - pointB;
+	log("offset(%f,%f)", offset.x, offset.y);
+	this->setPosition(offset);
+
 }
