@@ -5,6 +5,9 @@
 
 class HelloWorld : public cocos2d::Layer
 {
+private:
+	cocos2d::TMXLayer* _collidable;
+	cocos2d::TMXTiledMap* _tileMap;
 public:
     static cocos2d::Scene* createScene();
 
