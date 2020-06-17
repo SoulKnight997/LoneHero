@@ -12,8 +12,9 @@ protected:
 	cocos2d::Sprite* enemy;
 	cocos2d::Sprite* hero;
 	double angle;
+	float interval;
 public:
-	bool init(int, int, const std::string&,cocos2d::Sprite*);
+	bool init(int, int,float, const std::string&,cocos2d::Sprite*);
 	cocos2d::Sprite* getEnemy();
 	int getBlood();
 	float getDirection();

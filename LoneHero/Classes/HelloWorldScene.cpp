@@ -5,6 +5,8 @@
 #include "Enemy_easy.h"
 #include "Boss_zrt.h"
 #include "Weapon_shotgun.h"
+#include "Enemy_normal.h"
+#include "Enemy_hard.h"
 
 USING_NS_CC;
 
@@ -84,7 +86,7 @@ bool HelloWorld::init()
 	//
 
 
-	auto hero = Hero::create(5, 5, 200, "hero.png");
+	auto hero = Hero::create(5, 5, 200, "heropositive.png");
 	hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2));
 	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
@@ -100,7 +102,7 @@ bool HelloWorld::init()
 	this->addChild(weapon);
 	this->addChild(weapon->getWeapon());
 
-	auto enemy = Enemy_easy::create(12, 1, "enemy.png",hero->getHero());
+	auto enemy = Enemy_hard::create(50, 1, 4.0f,"jiangshi.png",hero->getHero());
 	enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
 		origin.y + visibleSize.height / 2 - 50));
 	this->addChild(enemy);

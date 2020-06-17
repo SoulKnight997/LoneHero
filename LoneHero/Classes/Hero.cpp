@@ -26,9 +26,9 @@ bool Hero::init(int blo, int shi, int blu, const std::string& filename) {
 void Hero::update(float dt) {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	if ((right == 1) && (hero->getPositionX() < visibleSize.width))
-		hero->setPosition(hero->getPositionX() + 3, hero->getPositionY());
+		hero->setPosition(hero->getPositionX() + 3, hero->getPositionY()), hero->setTexture("heropositive.png");
 	if ((left == 1) && (hero->getPositionX() > 0))
-		hero->setPosition(hero->getPositionX() - 3, hero->getPositionY());
+		hero->setPosition(hero->getPositionX() - 3, hero->getPositionY()), hero ->setTexture("herocounter.png");
 	if ((up == 1) && (hero->getPositionY() < visibleSize.height))
 		hero->setPosition(hero->getPositionX(), hero->getPositionY() + 3);
 	if ((down == 1) && (hero->getPositionY() > 0))
