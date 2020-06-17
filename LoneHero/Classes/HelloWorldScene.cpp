@@ -84,11 +84,17 @@ bool HelloWorld::init()
 
 
 	//
-
+	log("fuck");
+	_tileMap = CCTMXTiledMap::create("map/SnowMap.tmx");
+	log("fuck");
+	addChild(_tileMap, -1, 1000);
+	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
+	ValueMap spwanPoint = group->getObject("hero");
+	float x = spwanPoint["x"].asFloat();
+	float y = spwanPoint["y"].asFloat();
 
 	auto hero = Hero::create(5, 5, 200, "heropositive.png");
-	hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height / 2));
+	hero->getHero()->setPosition(Vec2(x, y));
 	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
 	hero->getHero()->setPhysicsBody(body);
 	this->addChild(hero);
