@@ -4,4 +4,9 @@
   <property name="Collidable" value="true"/>
  </properties>
  <image source="../../../../../../../cocos/PopStar/Resources/map/地板2.png" width="40" height="40"/>
+ <tile id="0">
+  <properties>
+   <property name="Collidable" value="true"/>
+  </properties>
+ </tile>
 </tileset>

@@ -8,6 +8,7 @@ class HelloWorld : public cocos2d::Layer
 private:
 	cocos2d::TMXLayer* _collidable;
 	cocos2d::TMXTiledMap* _tileMap;
+	cocos2d::Sprite* _role;
 public:
     static cocos2d::Scene* createScene();
 
@@ -15,7 +16,12 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-	
+	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+	void setRolePosition(cocos2d::Vec2 position);
+	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2);
+	void setViewpointCenter(cocos2d::Vec2 position);
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
