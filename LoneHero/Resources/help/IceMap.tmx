@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="icefloor.tsx"/>
+ <tileset firstgid="2" source="wall.tsx"/>
+ <tileset firstgid="3" source="collision.tsx"/>
+ <layer id="1" name="bottomground" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAEjGg0rQDjAOCBsHeg/Dtq76i9o/aO2jtqL3F2j9o7PO2lFFBiJgBq/wIF
+  </data>
+ </layer>
+ <layer id="2" name="wall" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYBogTG8wau+ovaP2jto7au+ovaP2jjx7BwIDAI8NAME=
+  </data>
+ </layer>
+ <layer id="3" name="collision" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYB4gTG8wau+ovaP2jto7au+ovaP2jjx7BwIDAFHrASE=
+  </data>
+ </layer>
+</map>

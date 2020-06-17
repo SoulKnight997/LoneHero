@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="50" height="45" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="2">
+ <tileset firstgid="1" source="../help/icefloor.tsx"/>
+ <tileset firstgid="2" source="../help/wall.tsx"/>
+ <tileset firstgid="3" source="../help/collision.tsx"/>
+ <tileset firstgid="4" source="Icedecorate.tsx"/>
+ <tileset firstgid="102" source="Snowdecorate.tsx"/>
+ <layer id="5" name="ground" width="50" height="45">
+  <data encoding="base64" compression="zlib">
+   eJzt1bENACAMA0F2ZP9dWAGKEIPuJbdBVzGGpNPm4brvcnAkO6rGwcGR4+i+y8Fx07Hz/otxZMWRFUdWHL398p9zcCQ4qsbB8YOj+y4Hx02HJKmmBTOg7k4=
+  </data>
+ </layer>
+ <objectgroup id="7" name="objects">
+  <object id="1" name="hero" x="309.261" y="999.81" width="61.244" height="54.9395"/>
+ </objectgroup>
+ <layer id="9" name="wall" width="50" height="45">
+  <data encoding="base64" compression="zlib">
+   eJztl0EOgCAMBPmk//+KRy4eZNnSDZlJvJhs6xikOAbAGR7xqqi761GRWa2Lh56/ycO93js8KsDDk3eBhyfvgv1Kz980P9x18Zj5P+s6/bz71X/lfip4ZIFHFnj0kjQ/dt5VyjxXM9X98NBI+f9Qn8WRdYMHHhXwnbPvdtU93a/Do+I8d/qcCACQyAtFqEu1
+  </data>
+ </layer>
+ <layer id="10" name="decorate" width="50" height="45">
+  <data encoding="base64" compression="zlib">
+   eJzt2EELgCAMhmF/dNa9TvWr85AQknnZrM33gR0yGH44EAwBwOimq8rvcv3v3vYqnWNNtQn3zHrm2FMdwj0zS7MDHRoz8MVckaNvz1ZfrRy1vnOqRaiv1fsVAABgRPFWtX8WtPbpJYcVXnJ44eU8RsmhkVPjjffp/oiVdSmab7wAAHh1Ai8mGn4=
+  </data>
+ </layer>
+ <layer id="8" name="collision" width="50" height="45" opacity="0">
+  <data encoding="base64" compression="zlib">
+   eJztlNsKwCAMQwX//5/3KjIr1WaNLoXDmBvJzm61lFKFEC68g8iN9Bjtz9YZPayeSI/VeyOPbybSI3NO96jN9uT3Sh77HpG5KI9RZ3tsN/ftvIzvHJErD18/ogeNPLiQBxfy4EIefNdtTXau1Wf19+vsHrOOGzxW+tg9UBPhwTB6Hv/zQPyv+vOiPGa5J3h4Jjv3dg8hhBAYHspjEpQ=
+  </data>
+ </layer>
+</map>

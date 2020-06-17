@@ -84,14 +84,36 @@ bool HelloWorld::init()
 	//
 
 
-	auto hero = Hero::create(5, 5, 200, "hero.png");
+	/*auto hero = Hero::create(5, 5, 200, "map/hero.png");
 	hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2));
 	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
 	hero->getHero()->setPhysicsBody(body);
 	this->addChild(hero);
+	this->addChild(hero->getHero());*/
+
+	log("fuck");
+	_tileMap = CCTMXTiledMap::create("map/SnowMap.tmx");
+	log("fuck");
+	/*auto size = _tileMap->getBoundingBox().size;
+	_tileMap->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+	_tileMap->setAnchorPoint(Vec2(0.5, 0.5));*/
+	addChild(_tileMap, -1, 1000);
+
+	TMXObjectGroup *group = _tileMap->getObjectGroup("objects");
+	ValueMap spawnPoint = group->getObject("hero");
+
+	float x = spawnPoint["x"].asFloat();
+	float y = spawnPoint["y"].asFloat();
+	log("%f,%f", x,y);
+	auto hero = Hero::create(5, 5, 200, "hero.png");
+	hero->getHero()->setPosition(Vec2(x, y));
+
+	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
+	hero->getHero()->setPhysicsBody(body);
+	this->addChild(hero);
 	this->addChild(hero->getHero());
-	
+
 	auto weapon = Weapon_shotgun::create(1, 5, 0, "poorgun.png",hero->getHero());
 	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 	weapon->getWeapon()->setPhysicsBody(bod);
@@ -112,6 +134,26 @@ bool HelloWorld::init()
 	this->addChild(boss);
 	this->addChild(boss->getEnemy());
 
+	/*log("fuck");
+	_tileMap = CCTMXTiledMap::create("map/SnowMap.tmx");
+	log("fuck");
+	auto size = _tileMap->getBoundingBox().size;
+	_tileMap->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+	_tileMap->setAnchorPoint(Vec2(0.5, 0.5));
+	addChild(_tileMap, -1,1000);
+	TMXObjectGroup *group = _tileMap->getObjectGroup("objects");
+	ValueMap spawnPoint = group->getObject("hero");
+	
+	float x = spawnPoint["x"].asFloat();
+	float y = spawnPoint["y"].asFloat();
+
+	auto hero = Hero::create(5, 5, 200, "map/hero.png");
+	hero->setPosition(Vec2(x, y));
+
+	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
+	hero->getHero()->setPhysicsBody(body);
+	this->addChild(hero);
+	this->addChild(hero->getHero());*/
     return true;
 }
 
