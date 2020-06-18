@@ -1,6 +1,7 @@
 #include "HelpScene.h"
 
 USING_NS_CC;
+using namespace CocosDenshion;
 
 Scene* Help::createScene()
 {
@@ -59,6 +60,7 @@ bool Help::init()
 void Help::MenuItemBackCallback(Ref *pSender) {
 	MenuItem *start_item = (MenuItem*)pSender;
 	log("Touch Back Menu Item %p", start_item);
+	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
 
 	Director::getInstance()->popScene();
 }

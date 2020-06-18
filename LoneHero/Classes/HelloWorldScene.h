@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Hero.h"
+#include "SimpleAudioEngine.h"
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -14,6 +15,8 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+	virtual void cleanup();
+	virtual void onEnterTransitionDidFinish();
 
 	void MenuItemStartCallback(cocos2d::Ref *pSender);
 	void MenuItemHelpCallback(cocos2d::Ref *pSender);
@@ -21,13 +24,7 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
-	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
-	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
-	void setRolePosition(cocos2d::Vec2 position);
-	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2);
-	void setViewpointCenter(cocos2d::Vec2 position);
-	void update(float dt);
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
