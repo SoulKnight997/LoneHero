@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="6">
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="19" nextobjectid="7">
  <tileset firstgid="1" source="../help/icefloor.tsx"/>
  <tileset firstgid="2" source="../help/wall.tsx"/>
  <tileset firstgid="3" source="../help/collision.tsx"/>
  <tileset firstgid="4" source="Icedecorate.tsx"/>
  <tileset firstgid="102" source="Snowdecorate.tsx"/>
- <layer id="12" name="ground" width="80" height="80">
+ <layer id="16" name="ground" width="120" height="120">
   <data encoding="base64" compression="zlib">
-   eJzt0DEOwgAMBMH8kf//hRbK5Ahnw6zk2qc5DknSa4/Cbdg8aQs/fs0t/Pg1t/D7v+PHj9/e48eP397jx4/f3pvslzZpIz9+/M41aSM/fvzONWkjP378zrVh45Wdeo9fFr8sfln8svhl8cvil8Uvi18Wvyx+Wfyy+GXxy2r7nf1/x31z/6dr2/G732/ChuY2fvya2/jxa27j9/t+m48fP357jx8/fnuPHz9+e2+C39Xadvz4tW/Cxqu17fj1tk+obcePX/s217bjx699m2vb8ePXPmlCTzdiegc=
+   eJzt1cFxBDEMA8HL0fnn4hRcPu4Sgnqq8BaIeejzAQAAAAA08SPVbG+bkGa2t01IM9vbJqSZ7W0T0sz2tglpZnvbhEyzfY/we1Om2b5H+L0p02zfI/zelGm275EMv2+wvW1CpuE3K9Pwm5Vp+M3KNPxmZRp+szINv1mZht+sTMNvVqbhNyvT8JuVafjNyjT8ZmUafrMyDb9ZOXGrEzvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqrtz+lb/YfPtv7x/Q56E3/08ybZfPAu/3fDbTYrf7T8w9f/8lpTu24743e2RnGRSum874ne3R3KSSem+7Yjf3R7JSSal+7Yjfnd7JCeZlO7bjk7wu33nN7du9+aXX37P7s4vv/ye251ffvk9tzu//PJ7bnd++eX33O78Cr/35S2277w1b7F95615i+07b81bbN95a95i+85b8xbbd35z63Zvfvnl9+zu/PLL77nd+eWX33O788svv+d255dffs/tzi+//J7bnV9+N/2ezLYjfgEAwC/HnUfR
   </data>
  </layer>
- <layer id="13" name="wall" width="80" height="80">
-  <data encoding="base64" compression="zlib">
-   eJzt2TEOAjEQBEF+yf9/QkAO7PV6PT66JDIOjToBm8dD0p08N75O2PzLlh1ovwn2Y+zH2I+xH5Peb8d3d3Vjx3v+lf0Y+zH2Y+zH2I+xH2M/xn6M/Zjkfp7fGO8PGPsx9mPsx9iPsR9jP8Z+zJ36df7OnzhD0LPL1Dnnaj+92Y+xH2M/xn6M/Rj7MfZj7MfYj7EfYz/GfszufpP3LCvuYRL6JbAf82nH5P3plc9K8K3f7g2dz6xgP8Z+jP0Y+zEp/ab/P+yS0O9k9mPsx9iPsR9jP8Z+jP0Y+zH2YxL6eX5bt6HzmRXsx9iPsR9D/n/rfHXunpSyoypld8qOqpTdKTuqUnan7KhK2Z2yoypld8qOqpTdKTuqUnan7KhK2Z2yo2ryt/0J90CnewGpHaBp
-  </data>
- </layer>
- <layer id="14" name="collision" width="80" height="80" opacity="0.15">
-  <data encoding="base64" compression="zlib">
-   eJzt1zEOQjEMBcEvcf87U1PCArFhnuQ6q+lyu67r5pxz7uG+vQ2903pebePX2vi1Nn6tjV9r47dz/Nr4tfFr49fGr41fG782fm382ib7PdN2qndaz6tt/Fobv9bGr7Xxa238Whu/1savtfFrbRv83tX5jjd/6fjx47f3+PHjt/f48eO39/jx47f3+PH7Z78J49fGr21CJ7/PN/BrDfxaA7/WwK818PvN8Wvj18avjV8bvzZ+bfza+LXxa5vg5//2+QZ+rYFfa+DXGjb7Tb0JO23Aj9/Wm7DTBvz4bb0JO23Aj59zp+8OMeYiJA==
-  </data>
- </layer>
- <objectgroup id="15" name="objects">
-  <object id="2" name="hero" x="267.516" y="2029.21" width="159.857" height="137.021"/>
+ <objectgroup id="17" name="objects">
+  <object id="6" name="hero" x="327.871" y="3234.66" width="185.956" height="195.744"/>
  </objectgroup>
+ <layer id="18" name="collision" width="120" height="120" opacity="0.09">
+  <data encoding="base64" compression="zlib">
+   eJzt0cEJACAQwLAD99/ZFcSXlgQ6QdfMrMt43+1bf//gb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnNim0AZV
+  </data>
+ </layer>
 </map>
