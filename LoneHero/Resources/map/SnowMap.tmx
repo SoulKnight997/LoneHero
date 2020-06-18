@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="19" nextobjectid="7">
+ <tileset firstgid="1" source="../help/icefloor.tsx"/>
+ <tileset firstgid="2" source="../help/wall.tsx"/>
+ <tileset firstgid="3" source="../help/collision.tsx"/>
+ <tileset firstgid="4" source="Icedecorate.tsx"/>
+ <tileset firstgid="102" source="Snowdecorate.tsx"/>
+ <layer id="16" name="ground" width="120" height="120">
+  <data encoding="base64" compression="zlib">
+   eJzt1cFxBDEMA8HL0fnn4hRcPu4Sgnqq8BaIeejzAQAAAAA08SPVbG+bkGa2t01IM9vbJqSZ7W0T0sz2tglpZnvbhEyzfY/we1Om2b5H+L0p02zfI/zelGm275EMv2+wvW1CpuE3K9Pwm5Vp+M3KNPxmZRp+szINv1mZht+sTMNvVqbhNyvT8JuVafjNyjT8ZmUafrMyDb9ZOXGrEzvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqrtz+lb/YfPtv7x/Q56E3/08ybZfPAu/3fDbTYrf7T8w9f/8lpTu24743e2RnGRSum874ne3R3KSSem+7Yjf3R7JSSal+7Yjfnd7JCeZlO7bjk7wu33nN7du9+aXX37P7s4vv/ye251ffvk9tzu//PJ7bnd++eX33O78Cr/35S2277w1b7F95615i+07b81bbN95a95i+85b8xbbd35z63Zvfvnl9+zu/PLL77nd+eWX33O788svv+d255dffs/tzi+//J7bnV9+N/2ezLYjfgEAwC/HnUfR
+  </data>
+ </layer>
+ <objectgroup id="17" name="objects">
+  <object id="6" name="hero" x="327.871" y="3234.66" width="185.956" height="195.744"/>
+ </objectgroup>
+ <layer id="18" name="collision" width="120" height="120" opacity="0.09">
+  <data encoding="base64" compression="zlib">
+   eJzt0cEJACAQwLAD99/ZFcSXlgQ6QdfMrMt43+1bf//gb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/bf62+dvmb5u/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnNim0AZV
+  </data>
+ </layer>
+</map>

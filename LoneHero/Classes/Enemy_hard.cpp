@@ -1,4 +1,4 @@
-#include "Enemy_easy.h"
+#include "Enemy_hard.h"
 #include "SimpleAudioEngine.h"
 #include "math.h"
 #include <cstdlib>
@@ -7,23 +7,19 @@
 
 USING_NS_CC;
 
-Enemy_easy* Enemy_easy::create(int b, int s,float i,const std::string& filename, cocos2d::Sprite* he) {
-	Enemy_easy*p = new(std::nothrow)Enemy_easy;
-	p->init(b, s,i, filename, he);
+Enemy_hard* Enemy_hard::create(int b, int s, float i, const std::string& filename, cocos2d::Sprite* he) {
+	Enemy_hard*p = new(std::nothrow)Enemy_hard;
+	p->init(b, s, i, filename, he);
 	srand(time(NULL));
 	return p;
 }
 
-void Enemy_easy::directionChange(float dt) {
+void Enemy_hard::directionChange(float dt) {
 	direction = rand() % 629;
 	direction = direction * 0.01;
-	if ((direction < 1.57) || (direction > 4.71))
-		enemy->setTexture("enemy.png");
-	else
-		enemy->setTexture("enemyback.png");
 }
 
-void Enemy_easy::Move(float dt) {
+void Enemy_hard::Move(float dt) {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	if ((enemy->getPositionX() >= 0) && (enemy->getPositionY() >= 0) && (enemy->getPositionX() <= visibleSize.width) && (enemy->getPositionY() <= visibleSize.height))
 		enemy->setPosition(enemy->getPositionX() + speed * cos(direction), enemy->getPositionY() + speed * sin(direction));
@@ -39,19 +35,26 @@ void Enemy_easy::Move(float dt) {
 	}
 }
 
-void Enemy_easy::Attack(float dt) {
-	auto bullet = Bullet::create(7, 0, 5, "redbullet.png");
+void Enemy_hard::Strightbullet(float dt) {
+	double a = rand() % 156;
+	a = a * 0.01;
+	a = a - 0.78;
+	auto bullet = Bullet::create(5, 0, 5, "magic.png");
 	double x1, y1, x2, y2;
 	x1 = enemy->getPositionX(), y1 = enemy->getPositionY(), x2 = hero->getPositionX(), y2 = hero->getPositionY();
 	if ((x1 != x2) || (y1 != y2)) {
 		if (x1 <= x2)
-			bullet->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2)))), enemy->setTexture("enemy.png");
+			bullet->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2)))+a);
 		else
-			bullet->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2)))), enemy->setTexture("enemyback.png");
+			bullet->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2)))+a);
 	}
 	auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 	bullet->getBullet()->setPhysicsBody(body);
 	bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));
 	this->addChild(bullet->getBullet());
 	this->addChild(bullet);
+}
+
+void Enemy_hard::Attack(float dt) {
+	this->schedule(schedule_selector(Enemy_hard::Strightbullet), 0.05f, 40, 0.01f);
 }

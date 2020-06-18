@@ -43,7 +43,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #else
         glview = GLViewImpl::create("LoneHero");
 #endif
-		glview->setFrameSize(1920, 997);
+		glview->setFrameSize(1800, 1200);
         director->setOpenGLView(glview);
     }
 
