@@ -1,13 +1,15 @@
 #include "HelloWorldScene.h"
-#include "SimpleAudioEngine.h"
 #include "Hero.h"
 #include "Weapon_poorgun.h"
 #include "Enemy_easy.h"
 #include "Boss_zrt.h"
 #include "Weapon_shotgun.h"
 #include "HelpScene.h"
+#include "StartScene.h"
+#include "SettingsScene.h"
 
 USING_NS_CC;
+using namespace CocosDenshion;
 
 Scene* HelloWorld::createScene()
 {
@@ -55,6 +57,7 @@ bool HelloWorld::init()
 	start_menu->alignItemsVertically();//将菜单项垂直对齐
 	this->addChild(start_menu);
 
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("Firstbgm.mp3", true);
 
 
 
@@ -107,14 +110,29 @@ bool HelloWorld::init()
 	return true;
 }
 
+void HelloWorld::cleanup() {
+	Layer::cleanup();
+	log("HelloWorld cleanup");
+};
+
+void HelloWorld::onEnterTransitionDidFinish() {
+	Layer::onEnterTransitionDidFinish();
+	log("HelloWorld onEnterTransitionDidFinish");
+};
+
 void HelloWorld::MenuItemStartCallback(Ref *pSender) {
 	MenuItem *start_item = (MenuItem*)pSender;
 	log("Touch Start Menu Item %p", start_item);
+	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
+
+	auto start_scene = Start::createScene();
+	Director::getInstance()->pushScene(start_scene);
 }
 
 void HelloWorld::MenuItemHelpCallback(Ref *pSender) {
 	MenuItem *help_item = (MenuItem*)pSender;
 	log("Touch Help Menu Item %p", help_item);
+	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
 
 	auto help_scene = Help::createScene();
 	Director::getInstance()->pushScene(help_scene);
@@ -124,6 +142,10 @@ void HelloWorld::MenuItemHelpCallback(Ref *pSender) {
 void HelloWorld::MenuItemSettingsCallback(Ref *pSender) {
 	MenuItem *settings_item = (MenuItem*)pSender;
 	log("Touch Settings Menu Item %p", settings_item);
+	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
+
+	auto settings_scene = Settings::createScene();
+	Director::getInstance()->pushScene(settings_scene);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)

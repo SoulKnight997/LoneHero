@@ -1,7 +1,8 @@
-#ifndef __HELPSCENE_SCENE_H__
-#define __HELPSCENE_SCENE_H__
+#ifndef __HELP_SCENE_H__
+#define __HELP_SCENE_H__
 
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
 
 class Help : public cocos2d::Layer
 {

@@ -43,7 +43,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #else
         glview = GLViewImpl::create("LoneHero");
 #endif
-		glview->setFrameSize(1800, 1200);
+		glview->setFrameSize(1920, 997);
         director->setOpenGLView(glview);
     }
 
@@ -77,10 +77,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
 	auto scene = HelloWorld::createScene();
 
-
     // run
     director->runWithScene(scene);
 	//run with scene只在第一次呈现场景时展示
+
+	//初始化背景音乐和音效
+	SimpleAudioEngine::getInstance()->preloadBackgroundMusic("Music/Firstbgm.mp3");
+	SimpleAudioEngine::getInstance()->preloadEffect("Music/Button.mp3");
 
     return true;
 }
@@ -89,14 +92,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
 void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
 
-    // if you use SimpleAudioEngine, it must be paused
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
-    // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+    SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
