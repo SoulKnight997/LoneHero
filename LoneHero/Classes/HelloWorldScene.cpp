@@ -5,6 +5,7 @@
 #include "Enemy_easy.h"
 #include "Boss_zrt.h"
 #include "Weapon_shotgun.h"
+#include "HelpScene.h"
 
 USING_NS_CC;
 
@@ -31,90 +32,99 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+	auto visiblesize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+	Sprite *start_background = Sprite::create("Scene/Startbackground.jfif");
+	start_background->setPosition(Vec2(origin.x + visiblesize.width / 2,
+										origin.y + visiblesize.height / 2));
+	this->addChild(start_background);
 
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+	MenuItemFont::setFontName("Times New Roman");
+	MenuItemFont::setFontSize(32);
+	MenuItemFont *item_start = MenuItemFont::create("Start", 
+							CC_CALLBACK_1(HelloWorld::MenuItemStartCallback, this));
+	MenuItemFont *item_help = MenuItemFont::create("Help",
+							CC_CALLBACK_1(HelloWorld::MenuItemHelpCallback, this));
+	MenuItemFont *item_settings = MenuItemFont::create("Settings",
+							CC_CALLBACK_1(HelloWorld::MenuItemSettingsCallback, this));
 
 
-	//practice
-	
-/*
-
-	TextFieldTTF *tf = TextFieldTTF::textFieldWithPlaceHolder
-	("LoneHero", "宋体", 20);
-	tf->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-	addChild(tf);
-
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = [tf](Touch *t, Event *event) {
-		if (tf->getBoundingBox().containsPoint(t->getLocation())) {
-			tf->attachWithIME();
-		}
-		else {
-			tf->detachWithIME();
-		}
-
-		return false;
-	};
-	Director::getInstance()->getEventDispatcher()->
-		addEventListenerWithSceneGraphPriority(listener, tf);
+	Menu *start_menu = Menu::create(item_start, item_help, item_settings, NULL);
+	start_menu->alignItemsVertically();//将菜单项垂直对齐
+	this->addChild(start_menu);
 
 
-*/
 
 
+ //   /////////////////////////////
+ //   // 2. add a menu item with "X" image, which is clicked to quit the program
+ //   //    you may modify it.
+
+ //   // add a "close" icon to exit the progress. it's an autorelease object
+ //   auto closeItem = MenuItemImage::create(
+ //                                          "CloseNormal.png",
+ //                                          "CloseSelected.png",
+ //                                          CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+ //   
+ //   closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+ //                               origin.y + closeItem->getContentSize().height/2));
+
+ //   // create menu, it's an autorelease object
+
+ //   auto menu = Menu::create(closeItem, NULL);
+ //   menu->setPosition(Vec2::ZERO);
+ //   this->addChild(menu, 1);
+
+	//auto hero = Hero::create(5, 5, 200, "hero.png");
+	//hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
+	//	origin.y + visibleSize.height / 2));
+	//auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
+	//hero->getHero()->setPhysicsBody(body);
+	//this->addChild(hero);
+	//this->addChild(hero->getHero());
 	//
+	//auto weapon = Weapon_shotgun::create(1, 5, 0, "poorgun.png",hero->getHero());
+	//auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+	//weapon->getWeapon()->setPhysicsBody(bod);
+	//weapon->getWeapon()->setPosition(Vec2(origin.x + visibleSize.width / 2,
+	//	origin.y + visibleSize.height / 2));
+	//this->addChild(weapon);
+	//this->addChild(weapon->getWeapon());
 
+	//auto enemy = Enemy_easy::create(12, 1, "enemy.png",hero->getHero());
+	//enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
+	//	origin.y + visibleSize.height / 2 - 50));
+	//this->addChild(enemy);
+	//this->addChild(enemy->getEnemy());
 
-	auto hero = Hero::create(5, 5, 200, "hero.png");
-	hero->getHero()->setPosition(Vec2(origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height / 2));
-	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
-	hero->getHero()->setPhysicsBody(body);
-	this->addChild(hero);
-	this->addChild(hero->getHero());
-	
-	auto weapon = Weapon_shotgun::create(1, 5, 0, "poorgun.png",hero->getHero());
-	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
-	weapon->getWeapon()->setPhysicsBody(bod);
-	weapon->getWeapon()->setPosition(Vec2(origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height / 2));
-	this->addChild(weapon);
-	this->addChild(weapon->getWeapon());
-
-	auto enemy = Enemy_easy::create(12, 1, "enemy.png",hero->getHero());
-	enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
-		origin.y + visibleSize.height / 2 - 50));
-	this->addChild(enemy);
-	this->addChild(enemy->getEnemy());
-
-	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero->getHero());
-	boss->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 + 50,
-		origin.y + visibleSize.height / 2 + 50));
-	this->addChild(boss);
-	this->addChild(boss->getEnemy());
-
-    return true;
+	//auto boss = Boss_zrt::create(100, 2, "huaji.png", hero->getHero());
+	//boss->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 + 50,
+	//	origin.y + visibleSize.height / 2 + 50));
+	//this->addChild(boss);
+	//this->addChild(boss->getEnemy());
+	return true;
 }
 
+void HelloWorld::MenuItemStartCallback(Ref *pSender) {
+	MenuItem *start_item = (MenuItem*)pSender;
+	log("Touch Start Menu Item %p", start_item);
+}
+
+void HelloWorld::MenuItemHelpCallback(Ref *pSender) {
+	MenuItem *help_item = (MenuItem*)pSender;
+	log("Touch Help Menu Item %p", help_item);
+
+	auto help_scene = Help::createScene();
+	Director::getInstance()->pushScene(help_scene);
+
+}
+
+void HelloWorld::MenuItemSettingsCallback(Ref *pSender) {
+	MenuItem *settings_item = (MenuItem*)pSender;
+	log("Touch Settings Menu Item %p", settings_item);
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
