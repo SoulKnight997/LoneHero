@@ -1,6 +1,5 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "Hero.h"
 #include "Weapon_poorgun.h"
 #include "Enemy_easy.h"
 #include "Boss_zrt.h"
@@ -101,7 +100,7 @@ bool HelloWorld::init()
 	this->addChild(hero);
 	this->addChild(hero->getHero());
 	
-	_role = hero->getHero();
+	_role = hero;
 
 	auto weapon = Weapon_shotgun::create(1, 5, 0, "poorgun.png",hero->getHero());
 	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
@@ -127,9 +126,14 @@ bool HelloWorld::init()
 	setTouchEnabled(true);
 	//单点触摸
 	setTouchMode(Touch::DispatchMode::ONE_BY_ONE);
+
+	this->scheduleUpdate();
     return true;
 }
 
+void HelloWorld::update(float dt) {
+	this->setViewpointCenter(_role->getHero()->getPosition());
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
@@ -229,11 +233,8 @@ void HelloWorld::setViewpointCenter(Vec2 position)
 	Vec2 pointA =Vec2(visibleSize.width / 2, visibleSize.height / 2);
 	//是英雄处于屏幕中心，移动地图目标位置
 	Vec2 pointB = Vec2(x, y);
-	log("目标位置（%f,%f)", pointB.x, pointB.y);
 
 	//地图移动偏移量
 	Vec2 offset = pointA - pointB;
-	log("offset(%f,%f)", offset.x, offset.y);
 	this->setPosition(offset);
-
 }
