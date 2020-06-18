@@ -21,13 +21,6 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
-	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
-	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
-	void setRolePosition(cocos2d::Vec2 position);
-	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2);
-	void setViewpointCenter(cocos2d::Vec2 position);
-	void update(float dt);
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
