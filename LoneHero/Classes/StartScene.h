@@ -19,6 +19,8 @@ public:
 	void menuCloseCallback(cocos2d::Ref* pSender);
 	void setViewpointCenter(cocos2d::Vec2 position);
 	void update(float dt);
+	void setRolePosition(cocos2d::Vec2 position);
+	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(Start);
