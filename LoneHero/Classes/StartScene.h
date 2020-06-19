@@ -15,10 +15,10 @@ public:
 
 	virtual bool init();
 
-	
-
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
+	void setViewpointCenter(cocos2d::Vec2 position);
+	void update(float dt);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(Start);
