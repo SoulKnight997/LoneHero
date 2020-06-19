@@ -12,10 +12,11 @@ TurnBullet* TurnBullet::create(int s, double a, int h, const std::string& filena
 
 bool TurnBullet::init(int s, double a, int h, const std::string& filename,cocos2d::Sprite*he) {
 	speed = s, angle = a, hurt = h;
+	hero = he;
 	bullet = cocos2d::Sprite::create(filename);
 	auto listener = EventListenerKeyboard::create();
 	this->scheduleUpdate();
-	this->scheduleOnce(schedule_selector(TurnBullet::Turn), 1.0f);
+	this->scheduleOnce(schedule_selector(TurnBullet::Turn), 0.2f);
 	return true;
 }
 

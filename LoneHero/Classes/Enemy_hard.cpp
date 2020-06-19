@@ -39,7 +39,7 @@ void Enemy_hard::Strightbullet(float dt) {
 	double a = rand() % 156;
 	a = a * 0.01;
 	a = a - 0.78;
-	auto bullet = Bullet::create(5, 0, 5, "magic.png");
+	auto bullet = Bullet::create(4, 0, 5, "magic.png");
 	double x1, y1, x2, y2;
 	x1 = enemy->getPositionX(), y1 = enemy->getPositionY(), x2 = hero->getPositionX(), y2 = hero->getPositionY();
 	if ((x1 != x2) || (y1 != y2)) {

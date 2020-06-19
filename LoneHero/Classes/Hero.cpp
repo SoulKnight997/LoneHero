@@ -13,6 +13,9 @@ Hero* Hero::create(int blo, int shi, int blu, const std::string& filename) {
 int right = 0, left = 0, up = 0, down = 0;
 bool Hero::init(int blo, int shi, int blu, const std::string& filename) {
 	blood = blo, shield = shi, blue = blu;
+	buff = 0;
+	frequency = 0;
+	time = clock();
 	hero = cocos2d::Sprite::create(filename);
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(Hero::Press, this);
@@ -42,6 +45,13 @@ void Hero::Press(EventKeyboard::KeyCode code, Event*event) {
 	case EventKeyboard::KeyCode::KEY_S:down = 1;break;
 	case EventKeyboard::KeyCode::KEY_D:right = 1;break;
 	case EventKeyboard::KeyCode::KEY_W:up = 1;break;
+	case EventKeyboard::KeyCode::KEY_K: {
+		if ((frequency == 0) || (clock() - time >= 20)) {
+			time = clock();
+			frequency += 1;
+			buff = 1;
+		}
+	}
 	}
 }
 
@@ -66,6 +76,10 @@ int Hero::getBlue() {
 	return blue;
 }
 
+int Hero::getBuff() {
+	return buff;
+}
+
 cocos2d::Sprite* Hero::getHero() {
 	return hero;
 }
@@ -84,4 +98,8 @@ void Hero::setBlue(int blu) {
 
 void Hero::setHero(const std::string& filename) {
 	hero = cocos2d::Sprite::create(filename);
+}
+
+void Hero::setBuff(int b) {
+	buff = b;
 }
