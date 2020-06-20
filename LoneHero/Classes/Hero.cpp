@@ -25,41 +25,32 @@ bool Hero::init(int blo, int shi, int blu, const std::string& filename) {
 	this->scheduleUpdate();*/
 	return true;
 }
-/*void Hero::update(float dt) {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 pos = hero->getPosition();
-	float pos_x = hero->getPositionX();
-	float pos_y = hero->getPositionY();
-	
-}
 
-void Hero::Press(EventKeyboard::KeyCode code, Event*event) {
-	auto target = event->getCurrentTarget();
-	switch (code) {
-	case EventKeyboard::KeyCode::KEY_A:left = 1;break;
-	case EventKeyboard::KeyCode::KEY_S:down = 1;break;
-	case EventKeyboard::KeyCode::KEY_D:right = 1;break;
-	case EventKeyboard::KeyCode::KEY_W:up = 1;break;
-	case EventKeyboard::KeyCode::KEY_K: {
-		/*if ((frequency == 0) || (clock() - time >= 20)) {
-			time = clock();
-			frequency += 1;
-			buff = 1;
-		}
-		log("%f", hero->getPositionX());
-	}
-	}
-}
+//void Hero::Press(EventKeyboard::KeyCode code, Event*event) {
+//	auto target = event->getCurrentTarget();
+//	switch (code) {
+//	case EventKeyboard::KeyCode::KEY_A:left = 1;break;
+//	case EventKeyboard::KeyCode::KEY_S:down = 1;break;
+//	case EventKeyboard::KeyCode::KEY_D:right = 1;break;
+//	case EventKeyboard::KeyCode::KEY_W:up = 1;break;
+//	case EventKeyboard::KeyCode::KEY_K: {
+//		if ((frequency == 0) || (clock() - time >= 20)) {
+//			time = clock();
+//			frequency += 1;
+//			buff = 1;
+//		}
+//	}
+//	}
+//}
 
-void Hero::Released(EventKeyboard::KeyCode code, Event*event) {
-	switch (code) {
-	case EventKeyboard::KeyCode::KEY_A:left = 0;break;
-	case EventKeyboard::KeyCode::KEY_S:down = 0;break;
-	case EventKeyboard::KeyCode::KEY_D:right = 0;break;
-	case EventKeyboard::KeyCode::KEY_W:up = 0;break;
-	}
-}*/
-
+//void Hero::Released(EventKeyboard::KeyCode code, Event*event) {
+//	switch (code) {
+//	case EventKeyboard::KeyCode::KEY_A:left = 0;break;
+//	case EventKeyboard::KeyCode::KEY_S:down = 0;break;
+//	case EventKeyboard::KeyCode::KEY_D:right = 0;break;
+//	case EventKeyboard::KeyCode::KEY_W:up = 0;break;
+//	}
+//}
 
 int Hero::getBlood() {
 	return blood;

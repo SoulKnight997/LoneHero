@@ -11,7 +11,7 @@ Weapon_poorgun* Weapon_poorgun::create(float a, int h, int b, const std::string&
 }
 
 void Weapon_poorgun::Attack(float dt) {
-	auto bullet = Bullet::create(7, 0, 5, "bulletpoorgun.png");
+	auto bullet = Bullet::create(7, angle, 5, "bulletpoorgun.png");
 	auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 	bullet->getBullet()->setPhysicsBody(body);
 	bullet->getBullet()->setPosition(Vec2(weapon->getPosition()));
