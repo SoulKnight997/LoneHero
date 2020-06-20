@@ -45,7 +45,7 @@ bool Start::init()
 	this->addChild(GameOn_label, 1);
 
 	log("fuck");
-	_tileMap = CCTMXTiledMap::create("map/SnowMap.tmx");
+	_tileMap = CCTMXTiledMap::create("map/IceMap.tmx");
 	log("fuck");
 	addChild(_tileMap, -1, 1000);
 
@@ -84,6 +84,9 @@ bool Start::init()
 	this->addChild(boss->getEnemy());
 
 	_collidable = _tileMap->getLayer("collision");
+	//if (_collidable == NULL)
+		//log("too fuck");
+	_collidable->setVisible(false);
 
 	this->scheduleUpdate();
 	return true;
@@ -93,6 +96,7 @@ bool Start::init()
 
 void Start::update(float dt) {
 	this->setViewpointCenter(_role->getHero()->getPosition());
+	this->setRolePosition(_role->getHero()->getPosition());
 }
 
 
@@ -125,4 +129,33 @@ void Start::menuCloseCallback(Ref* pSender)
 	exit(0);
 #endif
 
+}
+//移动精灵和检测碰撞
+void Start::setRolePosition(Vec2 position)
+{
+	//从像素点坐标转化为瓦片点坐标
+	Vec2 tileCoord = this->tileCoordFromPosition(position);
+	log("%f,%f",tileCoord.x,tileCoord.y);
+	//获得瓦片的GID
+	int tileGid = _collidable->getTileGIDAt(tileCoord);
+	if (tileGid > 0)
+	{
+		Value prop = _tileMap->getPropertiesForGID(tileGid);
+		ValueMap propValueMap = prop.asValueMap();
+		std::string collision = propValueMap["Collidable"].asString();
+
+		if (collision == "true")//碰撞检测成功
+		{
+			log("collision is true");
+			return;
+		}
+	}
+	//_role->setPosition(position);
+}
+Vec2 Start::tileCoordFromPosition(Vec2 pos)
+{
+	int x = pos.x / _tileMap->getTileSize().width;
+	int y = ((_tileMap->getMapSize().height*_tileMap->getTileSize().height) - pos.y) /
+		_tileMap->getTileSize().height;
+	return Vec2(x, y);
 }
