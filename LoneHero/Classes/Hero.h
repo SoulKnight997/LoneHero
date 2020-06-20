@@ -19,7 +19,7 @@ public:
 	int getBlue();//返回蓝量
 	int getBuff();
 	cocos2d::Sprite* getHero();//返回指向精灵hero的指针
-	virtual void update(float dt);
+	//virtual void update(float dt);
 	void setBlood(int);//设置血量
 	void setShield(int);//设置护盾值
 	void setBlue(int);//设置蓝量

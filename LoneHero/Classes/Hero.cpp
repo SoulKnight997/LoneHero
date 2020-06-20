@@ -10,59 +10,47 @@ Hero* Hero::create(int blo, int shi, int blu, const std::string& filename) {
 	return p;
 }
 
-int right = 0, left = 0, up = 0, down = 0;
+//int right = 0, left = 0, up = 0, down = 0;
 bool Hero::init(int blo, int shi, int blu, const std::string& filename) {
 	blood = blo, shield = shi, blue = blu;
 	buff = 0;
 	frequency = 0;
 	time = clock();
 	hero = cocos2d::Sprite::create(filename);
-	auto listener = EventListenerKeyboard::create();
+	/*auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(Hero::Press, this);
 	listener->onKeyReleased = CC_CALLBACK_2(Hero::Released, this);
 	EventDispatcher*eve = Director::getInstance()->getEventDispatcher();
 	eve->addEventListenerWithSceneGraphPriority(listener, hero);
-	this->scheduleUpdate();
+	this->scheduleUpdate();*/
 	return true;
 }
 
-void Hero::update(float dt) {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	if (right == 1)
-		hero->setPosition(hero->getPositionX() + 3, hero->getPositionY()), hero->setTexture("heropositive.png");
-	if (left == 1)
-		hero->setPosition(hero->getPositionX() - 3, hero->getPositionY()), hero ->setTexture("herocounter.png");
-	if (up == 1)
-		hero->setPosition(hero->getPositionX(), hero->getPositionY() + 3);
-	if (down == 1)
-		hero->setPosition(hero->getPositionX(), hero->getPositionY() - 3);
-}
+//void Hero::Press(EventKeyboard::KeyCode code, Event*event) {
+//	auto target = event->getCurrentTarget();
+//	switch (code) {
+//	case EventKeyboard::KeyCode::KEY_A:left = 1;break;
+//	case EventKeyboard::KeyCode::KEY_S:down = 1;break;
+//	case EventKeyboard::KeyCode::KEY_D:right = 1;break;
+//	case EventKeyboard::KeyCode::KEY_W:up = 1;break;
+//	case EventKeyboard::KeyCode::KEY_K: {
+//		if ((frequency == 0) || (clock() - time >= 20)) {
+//			time = clock();
+//			frequency += 1;
+//			buff = 1;
+//		}
+//	}
+//	}
+//}
 
-void Hero::Press(EventKeyboard::KeyCode code, Event*event) {
-	auto target = event->getCurrentTarget();
-	switch (code) {
-	case EventKeyboard::KeyCode::KEY_A:left = 1;break;
-	case EventKeyboard::KeyCode::KEY_S:down = 1;break;
-	case EventKeyboard::KeyCode::KEY_D:right = 1;break;
-	case EventKeyboard::KeyCode::KEY_W:up = 1;break;
-	case EventKeyboard::KeyCode::KEY_K: {
-		if ((frequency == 0) || (clock() - time >= 20)) {
-			time = clock();
-			frequency += 1;
-			buff = 1;
-		}
-	}
-	}
-}
-
-void Hero::Released(EventKeyboard::KeyCode code, Event*event) {
-	switch (code) {
-	case EventKeyboard::KeyCode::KEY_A:left = 0;break;
-	case EventKeyboard::KeyCode::KEY_S:down = 0;break;
-	case EventKeyboard::KeyCode::KEY_D:right = 0;break;
-	case EventKeyboard::KeyCode::KEY_W:up = 0;break;
-	}
-}
+//void Hero::Released(EventKeyboard::KeyCode code, Event*event) {
+//	switch (code) {
+//	case EventKeyboard::KeyCode::KEY_A:left = 0;break;
+//	case EventKeyboard::KeyCode::KEY_S:down = 0;break;
+//	case EventKeyboard::KeyCode::KEY_D:right = 0;break;
+//	case EventKeyboard::KeyCode::KEY_W:up = 0;break;
+//	}
+//}
 
 int Hero::getBlood() {
 	return blood;

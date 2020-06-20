@@ -57,8 +57,6 @@ bool HelloWorld::init()
 	start_menu->alignItemsVertically();//将菜单项垂直对齐
 	this->addChild(start_menu);
 
-	SimpleAudioEngine::getInstance()->playBackgroundMusic("Firstbgm.mp3", true);
-
 
 
  //   /////////////////////////////
