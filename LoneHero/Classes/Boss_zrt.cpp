@@ -83,7 +83,7 @@ void Boss_zrt::StraightBullet(float dt) {
 void Boss_zrt::CircleBullet(float dt) {
 	double angle = 0;
 	for (angle = 0;angle < 6.28;angle += 0.5) {
-		auto bullet = Bullet::create(5, angle, 5, "purplebullet.png");
+		auto bullet = Bullet::create(4, angle, 5, "purplebullet.png");
 		auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 		bullet->getBullet()->setPhysicsBody(body);
 		bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));
@@ -96,7 +96,7 @@ void Boss_zrt::HuajiBullet(float dt) {
 	double angle = 0;
 	angle = rand() % 629;
 	angle = angle * 0.01;
-	auto bullet = Bullet::create(5, angle, 5, "orangebullet.png");
+	auto bullet = Bullet::create(4, angle, 5, "orangebullet.png");
 	auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 	bullet->getBullet()->setPhysicsBody(body);
 	bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));
