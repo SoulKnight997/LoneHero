@@ -3,8 +3,8 @@
  <tileset firstgid="1" source="../help/icefloor.tsx"/>
  <tileset firstgid="2" source="Icedecorate.tsx"/>
  <tileset firstgid="100" source="Snowdecorate.tsx"/>
- <tileset firstgid="163" source="collision.tsx"/>
- <layer id="16" name="collidable" width="120" height="120">
+ <tileset firstgid="163" source="colliable.tsx"/>
+ <layer id="16" name="ground" width="120" height="120">
   <data encoding="base64" compression="zlib">
    eJzt1cFxBDEMA8FL0fkn4xRcPu4Sgnqq8BaIeejzAQAAAAA08SPVbG+bkGa2t01IM9vbJqSZ7W0T0sz2tglpZnvbhEyzfY/we1Om2b5H+L0p02zfI/zelGm275EMv2+wvW1CpuE3K9Pwm5Vp+M3KNPxmZRp+szINv1mZht+sTMNvVqbhNyvT8JuVafjNyjT8ZmUafrMyDb9ZOXGrEzvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqruzrbo726q7s626O9uqu7Otujvbqrtz+lb/YfPtv7x/Q56E3/08ybZfPAu/3fDbTYrf7T8w9f/8lpTu24743e2RnGRSum874ne3R3KSSem+7Yjf3R7JSSal+7Yjfnd7JCeZlO7bjk7wu33nN7du9+aXX37P7s4vv/ye251ffvk9tzu//PJ7bnd++eX33O78Cr/35S2277w1b7F95615i+07b81bbN95a95i+85b8xbbd35z63Zvfvnl9+zu/PLL77nd+eWX33O788svv+d255dffs/tzi+//J7bnV9+N/2ezLYjfgEAwC+HeAI/
   </data>
@@ -13,9 +13,9 @@
   <object id="6" name="hero" x="327.871" y="3234.66" width="185.956" height="195.744"/>
  </objectgroup>
  <group id="19" name="组 1"/>
- <layer id="20" name="ground" width="120" height="120">
+ <layer id="20" name="collision" width="120" height="120">
   <data encoding="base64" compression="zlib">
-   eJzt0QEJADAMwLD5t3GjNzH4KQlUQWcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4L2zFH/yt83fNn/b/G3zt83fNn/b/G3zt83fNn/b/G3zt83fNq/a/G3zt83fNn/b/G3zt83fNn/b/G3zt83fNn/b/G3zt83fNn/b/G3zt83fNn/b/G3zt83fNn/b/G3zt83fNn/b/G3zt83fNn/b/G3zt83fNn/bLkO8IcU=
+   eJzt0UENACAQwDD82zijfJDAA5Y2mYKtBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPCHOdE0l+JN/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+ZVm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zv2wbU0iML
   </data>
  </layer>
 </map>

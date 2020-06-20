@@ -6,7 +6,7 @@
 
 class Hero : public cocos2d::Node {
 private:
-	cocos2d::Sprite*hero;
+	cocos2d::Sprite* hero;
 	int blood, shield, blue;
 	int buff;
 	clock_t time;
@@ -19,13 +19,14 @@ public:
 	int getBlue();//返回蓝量
 	int getBuff();
 	cocos2d::Sprite* getHero();//返回指向精灵hero的指针
-	virtual void update(float dt);
+	//virtual void update(float dt);
 	void setBlood(int);//设置血量
 	void setShield(int);//设置护盾值
 	void setBlue(int);//设置蓝量
 	void setBuff(int);
 	void setHero(const std::string& filename);//设置精灵图片
-	void Press(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
-	void Released(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
+	void setPosition(cocos2d::Vec2 pos);
+	/*void Press(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
+	void Released(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);*/
 };
 #endif

@@ -38,36 +38,37 @@ bool Start::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	
-
 	auto GameOn_label = LabelTTF::create("Game On", "Arial", 24);
 	GameOn_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + 4 * visibleSize.height / 5));
 	this->addChild(GameOn_label, 1);
 
 	log("fuck");
-	_tileMap = CCTMXTiledMap::create("map/IceMap.tmx");
+	_tileMap = CCTMXTiledMap::create("map/SnowMap.tmx");
+	_tileMap ->setAnchorPoint(Vec2(0, 0));
 	log("fuck");
-	addChild(_tileMap, -1, 1000);
+	addChild(_tileMap, 0, 1000000);
 
 	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
 	ValueMap spwanPoint = group->getObject("hero");
 	float hero_x = spwanPoint["x"].asFloat();
 	float hero_y = spwanPoint["y"].asFloat();
 
+	//log("%f,%f", hero_x, hero_y);
 	auto hero = Hero::create(5, 5, 200, "heropositive.png");
 	hero->getHero()->setPosition(Vec2(hero_x, hero_y));
 	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
 	hero->getHero()->setPhysicsBody(body);
 	this->addChild(hero);
-	this->addChild(hero->getHero());
+	this->addChild(hero->getHero());//里面的类
 
 	_role = hero;
 
 	auto weapon = Weapon_shotgun::create(1, 5, 0, "poorgun.png", hero->getHero());
 	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 	weapon->getWeapon()->setPhysicsBody(bod);
-	weapon->getWeapon()->setPosition(Vec2(origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height / 2));
+	weapon->getWeapon()->setPosition(hero->getHero()->getPositionX()+320,
+		hero->getHero()->getPositionY());
 	this->addChild(weapon);
 	this->addChild(weapon->getWeapon());
 
@@ -84,19 +85,46 @@ bool Start::init()
 	this->addChild(boss->getEnemy());
 
 	_collidable = _tileMap->getLayer("collision");
+	//this->addChild(_collidable, 0, 10000000);
 	//if (_collidable == NULL)
 		//log("too fuck");
-	_collidable->setVisible(false);
+	//_collidable->setVisible(false);
+
+	auto listener = EventListenerKeyboard::create();
+	listener->onKeyPressed = CC_CALLBACK_2(Start::Press, this);
+	listener->onKeyReleased = CC_CALLBACK_2(Start::Released, this);
+	EventDispatcher*eve = Director::getInstance()->getEventDispatcher();
+	eve->addEventListenerWithSceneGraphPriority(listener, _role);
 
 	this->scheduleUpdate();
+
 	return true;
 }
 
 
-
+int right = 0, left = 0, up = 0, down = 0;
 void Start::update(float dt) {
 	this->setViewpointCenter(_role->getHero()->getPosition());
-	this->setRolePosition(_role->getHero()->getPosition());
+	//this->setRolePosition(_role->getHero()->getPosition());
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto hero = _role->getHero();
+
+	Vec2 pos = hero->getPosition();
+	float pos_x = hero->getPositionX();
+	float pos_y = hero->getPositionY();
+
+	if (right == 1)
+		if (setRolePosition(Vec2(pos_x + 1, pos_y)))
+			hero->setPosition(Vec2(hero->getPositionX() + 1, hero->getPositionY())), hero->setTexture("heropositive.png");
+	if (left == 1)
+		if (setRolePosition(Vec2(pos_x - 1, pos_y)))
+			hero->setPosition(Vec2(hero->getPositionX() - 1, hero->getPositionY())), hero->setTexture("herocounter.png");
+	if (up == 1)
+		if(setRolePosition(Vec2(pos_x,pos_y+1)))
+		hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() + 1));
+	if (down == 1)
+		if(setRolePosition(Vec2(pos_x,pos_y-1)))
+		hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() - 1));
 }
 
 
@@ -131,11 +159,11 @@ void Start::menuCloseCallback(Ref* pSender)
 
 }
 //移动精灵和检测碰撞
-void Start::setRolePosition(Vec2 position)
+bool Start::setRolePosition(Vec2 position)
 {
 	//从像素点坐标转化为瓦片点坐标
 	Vec2 tileCoord = this->tileCoordFromPosition(position);
-	log("%f,%f",tileCoord.x,tileCoord.y);
+	//log("%f,%f",tileCoord.x,tileCoord.y);
 	//获得瓦片的GID
 	int tileGid = _collidable->getTileGIDAt(tileCoord);
 	if (tileGid > 0)
@@ -147,15 +175,45 @@ void Start::setRolePosition(Vec2 position)
 		if (collision == "true")//碰撞检测成功
 		{
 			log("collision is true");
-			return;
+			return 0;
 		}
 	}
-	//_role->setPosition(position);
+	return 1;
 }
+//坐标问题，
 Vec2 Start::tileCoordFromPosition(Vec2 pos)
 {
-	int x = pos.x / _tileMap->getTileSize().width;
-	int y = ((_tileMap->getMapSize().height*_tileMap->getTileSize().height) - pos.y) /
-		_tileMap->getTileSize().height;
+	log("%f,%f",pos.x, pos.y);
+	int x = (pos.x *4.25)/ _tileMap->getTileSize().width;
+	int y = ((_tileMap->getMapSize().height*_tileMap->getTileSize().height/4.2) - pos.y) /
+		(_tileMap->getTileSize().height/4.2);
 	return Vec2(x, y);
 }
+
+void Start::Press(EventKeyboard::KeyCode code, Event*event) {
+	auto target = event->getCurrentTarget();
+	switch (code) {
+	case EventKeyboard::KeyCode::KEY_A:left = 1; break;
+	case EventKeyboard::KeyCode::KEY_S:down = 1; break;
+	case EventKeyboard::KeyCode::KEY_D:right = 1; break;
+	case EventKeyboard::KeyCode::KEY_W:up = 1; break;
+	case EventKeyboard::KeyCode::KEY_K: {
+		/*if ((frequency == 0) || (clock() - time >= 20)) {
+			time = clock();
+			frequency += 1;
+			buff = 1;
+		}*/
+		log("%f", _role->getPositionX());
+	}
+	}
+}
+
+void Start::Released(EventKeyboard::KeyCode code, Event*event) {
+	switch (code) {
+	case EventKeyboard::KeyCode::KEY_A:left = 0; break;
+	case EventKeyboard::KeyCode::KEY_S:down = 0; break;
+	case EventKeyboard::KeyCode::KEY_D:right = 0; break;
+	case EventKeyboard::KeyCode::KEY_W:up = 0; break;
+	}
+}
+

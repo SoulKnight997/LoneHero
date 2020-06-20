@@ -19,8 +19,10 @@ public:
 	void menuCloseCallback(cocos2d::Ref* pSender);
 	void setViewpointCenter(cocos2d::Vec2 position);
 	void update(float dt);
-	void setRolePosition(cocos2d::Vec2 position);
+	bool setRolePosition(cocos2d::Vec2 position);
 	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2);
+	void Press(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
+	void Released(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(Start);
