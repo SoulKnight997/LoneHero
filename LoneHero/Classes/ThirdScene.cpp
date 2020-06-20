@@ -1,5 +1,4 @@
-#include "StartScene.h"
-#include "FirstScene.h"
+#include "ThirdScene.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Weapon_poorgun.h"
@@ -11,13 +10,13 @@
 
 USING_NS_CC;
 
-Scene* Start::createScene()
+Scene* Third::createScene()
 {
 	// 'scene' is an autorelease object
 	auto scene = Scene::createWithPhysics();
 
 	// 'layer' is an autorelease object
-	auto layer = Start::create();
+	auto layer = Third::create();
 	// add layer as a child to scene
 	scene->addChild(layer);
 
@@ -26,7 +25,7 @@ Scene* Start::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool Start::init()
+bool Third::init()
 {
 	//////////////////////////////
 	// 1. super init first
@@ -38,29 +37,18 @@ bool Start::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	
 
-	auto gameon_label = LabelTTF::create("Game On", "Arial", 24);
+
+	auto gameon_label = LabelTTF::create("Third", "Arial", 24);
 	gameon_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + 4 * visibleSize.height / 5));
 	this->addChild(gameon_label, 1);
 
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = CC_CALLBACK_2(Start::gameTouchBegan, this);
-	Director::getInstance()->getEventDispatcher()->
-		addEventListenerWithSceneGraphPriority(listener, gameon_label);
-
 	return true;
 }
 
-bool Start::gameTouchBegan(cocos2d::Touch*, cocos2d::Event*) {
-	auto first_scene = First::createScene();
-	Director::getInstance()->pushScene(first_scene);
 
-	return false;
-};
-
-void Start::menuCloseCallback(Ref* pSender)
+void Third::menuCloseCallback(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
 	Director::getInstance()->end();

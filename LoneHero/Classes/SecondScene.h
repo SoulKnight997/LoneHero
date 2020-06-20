@@ -1,19 +1,17 @@
-#ifndef __START_SCENE_H__
-#define __START_SCENE_H__
+#ifndef __SECOND_SCENE_H__
+#define __SECOND_SCENE_H__
 
 #include "cocos2d.h"
 #include "Hero.h"
 
-class Start : public cocos2d::Layer
+class Second : public cocos2d::Layer
 {
 private:
-	
+
 public:
 	static cocos2d::Scene* createScene();
 
 	virtual bool init();
-
-	virtual bool gameTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
@@ -21,7 +19,7 @@ public:
 
 
 	// implement the "static create()" method manually
-	CREATE_FUNC(Start);
+	CREATE_FUNC(Second);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
