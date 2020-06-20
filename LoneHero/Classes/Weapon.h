@@ -20,11 +20,13 @@ public:
 	float getAttackInterval();
 	int getHurt();
 	int getBlueConsume();
+	double getAngle();
 	void setWeapon(const std::string& filename);
 	void setAttackIterval(float);
 	void setHurt(int);
 	void setBlueConsume(int);
 	void FollowMyHero(float dt);
+	void setAngle(double);
 	virtual void Attack(float dt);
 };
 #endif

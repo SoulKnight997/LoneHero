@@ -46,6 +46,10 @@ int Weapon::getBlueConsume() {
 	return blue_consume;
 }
 
+double Weapon::getAngle() {
+	return angle;
+}
+
 void Weapon::setWeapon(const std::string& filename) {
 	weapon = cocos2d::Sprite::create(filename);
 }
@@ -60,6 +64,10 @@ void Weapon::setHurt(int h) {
 
 void Weapon::setBlueConsume(int b) {
 	blue_consume = b;
+}
+
+void Weapon::setAngle(double a) {
+	angle = a;
 }
 
 void Weapon::Attack(float dt) {
