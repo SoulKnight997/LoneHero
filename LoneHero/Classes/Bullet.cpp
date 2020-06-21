@@ -26,14 +26,20 @@ cocos2d::Sprite* Bullet::getBullet() {
 void Bullet::update(float dt) {
 	number++;
 	bullet->setPosition(bullet->getPositionX() + speed * cos(angle), bullet->getPositionY() + speed * sin(angle));
-	if (bullet->getBoundingBox().intersectsRect(hero->getHero()->getBoundingBox())){
-		this->unscheduleUpdate();
-		bullet->removeFromParent();
+	if (bullet) {
+		if (bullet->getBoundingBox().intersectsRect(hero->getHero()->getBoundingBox())) {
+			this->unscheduleUpdate();
+			this->removeFromParent();
+			bullet->removeFromParent();
+			bullet = NULL;
+		}
 	}
 	if (bullet) {
-		if (number*speed >= 300) {
+		if (number*speed >= 240) {
 			this->unscheduleUpdate();
+			this->removeFromParent();
 			bullet->removeFromParent();
+			bullet = NULL;
 		}
 	}
 	

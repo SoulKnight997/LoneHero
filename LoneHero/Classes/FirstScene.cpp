@@ -17,6 +17,8 @@
 
 USING_NS_CC;
 
+using namespace CocosDenshion;
+
 Scene* First::createScene()
 {
 	// 'scene' is an autorelease object
@@ -103,6 +105,14 @@ bool First::init()
 	_bossDoor = _tileMap->getLayer("bossdoor");
 	//_collidable->setVisible(false);
 
+	MenuItemFont::setFontName("Times New Roman");
+	MenuItemFont::setFontSize(12);
+	MenuItemFont *item_pause = MenuItemFont::create("Pause",
+		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
+	auto pauseMenu = Menu::create(item_pause, NULL);
+	pauseMenu->setPosition(Vec2(origin.x + 15, origin.y + visibleSize.height - 15));
+	this->addChild(pauseMenu, 20, 999);
+
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(First::Press, this);
 	listener->onKeyReleased = CC_CALLBACK_2(First::Released, this);
@@ -124,13 +134,6 @@ bool First::init()
 	this->addChild(progress);
 	this->schedule(schedule_selector(First::scheduleBlood), 0.1f);
 
-	MenuItemFont::setFontName("Times New Roman");
-	MenuItemFont::setFontSize(12);
-	MenuItemFont *item_pause = MenuItemFont::create("Pause",
-		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
-	auto pauseMenu = Menu::create(item_pause, NULL);
-
-
 	this->scheduleUpdate();
 
 	return true;
@@ -142,10 +145,14 @@ void First::scheduleBlood(float delta)
 	auto bar = (Sprite*)this->getChildByTag(MY_BAR);
 	float existLife = _role->getBlood();
 	progress->setPercentage(((float)existLife /PLAYER_LIFE) * 100);
+
 	progress->setPosition(Vec2(_role->getHero()->getPositionX(),
 		_role->getHero()->getPositionY() + 32));
 	bar->setPosition(Vec2(_role->getHero()->getPositionX(),
 		_role->getHero()->getPositionY() + 32));
+
+//
+
 	if (progress->getPercentage() < 0)
 	{
 		this->unschedule(schedule_selector(First::scheduleBlood));
@@ -154,7 +161,7 @@ void First::scheduleBlood(float delta)
 
 void First::MenuItemPauseCallback(Ref *pSender) {
 	MenuItem *item_pause = (MenuItem*)pSender;
-	log("Touch Weapon1 Menu Item %p", item_pause);
+	log("Touch Pause Menu Item %p", item_pause);
 	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
 
 	auto first_scene = First::createScene();
