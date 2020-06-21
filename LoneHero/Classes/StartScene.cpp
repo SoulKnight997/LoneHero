@@ -84,7 +84,7 @@ void Start::MenuItemWeapon1Callback(Ref *pSender) {
 	log("Touch Weapon1 Menu Item %p", item_weapon1);
 	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
 
-	auto first_scene = First::createScene();
+	auto first_scene = First::createScene(1);
 	Director::getInstance()->pushScene(first_scene);
 }
 
@@ -93,7 +93,7 @@ void Start::MenuItemWeapon2Callback(Ref *pSender) {
 	log("Touch Weapon2 Menu Item %p", item_weapon2);
 	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
 
-	auto second_scene = Second::createScene();
+	auto second_scene = First::createScene(2);
 	Director::getInstance()->pushScene(second_scene);
 }
 
@@ -102,7 +102,7 @@ void Start::MenuItemWeapon3Callback(Ref *pSender) {
 	log("Touch Weapon3 Menu Item %p", item_weapon3);
 	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
 
-	auto third_scene = Third::createScene();
+	auto third_scene = First::createScene(3);
 	Director::getInstance()->pushScene(third_scene);
 }
 
@@ -111,7 +111,7 @@ void Start::MenuItemWeapon4Callback(Ref *pSender) {
 	log("Touch Weapon4 Menu Item %p", item_weapon4);
 	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
 
-	auto fourth_scene = Fourth::createScene();
+	auto fourth_scene =First::createScene(4);
 	Director::getInstance()->pushScene(fourth_scene);
 }
 
@@ -125,7 +125,7 @@ void Start::MenuItemBackCallback(Ref *pSender) {
 
 
 bool Start::gameTouchBegan(cocos2d::Touch*, cocos2d::Event*) {
-	auto first_scene = First::createScene();
+	auto first_scene = First::createScene(0);
 	Director::getInstance()->pushScene(first_scene);
 
 	return false;

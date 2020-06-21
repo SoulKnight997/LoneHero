@@ -1,7 +1,9 @@
 #include "FirstScene.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "Weapon_machinegun.h"
 #include "Weapon_poorgun.h"
+#include "Weapon_shotgun.h"
 #include "Enemy_easy.h"
 #include "Boss_zrt.h"
 #include "Weapon_shotgun.h"
@@ -18,9 +20,10 @@
 USING_NS_CC;
 
 using namespace CocosDenshion;
-
-Scene* First::createScene()
+int _weapon_type = 0;
+Scene* First::createScene(int weapon_type)
 {
+	_weapon_type = weapon_type;
 	// 'scene' is an autorelease object
 	auto scene = Scene::createWithPhysics();
 
@@ -46,7 +49,10 @@ bool First::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	log("fuck");
+	initMap();
+	initHero();
+	initWeapon();
+	/*log("fuck");
 	_tileMap = CCTMXTiledMap::create("map/IceMap.tmx");
 	_tileMap->setAnchorPoint(Vec2(0, 0));
 	log("fuck");
@@ -66,27 +72,40 @@ bool First::init()
 	this->addChild(hero->getHero());//里面的类
 
 	_role = hero;
-
-	auto weapon = Weapon_machinegun::create(0.2, 5, 0, "poorgun.png", hero->getHero(),vec_bullet);
-	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
-	weapon->getWeapon()->setPhysicsBody(bod);
-	weapon->getWeapon()->setPosition(hero->getHero()->getPositionX(),
-		hero->getHero()->getPositionY());
-	this->addChild(weapon);
-	this->addChild(weapon->getWeapon());
-	gun = weapon;
-
+	if (_weapon_type = 1)
+	{
+		auto weapon = Weapon_machinegun::create(0.2, 5, 0, "poorgun.png", hero->getHero(), vec_bullet);
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(hero->getHero()->getPositionX(),
+			hero->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		_machinegun = weapon;
+	}
+	else if (_weapon_type = 2)
+	{
+		auto weapon = Weapon_shotgun::create(0.2, 5, 0, "machinegun.png", hero->getHero(), vec_bullet);
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(hero->getHero()->getPositionX(),
+			hero->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		_shotgun = weapon;
+	}*/
+	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
 	ValueMap spwanPoint1 = group->getObject("enemy2");
 	float enemy_x = spwanPoint1["x"].asFloat();
 	float enemy_y = spwanPoint1["y"].asFloat();
-	auto enemy = Enemy_easy::create(50, 1, 4.0f, "enemy.png", hero,Vec2(enemy_x,enemy_y));
+	auto enemy = Enemy_easy::create(50, 1, 4.0f, "enemy.png", _role,Vec2(enemy_x,enemy_y));
 	enemy->getEnemy()->setPosition(Vec2(enemy_x,enemy_y));
 	vec_enemy.push_back(enemy->getEnemy());
 	_easy = enemy;
 	this->addChild(enemy);
 	this->addChild(enemy->getEnemy());
 
-	auto enemy1 = Enemy_normal::create(50, 1, 4.0f, "snowpositive.png", hero,Vec2(enemy_x,enemy_y));
+	auto enemy1 = Enemy_normal::create(50, 1, 4.0f, "snowpositive.png", _role,Vec2(enemy_x,enemy_y));
 	enemy1->getEnemy()->setPosition(Vec2(enemy_x,enemy_y));
 	vec_enemy.push_back(enemy1->getEnemy());
 	_normal = enemy1;
@@ -102,7 +121,7 @@ bool First::init()
 	this->addChild(boss);
 	this->addChild(boss->getEnemy());*/
 
-	_collidable = _tileMap->getLayer("collision");
+	/*_collidable = _tileMap->getLayer("collision");
 	_enemyDoor = _tileMap->getLayer("enemydoor");
 	_bossDoor = _tileMap->getLayer("bossdoor");
 	//_collidable->setVisible(false);
@@ -146,6 +165,82 @@ bool First::init()
 	return true;
 }
 
+void First::initMap()
+{
+	//log("fuck");
+	_tileMap = CCTMXTiledMap::create("map/IceMap.tmx");
+	_tileMap->setAnchorPoint(Vec2(0, 0));
+	addChild(_tileMap, 0, 1000000);
+	_collidable = _tileMap->getLayer("collision");
+	_enemyDoor = _tileMap->getLayer("enemydoor");
+	_bossDoor = _tileMap->getLayer("bossdoor");
+	_collidable->setVisible(false);
+}
+
+void First::initHero()
+{
+	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
+	ValueMap spwanPoint = group->getObject("hero");
+	float hero_x = spwanPoint["x"].asFloat();
+	float hero_y = spwanPoint["y"].asFloat();
+
+	//log("%f,%f", hero_x, hero_y);
+	auto hero = Hero::create(PLAYER_LIFE, 5, 200, "heropositive.png");
+	hero->getHero()->setPosition(Vec2(hero_x, hero_y));
+	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
+	hero->getHero()->setPhysicsBody(body);
+	this->addChild(hero);
+	this->addChild(hero->getHero());//里面的类
+
+	_role = hero;
+}
+void First::initWeapon()
+{
+	if (_weapon_type == 1)
+	{
+		auto weapon = Weapon_machinegun::create(0.2, 5, 0, "poorgun.png",_role->getHero(), vec_bullet);
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
+			_role->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		gun = weapon;
+	}
+	else if (_weapon_type == 2)
+	{
+		auto weapon = Weapon_shotgun::create(0.2, 5, 0, "machinegun.png", _role->getHero(), vec_bullet);
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
+			_role->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		_shotgun = weapon;
+	}
+	else if (_weapon_type == 3)
+	{
+		auto weapon = Weapon_poorgun::create(0.2, 5, 0, "machinegun.png", _role->getHero(), vec_bullet);
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
+			_role->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		_poorgun = weapon;
+	}
+	else if (_weapon_type == 4)
+	{
+		auto weapon = Knife::create(0.2, 5, 0, "machinegun.png", _role->getHero());
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
+			_role->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		_knife= weapon;
+	}
+}
 void First::scheduleBlood(float delta)
 {
 	auto progress = (ProgressTimer*)this->getChildByTag(BLOOD_BAR);
