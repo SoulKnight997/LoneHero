@@ -30,10 +30,13 @@ void Bullet::update(float dt) {
 		this->unscheduleUpdate();
 		bullet->removeFromParent();
 	}
-	if (number >= 60) {
-		this->unscheduleUpdate();
-		bullet->removeFromParent();
+	if (bullet) {
+		if (number*speed >= 300) {
+			this->unscheduleUpdate();
+			bullet->removeFromParent();
+		}
 	}
+	
 }
 
 int Bullet::getSpeed() {
