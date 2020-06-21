@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-Enemy_normal* Enemy_normal::create(int b, int s, float i,const std::string& filename, cocos2d::Sprite* he) {
+Enemy_normal* Enemy_normal::create(int b, int s, float i,const std::string& filename, Hero* he) {
 	Enemy_normal*p = new(std::nothrow)Enemy_normal;
 	p->init(b, s,i, filename, he);
 	srand(time(NULL));
@@ -42,7 +42,7 @@ void Enemy_normal::Move(float dt) {
 void Enemy_normal::Attack(float dt) {
 	double angle = 0;
 	for (angle = 0;angle < 6.28;angle += 0.5) {
-		auto bullet = Bullet::create(7, angle, 5, "redbullet.png");
+		auto bullet = Bullet::create(7, angle, 5, "redbullet.png",_hero);
 		auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 		bullet->getBullet()->setPhysicsBody(body);
 		bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));

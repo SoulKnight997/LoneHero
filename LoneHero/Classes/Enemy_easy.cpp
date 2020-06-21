@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-Enemy_easy* Enemy_easy::create(int b, int s,float i,const std::string& filename, cocos2d::Sprite* he) {
+Enemy_easy* Enemy_easy::create(int b, int s,float i,const std::string& filename, Hero* he) {
 	Enemy_easy*p = new(std::nothrow)Enemy_easy;
 	p->init(b, s,i, filename, he);
 	srand(time(NULL));
@@ -40,7 +40,7 @@ void Enemy_easy::Move(float dt) {
 }
 
 void Enemy_easy::Attack(float dt) {
-	auto bullet = Bullet::create(7, 0, 5, "redbullet.png");
+	auto bullet = Bullet::create(7, 0, 5, "redbullet.png",_hero);
 	double x1, y1, x2, y2;
 	x1 = enemy->getPositionX(), y1 = enemy->getPositionY(), x2 = hero->getPositionX(), y2 = hero->getPositionY();
 	if ((x1 != x2) || (y1 != y2)) {

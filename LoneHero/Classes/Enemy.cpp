@@ -4,11 +4,12 @@
 
 USING_NS_CC;
 
-bool Enemy::init(int b,int s, float i,const std::string& filename,cocos2d::Sprite* he) {
+bool Enemy::init(int b,int s, float i,const std::string& filename,Hero* he) {
 	blood = b;
 	speed = s;
 	direction = 0;
-	hero = he;
+	_hero = he;
+	hero = _hero->getHero();
 	angle = 0;
 	interval = i;
 	enemy = cocos2d::Sprite::create(filename);

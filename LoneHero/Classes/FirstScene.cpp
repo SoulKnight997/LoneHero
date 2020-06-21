@@ -7,11 +7,10 @@
 #include "Weapon_shotgun.h"
 #include "Enemy_normal.h"
 #include "Enemy_hard.h"
-#include <vector>
-
+#include "Enemy_hard_magic.h"
+#include "Knife.h"
 
 USING_NS_CC;
-using namespace std;
 
 Scene* First::createScene()
 {
@@ -61,23 +60,33 @@ bool First::init()
 
 	_role = hero;
 
-	auto weapon = Weapon_shotgun::create(1, 5, 0, "poorgun.png", hero->getHero());
+	auto weapon = Weapon_machinegun::create(0.2, 5, 0, "poorgun.png", hero->getHero(),vec_bullet);
 	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 	weapon->getWeapon()->setPhysicsBody(bod);
-	weapon->getWeapon()->setPosition(hero->getHero()->getPositionX() + 320,
+	weapon->getWeapon()->setPosition(hero->getHero()->getPositionX(),
 		hero->getHero()->getPositionY());
 	this->addChild(weapon);
 	this->addChild(weapon->getWeapon());
+	gun = weapon;
 
-	auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", hero->getHero());
+	auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", hero);
 	enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
 		origin.y + visibleSize.height / 2 - 50));
+	vec_enemy.push_back(enemy->getEnemy());
 	this->addChild(enemy);
 	this->addChild(enemy->getEnemy());
 
-	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero->getHero());
+	auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", hero);
+	enemy1->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 100,
+		origin.y + visibleSize.height / 2 - 100));
+	vec_enemy.push_back(enemy1->getEnemy());
+	this->addChild(enemy1);
+	this->addChild(enemy1->getEnemy());
+
+	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero);
 	boss->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 + 50,
 		origin.y + visibleSize.height / 2 + 50));
+	vec_enemy.push_back(boss->getEnemy());
 	this->addChild(boss);
 	this->addChild(boss->getEnemy());
 
@@ -109,60 +118,39 @@ void First::update(float dt) {
 	float pos_x = hero->getPositionX();
 	float pos_y = hero->getPositionY();
 
-	//log("%d", _bullet.size());
-	//if (_bullet.size() > 0) {
-	//	updateBullet();//更新bullet
-	//}
-	
-
-
 	if (Right == 1)
-		if (setRolePosition(Vec2(pos_x + 1, pos_y)))
-			hero->setPosition(Vec2(hero->getPositionX() + 1, hero->getPositionY())), hero->setTexture("heropositive.png");
+		if (setRolePosition(Vec2(pos_x + 2, pos_y)))
+			hero->setPosition(Vec2(hero->getPositionX() + 2, hero->getPositionY())), hero->setTexture("heropositive.png");
 	if (Left == 1)
-		if (setRolePosition(Vec2(pos_x - 1, pos_y)))
-			hero->setPosition(Vec2(hero->getPositionX() - 1, hero->getPositionY())), hero->setTexture("herocounter.png");
+		if (setRolePosition(Vec2(pos_x - 2, pos_y)))
+			hero->setPosition(Vec2(hero->getPositionX() - 2, hero->getPositionY())), hero->setTexture("herocounter.png");
 	if (up == 1)
-		if (setRolePosition(Vec2(pos_x, pos_y + 1)))
-			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() + 1));
+		if (setRolePosition(Vec2(pos_x, pos_y + 2)))
+			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() + 2));
 	if (down == 1)
-		if (setRolePosition(Vec2(pos_x, pos_y - 1)))
-			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() - 1));
+		if (setRolePosition(Vec2(pos_x, pos_y - 2)))
+			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() - 2));
+	long distance = 1000000;
+	double x1, y1, x2, y2;
+	int i = vec_enemy.size();
+	i = i - 1;
+	while (i >= 0) {
+		if ((pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2)) < distance) {
+			distance = (pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2));
+			x1 = gun->getWeapon()->getPositionX(), y1 = gun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
+			if ((x1 != x2) || (y1 != y2)) {
+				if (x1 <= x2)
+					gun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+				else
+					gun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+			}
+		}
+		i = i - 1;
+	}
 }
 
-//void First::updateBullet() {
-//	for (int bullet_i = 0; bullet_i != _bullet.size();) {
-//		
-//		bool temp = true;
-//		_bullet[bullet_i]->getBullet()->setVisible(true);
-//		if (_bullet[bullet_i]->isContact(_bullet[bullet_i]->getPosition())) {
-//			_bullet[bullet_i]->stopBullet();
-//			_bullet[bullet_i] = _bullet.erase(_bullet[bullet_i]);
-//			temp = false;
-//		}
-//		if (temp == true) {
-//			bullet_i++;
-//		}
-//	}
-//}
-
-//void First::updateBullet() {
-//	for (auto bullet_i = _bullet.begin(); bullet_i != _bullet.end();) {
-//
-//		bool temp = true;
-//		(*bullet_i)->getBullet()->setVisible(true);
-//		if ((*bullet_i)->isContact((*bullet_i)->getPosition())) {
-//			(*bullet_i)->stopBullet();
-//			bullet_i = _bullet.erase(bullet_i);
-//			temp = false;
-//		}
-//		if (temp == true) {
-//			bullet_i++;
-//		}
-//	}
-//}
-
-void First::setViewpointCenter(Vec2 position) {
+void First::setViewpointCenter(Vec2 position)
+{
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	int x = MAX(position.x, visibleSize.width / 2);
 	int y = MAX(position.y, visibleSize.height / 2);
@@ -224,16 +212,6 @@ Vec2 First::tileCoordFromPosition(Vec2 pos)
 	return Vec2(x, y);
 }
 
-
-//Vec2 First::tileCoordForPosition(const Vec2& position)
-//{
-//	Size mapSize = _tileMap->getMapSize();      // 获取以tiles数量为单位的地图尺寸
-//	Size tileSize = _tileMap->getTileSize();    // 获取以像素点为单位的tile尺寸属性
-//	int x = position.x / tileSize.width;
-//	int y = (mapSize.height*tileSize.height - position.y) / tileSize.height;
-//	return Vec2(x, y);
-//}
-
 void First::Press(EventKeyboard::KeyCode code, Event*event) {
 	auto target = event->getCurrentTarget();
 	switch (code) {
@@ -246,7 +224,7 @@ void First::Press(EventKeyboard::KeyCode code, Event*event) {
 			time = clock();
 			frequency += 1;
 			buff = 1;
-		*/
+		}*/
 		log("%f", _role->getPositionX());
 	}
 	}

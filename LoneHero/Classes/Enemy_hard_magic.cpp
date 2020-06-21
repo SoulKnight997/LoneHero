@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-Enemy_hard_magic* Enemy_hard_magic::create(int b, int s, float i, const std::string& filename, cocos2d::Sprite* he) {
+Enemy_hard_magic* Enemy_hard_magic::create(int b, int s, float i, const std::string& filename, Hero* he) {
 	Enemy_hard_magic*p = new(std::nothrow)Enemy_hard_magic;
 	p->init(b, s, i, filename, he);
 	srand(time(NULL));
