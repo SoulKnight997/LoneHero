@@ -24,7 +24,7 @@ public:
 	void Press(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
 	void Released(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
 
-
+	void scheduleBlood(float delta);
 	// implement the "static create()" method manually
 	CREATE_FUNC(First);
 };

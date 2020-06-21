@@ -7,6 +7,7 @@
 #include "HelpScene.h"
 #include "StartScene.h"
 #include "SettingsScene.h"
+//#define BLOOD_BAR 10
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -35,12 +36,12 @@ bool HelloWorld::init()
         return false;
     }
 
-	auto visiblesize = Director::getInstance()->getVisibleSize();
+	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	Sprite *start_background = Sprite::create("Scene/Startbackground.jfif");
-	start_background->setPosition(Vec2(origin.x + visiblesize.width / 2,
-										origin.y + visiblesize.height / 2));
+	start_background->setPosition(Vec2(origin.x + visibleSize.width / 2,
+										origin.y + visibleSize.height / 2));
 	this->addChild(start_background);
 
 	MenuItemFont::setFontName("Times New Roman");
@@ -57,8 +58,16 @@ bool HelloWorld::init()
 	start_menu->alignItemsVertically();//将菜单项垂直对齐
 	this->addChild(start_menu);
 
+	/*auto Blood = Sprite::create("Blood.png");//创建血条
+	ProgressTimer * progress = ProgressTimer::create(Blood);//创建progress对象
+	progress->setType(ProgressTimer::Type::BAR);
+	progress->setPosition(Vec2(origin.x + visibleSize.width / 2,origin.y + visibleSize.height - 2));
+	progress->setMidpoint(Point(0, 0.5));//从右到左减少血量
+	progress->setBarChangeRate(Point(1, 0));
+	progress->setTag(BLOOD_BAR);//做一个标记
 
-
+	this->addChild(progress);
+	schedule(schedule_selector(scheduleBlood), 0.1f);*/
  //   /////////////////////////////
  //   // 2. add a menu item with "X" image, which is clicked to quit the program
  //   //    you may modify it.
