@@ -38,6 +38,8 @@ public:
 	bool initBoss();
 	bool setEnemy(cocos2d::Vec2 posotion);
 	bool setBoss(cocos2d::Vec2 position);
+
+	void MenuItemPauseCallback(cocos2d::Ref *pSender);
 	
 	void scheduleBlood(float delta);
 	// implement the "static create()" method manually

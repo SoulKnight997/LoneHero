@@ -9,6 +9,7 @@
 #include "Enemy_hard.h"
 #include "Enemy_hard_magic.h"
 #include "Knife.h"
+#include "SimpleAudioEngine.h"
 
 #define PLAYER_LIFE 5
 #define MY_BAR 128
@@ -123,6 +124,12 @@ bool First::init()
 	this->addChild(progress);
 	this->schedule(schedule_selector(First::scheduleBlood), 0.1f);
 
+	MenuItemFont::setFontName("Times New Roman");
+	MenuItemFont::setFontSize(12);
+	MenuItemFont *item_pause = MenuItemFont::create("Pause",
+		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
+	auto pauseMenu = Menu::create(item_pause, NULL);
+
 
 	this->scheduleUpdate();
 
@@ -143,6 +150,15 @@ void First::scheduleBlood(float delta)
 	{
 		this->unschedule(schedule_selector(First::scheduleBlood));
 	}
+}
+
+void First::MenuItemPauseCallback(Ref *pSender) {
+	MenuItem *item_pause = (MenuItem*)pSender;
+	log("Touch Weapon1 Menu Item %p", item_pause);
+	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
+
+	auto first_scene = First::createScene();
+	Director::getInstance()->pushScene(first_scene);
 }
 
 int Right = 0, Left = 0, up = 0, down = 0;
