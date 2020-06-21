@@ -10,6 +10,10 @@
 #include "Enemy_hard_magic.h"
 #include "Knife.h"
 
+#define PLAYER_LIFE 5
+#define MY_BAR 128
+#define BLOOD_BAR 7
+
 USING_NS_CC;
 
 Scene* First::createScene()
@@ -51,7 +55,7 @@ bool First::init()
 	float hero_y = spwanPoint["y"].asFloat();
 
 	//log("%f,%f", hero_x, hero_y);
-	auto hero = Hero::create(5, 5, 200, "heropositive.png");
+	auto hero = Hero::create(PLAYER_LIFE, 5, 200, "heropositive.png");
 	hero->getHero()->setPosition(Vec2(hero_x, hero_y));
 	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
 	hero->getHero()->setPhysicsBody(body);
@@ -102,9 +106,42 @@ bool First::init()
 	EventDispatcher*eve = Director::getInstance()->getEventDispatcher();
 	eve->addEventListenerWithSceneGraphPriority(listener, _role);
 
+	auto bar = Sprite::create("BloodBar.png");//创建进度框
+	bar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - 2));
+	bar->setTag(MY_BAR);
+	this->addChild(bar);
+	auto Blood = Sprite::create("Blood.png");//创建血条
+	ProgressTimer * progress = ProgressTimer::create(Blood);//创建progress对象
+	progress->setType(ProgressTimer::Type::BAR);
+	progress->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - 2));
+	progress->setMidpoint(Point(0, 0.5));//从右到左减少血量
+	progress->setBarChangeRate(Point(1, 0));
+	progress->setTag(BLOOD_BAR);//做一个标记
+
+	this->addChild(progress);
+	this->schedule(schedule_selector(First::scheduleBlood), 0.1f);
+
+
+
 	this->scheduleUpdate();
 
 	return true;
+}
+
+void First::scheduleBlood(float delta)
+{
+	auto progress = (ProgressTimer*)this->getChildByTag(BLOOD_BAR);
+	auto bar = (Sprite*)this->getChildByTag(MY_BAR);
+	float existLife = _role->getBlood();
+	progress->setPercentage(((float)existLife /PLAYER_LIFE) * 100);
+	progress->setPosition(Vec2(_role->getHero()->getPositionX(),
+		_role->getHero()->getPositionY() + 32));
+	bar->setPosition(Vec2(_role->getHero()->getPositionX(),
+		_role->getHero()->getPositionY() + 32));
+	if (progress->getPercentage() < 0)
+	{
+		this->unschedule(schedule_selector(First::scheduleBlood));
+	}
 }
 
 int Right = 0, Left = 0, up = 0, down = 0;
