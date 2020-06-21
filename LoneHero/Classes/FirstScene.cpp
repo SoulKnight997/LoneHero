@@ -162,6 +162,11 @@ void First::scheduleBlood(float delta)
 	float existLife = _role->getBlood();
 	progress->setPercentage(((float)existLife /PLAYER_LIFE) * 100);
 
+
+	if (_role->getBlood()<=0) {
+
+		Director::getInstance()->popToRootScene();
+	}
 	progress->setPosition(Vec2(_role->getHero()->getPositionX(),
 		_role->getHero()->getPositionY() + 32));
 	bar->setPosition(Vec2(_role->getHero()->getPositionX(),
