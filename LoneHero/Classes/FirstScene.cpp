@@ -76,22 +76,24 @@ bool First::init()
 	this->addChild(weapon->getWeapon());
 	gun = weapon;
 
-	/*ValueMap spwanPoint1 = group->getObject("enemy");
+	ValueMap spwanPoint1 = group->getObject("enemy2");
 	float enemy_x = spwanPoint1["x"].asFloat();
 	float enemy_y = spwanPoint1["y"].asFloat();
-	auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", hero,Vec2(enemy_x,enemy_y));
+	auto enemy = Enemy_easy::create(50, 1, 4.0f, "enemy.png", hero,Vec2(enemy_x,enemy_y));
 	enemy->getEnemy()->setPosition(Vec2(enemy_x,enemy_y));
 	vec_enemy.push_back(enemy->getEnemy());
+	_easy = enemy;
 	this->addChild(enemy);
 	this->addChild(enemy->getEnemy());
 
-	auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", hero,Vec2(enemy_x,enemy_y));
+	auto enemy1 = Enemy_normal::create(50, 1, 4.0f, "snowpositive.png", hero,Vec2(enemy_x,enemy_y));
 	enemy1->getEnemy()->setPosition(Vec2(enemy_x,enemy_y));
 	vec_enemy.push_back(enemy1->getEnemy());
+	_normal = enemy1;
 	this->addChild(enemy1);
 	this->addChild(enemy1->getEnemy());
 
-	ValueMap spwanPoint2 = group->getObject("boss");
+	/*ValueMap spwanPoint2 = group->getObject("boss");
 	float boss_x = spwanPoint2["x"].asFloat();
 	float boss_y = spwanPoint2["y"].asFloat();
 	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero,Vec2(boss_x,boss_y));
@@ -105,17 +107,13 @@ bool First::init()
 	_bossDoor = _tileMap->getLayer("bossdoor");
 	//_collidable->setVisible(false);
 
-	//MenuItemFont::setFontName("Times New Roman");
-	//MenuItemFont::setFontSize(12);
-	//MenuItemFont *item_pause = MenuItemFont::create("Pause",
-	//	CC_CALLBACK_1(First::MenuItemPauseCallback, this));
-	//auto pauseMenu = Menu::create(item_pause, NULL);
-	//pauseMenu->setPosition(Vec2(origin.x + 15, origin.y + visibleSize.height - 15));
-	//this->addChild(pauseMenu, 20, 999);
-
-	//auto pause_listener = EventListenerKeyboard::create();
-	//pause_listener->onKeyPressed = CC_CALLBACK_2(First::Pause, this);
-
+	/*MenuItemFont::setFontName("Times New Roman");
+	MenuItemFont::setFontSize(12);
+	MenuItemFont *item_pause = MenuItemFont::create("Pause",
+		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
+	auto pauseMenu = Menu::create(item_pause, NULL);
+	pauseMenu->setPosition(Vec2(origin.x + 15, origin.y + visibleSize.height - 15));
+	this->addChild(pauseMenu, 20, 999);*/
 
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(First::Press, this);
@@ -138,6 +136,11 @@ bool First::init()
 	this->addChild(progress);
 	this->schedule(schedule_selector(First::scheduleBlood), 0.1f);
 
+	/*MenuItemFont::setFontName("Times New Roman");
+	MenuItemFont::setFontSize(12);
+	MenuItemFont *item_pause = MenuItemFont::create("Pause",
+		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
+	auto pauseMenu = Menu::create(item_pause, NULL);*/
 	this->scheduleUpdate();
 
 	return true;
@@ -163,17 +166,15 @@ void First::scheduleBlood(float delta)
 	}
 }
 
-//void First::MenuItemPauseCallback(Ref *pSender) {
-//	MenuItem *item_pause = (MenuItem*)pSender;
-//	log("Touch Pause Menu Item %p", item_pause);
-//	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
-//
-//	auto first_scene = First::createScene();
-//	Director::getInstance()->pushScene(first_scene);
-//}
+/*void First::MenuItemPauseCallback(Ref *pSender) {
+	MenuItem *item_pause = (MenuItem*)pSender;
+	log("Touch Pause Menu Item %p", item_pause);
+	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
 
-int Right = 0, Left = 0, up = 0, down = 0;
-int hasEnemy = 0; int hasBoss = 0;
+	auto first_scene = First::createScene();
+	Director::getInstance()->pushScene(first_scene);
+}*/
+
 void First::update(float dt) {
 	this->settheVectorsame();
 	this->setViewpointCenter(_role->getHero()->getPosition());
@@ -241,18 +242,21 @@ bool First::initEnemy()
 		ValueMap spwanPoint1 = group->getObject("enemy");
 		float enemy_x = spwanPoint1["x"].asFloat();
 		float enemy_y = spwanPoint1["y"].asFloat();
-		auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", _role, Vec2(enemy_x, enemy_y));
+		auto enemy = Enemy_hard::create(50, 1, 4.0f, "magic.png", _role, Vec2(enemy_x, enemy_y));
 		enemy->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
 		vec_enemy.push_back(enemy->getEnemy());
+		_hard = enemy;
 		this->addChild(enemy);
 		this->addChild(enemy->getEnemy());
 
-		auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", _role, Vec2(enemy_x, enemy_y));
-		enemy1->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
+		auto enemy1 = Enemy_normal_1::create(50, 1, 4.0f, "jiangshi.png", _role, Vec2(enemy_x-5, enemy_y+5));
+		enemy1->getEnemy()->setPosition(Vec2(enemy_x - 5, enemy_y + 5));
 		vec_enemy.push_back(enemy1->getEnemy());
-		magic = enemy1;
+		_normal_1 = enemy1;
 		this->addChild(enemy1);
 		this->addChild(enemy1->getEnemy());
+
+
 
 		//hasEnemy = 1;
 		return 1;
@@ -271,6 +275,7 @@ bool First::initBoss()
 		auto boss = Boss_zrt::create(100, 2, "huaji.png", _role, Vec2(boss_x, boss_y));
 		boss->getEnemy()->setPosition(Vec2(boss_x, boss_y));
 		vec_enemy.push_back(boss->getEnemy());
+		_boss = boss;
 		this->addChild(boss);
 		this->addChild(boss->getEnemy());
 
@@ -379,65 +384,23 @@ bool First::setBoss(Vec2 position)
 	}
 	return 0;
 }
-
 void First::Press(EventKeyboard::KeyCode code, Event*event) {
-	MenuItemFont::setFontName("Times New Roman");
-	MenuItemFont::setFontSize(32);
-	MenuItemFont *item_exit = MenuItemFont::create("Exit",
-		CC_CALLBACK_1(First::MenuItemExitCallback, this));
-	Menu *pause_menu = Menu::create(item_exit, NULL);
 	auto target = event->getCurrentTarget();
 	switch (code) {
 	case EventKeyboard::KeyCode::KEY_A:Left = 1; break;
 	case EventKeyboard::KeyCode::KEY_S:down = 1; break;
 	case EventKeyboard::KeyCode::KEY_D:Right = 1; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 1; break;
-	case EventKeyboard::KeyCode::KEY_ESCAPE: {
-		this->pause();
-		for (const auto& node : this->getChildren()) {
-			node->pause();
-		}
-		pause_menu->alignItemsVertically();//将菜单项垂直对齐
-		
-		
-
-		pause_menu->setPosition(_role->getHero()->getPositionX(), _role->getHero()->getPositionY());
-
-		this->addChild(pause_menu);
-		break;
-	}										 
 	case EventKeyboard::KeyCode::KEY_K: {
 		/*if ((frequency == 0) || (clock() - time >= 20)) {
 			time = clock();
 			frequency += 1;
 			buff = 1;
 		}*/
-		break;
 		log("%f", _role->getPositionX());
 	}
-	default:removeChild(pause_menu);
 	}
 }
-
-void First::MenuItemExitCallback(Ref *pSender) {
-	MenuItem *item_exit = (MenuItem*)pSender;
-	log("Touch Exit Menu Item %p", item_exit);
-	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
-
-	Director::getInstance()->popToRootScene();
-}
-
-//void First::MenuItemBackCallback(Ref *pSender) {
-//	MenuItem *back_item = (MenuItem*)pSender;
-//	log("Touch Back Menu Item %p", back_item);
-//	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
-//
-//	this->resume();
-//	for (const auto& node : this->getChildren()) {
-//		node->resume();
-//	}
-//	CC_CALLBACK_2(First::Press, this);
-//}
 
 void First::Released(EventKeyboard::KeyCode code, Event*event) {
 	switch (code) {
@@ -445,12 +408,11 @@ void First::Released(EventKeyboard::KeyCode code, Event*event) {
 	case EventKeyboard::KeyCode::KEY_S:down = 0; break;
 	case EventKeyboard::KeyCode::KEY_D:Right = 0; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 0; break;
-	case EventKeyboard::KeyCode::KEY_ESCAPE:break;
 	}
 }
 
 void First::settheVectorsame() {
-	if (magic) {
-		magic->setVector(gun->getVector());
+	if (_magic) {
+		_magic->setVector(gun->getVector());
 	}
 }
