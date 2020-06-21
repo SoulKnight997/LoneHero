@@ -48,8 +48,6 @@ public:
 
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
-	void MenuItemExitCallback(cocos2d::Ref *pSender);
-
 	void setViewpointCenter(cocos2d::Vec2 position);
 	void update(float dt);
 	bool setRolePosition(cocos2d::Vec2 position);
@@ -57,7 +55,7 @@ public:
 	void Press(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
 	void Released(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
 	
-	bool initEnemy();
+	bool initEnemy2();
 	bool initBoss();
 	bool setEnemy(cocos2d::Vec2 posotion);
 	bool setBoss(cocos2d::Vec2 position);
@@ -65,6 +63,13 @@ public:
 	void initMap();
 	void initHero();
 	void initWeapon();
+	void initEnemy();
+
+	void updateHeroPosition();
+
+	void setMachineVector();
+	void setPoorVector();
+	void setShotVector();
 	//void MenuItemPauseCallback(cocos2d::Ref *pSender);
 	
 	void scheduleBlood(float delta);

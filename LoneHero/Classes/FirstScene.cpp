@@ -53,87 +53,7 @@ bool First::init()
 	initMap();
 	initHero();
 	initWeapon();
-	/*log("fuck");
-	_tileMap = CCTMXTiledMap::create("map/IceMap.tmx");
-	_tileMap->setAnchorPoint(Vec2(0, 0));
-	log("fuck");
-	addChild(_tileMap, 0, 1000000);
-
-	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
-	ValueMap spwanPoint = group->getObject("hero");
-	float hero_x = spwanPoint["x"].asFloat();
-	float hero_y = spwanPoint["y"].asFloat();
-
-	//log("%f,%f", hero_x, hero_y);
-	auto hero = Hero::create(PLAYER_LIFE, 5, 200, "heropositive.png");
-	hero->getHero()->setPosition(Vec2(hero_x, hero_y));
-	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
-	hero->getHero()->setPhysicsBody(body);
-	this->addChild(hero);
-	this->addChild(hero->getHero());//里面的类
-
-	_role = hero;
-	if (_weapon_type = 1)
-	{
-		auto weapon = Weapon_machinegun::create(0.2, 5, 0, "poorgun.png", hero->getHero(), vec_bullet);
-		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
-		weapon->getWeapon()->setPhysicsBody(bod);
-		weapon->getWeapon()->setPosition(hero->getHero()->getPositionX(),
-			hero->getHero()->getPositionY());
-		this->addChild(weapon);
-		this->addChild(weapon->getWeapon());
-		_machinegun = weapon;
-	}
-	else if (_weapon_type = 2)
-	{
-		auto weapon = Weapon_shotgun::create(0.2, 5, 0, "machinegun.png", hero->getHero(), vec_bullet);
-		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
-		weapon->getWeapon()->setPhysicsBody(bod);
-		weapon->getWeapon()->setPosition(hero->getHero()->getPositionX(),
-			hero->getHero()->getPositionY());
-		this->addChild(weapon);
-		this->addChild(weapon->getWeapon());
-		_shotgun = weapon;
-	}*/
-	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
-	ValueMap spwanPoint1 = group->getObject("enemy2");
-	float enemy_x = spwanPoint1["x"].asFloat();
-	float enemy_y = spwanPoint1["y"].asFloat();
-	auto enemy = Enemy_easy::create(50, 1, 4.0f, "enemy.png", _role,Vec2(enemy_x,enemy_y));
-	enemy->getEnemy()->setPosition(Vec2(enemy_x,enemy_y));
-	vec_enemy.push_back(enemy->getEnemy());
-	_easy = enemy;
-	this->addChild(enemy);
-	this->addChild(enemy->getEnemy());
-
-	auto enemy1 = Enemy_normal::create(50, 1, 4.0f, "snowpositive.png", _role,Vec2(enemy_x,enemy_y));
-	enemy1->getEnemy()->setPosition(Vec2(enemy_x,enemy_y));
-	vec_enemy.push_back(enemy1->getEnemy());
-	_normal = enemy1;
-	this->addChild(enemy1);
-	this->addChild(enemy1->getEnemy());
-
-	/*ValueMap spwanPoint2 = group->getObject("boss");
-	float boss_x = spwanPoint2["x"].asFloat();
-	float boss_y = spwanPoint2["y"].asFloat();
-	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero,Vec2(boss_x,boss_y));
-	boss->getEnemy()->setPosition(Vec2(boss_x,boss_y));
-	vec_enemy.push_back(boss->getEnemy());
-	this->addChild(boss);
-	this->addChild(boss->getEnemy());*/
-
-	/*_collidable = _tileMap->getLayer("collision");
-	_enemyDoor = _tileMap->getLayer("enemydoor");
-	_bossDoor = _tileMap->getLayer("bossdoor");
-	//_collidable->setVisible(false);
-
-	/*MenuItemFont::setFontName("Times New Roman");
-	MenuItemFont::setFontSize(12);
-	MenuItemFont *item_pause = MenuItemFont::create("Pause",
-		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
-	auto pauseMenu = Menu::create(item_pause, NULL);
-	pauseMenu->setPosition(Vec2(origin.x + 15, origin.y + visibleSize.height - 15));
-	this->addChild(pauseMenu, 20, 999);*/
+	initEnemy();
 
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(First::Press, this);
@@ -156,11 +76,6 @@ bool First::init()
 	this->addChild(progress);
 	this->schedule(schedule_selector(First::scheduleBlood), 0.1f);
 
-	/*MenuItemFont::setFontName("Times New Roman");
-	MenuItemFont::setFontSize(12);
-	MenuItemFont *item_pause = MenuItemFont::create("Pause",
-		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
-	auto pauseMenu = Menu::create(item_pause, NULL);*/
 	this->scheduleUpdate();
 
 	return true;
@@ -168,7 +83,6 @@ bool First::init()
 
 void First::initMap()
 {
-	//log("fuck");
 	_tileMap = CCTMXTiledMap::create("map/IceMap.tmx");
 	_tileMap->setAnchorPoint(Vec2(0, 0));
 	addChild(_tileMap, 0, 1000000);
@@ -232,14 +146,14 @@ void First::initWeapon()
 	}
 	else if (_weapon_type == 4)
 	{
-		auto weapon = Knife::create(0.2, 5, 0, "machinegun.png", _role->getHero());
+		auto weapon = Knife::create(0.2, 5, 0, "knife.png", _role->getHero());
 		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 		weapon->getWeapon()->setPhysicsBody(bod);
 		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
 			_role->getHero()->getPositionY());
 		this->addChild(weapon);
 		this->addChild(weapon->getWeapon());
-		_knife= weapon;
+		_knife = weapon;
 	}
 }
 void First::scheduleBlood(float delta)
@@ -275,22 +189,79 @@ void First::scheduleBlood(float delta)
 	}
 }
 
-/*void First::MenuItemPauseCallback(Ref *pSender) {
-	MenuItem *item_pause = (MenuItem*)pSender;
-	log("Touch Pause Menu Item %p", item_pause);
-	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
-
-	auto first_scene = First::createScene();
-	Director::getInstance()->pushScene(first_scene);
-}*/
-
 void First::update(float dt) {
 	this->settheVectorsame();
 	this->setViewpointCenter(_role->getHero()->getPosition());
-	//this->setRolePosition(_role->getHero()->getPosition());
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto hero = _role->getHero();
+	this->updateHeroPosition();
 
+	long distance = 1000000;
+	double x1, y1, x2, y2;
+	int i = vec_enemy.size();
+	i = i - 1;
+	while (i >= 0) {
+		if (vec_enemy[i] != NULL) {
+			if (_weapon_type == 1)
+			{
+				if ((pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2)) < distance) {
+					distance = (pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2));
+					x1 = gun->getWeapon()->getPositionX(), y1 = gun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
+					if ((x1 != x2) || (y1 != y2)) {
+						if (x1 <= x2)
+							gun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+						else
+							gun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+					}
+				}
+			}
+			else if (_weapon_type == 2)
+			{
+				if ((pow((vec_enemy[i]->getPositionX() - _shotgun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - _shotgun->getWeapon()->getPositionY()), 2)) < distance) {
+					distance = (pow((vec_enemy[i]->getPositionX() - _shotgun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - _shotgun->getWeapon()->getPositionY()), 2));
+					x1 = _shotgun->getWeapon()->getPositionX(), y1 = _shotgun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
+					if ((x1 != x2) || (y1 != y2)) {
+						if (x1 <= x2)
+							_shotgun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+						else
+							_shotgun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+					}
+				}
+			}
+			else if (_weapon_type == 3)
+			{
+				if ((pow((vec_enemy[i]->getPositionX() - _poorgun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - _poorgun->getWeapon()->getPositionY()), 2)) < distance) {
+					distance = (pow((vec_enemy[i]->getPositionX() - _poorgun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - _poorgun->getWeapon()->getPositionY()), 2));
+					x1 = _poorgun->getWeapon()->getPositionX(), y1 = _poorgun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
+					if ((x1 != x2) || (y1 != y2)) {
+						if (x1 <= x2)
+							_poorgun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+						else
+							_poorgun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+					}
+				}
+			}
+		}
+		i = i - 1;
+	}
+	//生成怪和BOSS
+	if (hasEnemy == 0)
+	{
+		if (initEnemy2())
+		{
+			hasEnemy = 1;
+		}
+	}
+	if (hasBoss == 0)
+	{
+		if (initBoss())
+		{
+			hasBoss = 1;
+		}
+	}
+}
+void First::updateHeroPosition()
+{
+	auto hero = _role->getHero();
 	Vec2 pos = hero->getPosition();
 	float pos_x = hero->getPositionX();
 	float pos_y = hero->getPositionY();
@@ -307,43 +278,31 @@ void First::update(float dt) {
 	if (down == 1)
 		if (setRolePosition(Vec2(pos_x, pos_y - 2)))
 			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() - 2));
-	long distance = 1000000;
-	double x1, y1, x2, y2;
-	int i = vec_enemy.size();
-	i = i - 1;
-	while (i >= 0) {
-		if (vec_enemy[i] != NULL) {
-			if ((pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2)) < distance) {
-				distance = (pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2));
-				x1 = gun->getWeapon()->getPositionX(), y1 = gun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
-				if ((x1 != x2) || (y1 != y2)) {
-					if (x1 <= x2)
-						gun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
-					else
-						gun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
-				}
-			}
-		}
-		i = i - 1;
-	}
-	//生成怪和BOSS
-	if (hasEnemy == 0)
-	{
-		if (initEnemy())
-		{
-			hasEnemy = 1;
-		}
-	}
-	if (hasBoss == 0)
-	{
-		if (initBoss())
-		{
-			hasBoss = 1;
-		}
-	}
-}
 
-bool First::initEnemy()
+}
+//刚开始生成两个怪
+void First::initEnemy()
+{
+	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
+	ValueMap spwanPoint1 = group->getObject("enemy2");
+	float enemy_x = spwanPoint1["x"].asFloat();
+	float enemy_y = spwanPoint1["y"].asFloat();
+	auto enemy = Enemy_easy::create(50, 1, 4.0f, "enemy.png", _role, Vec2(enemy_x, enemy_y));
+	enemy->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
+	vec_enemy.push_back(enemy->getEnemy());
+	_easy = enemy;
+	this->addChild(enemy);
+	this->addChild(enemy->getEnemy());
+
+	auto enemy1 = Enemy_normal::create(50, 1, 4.0f, "snowpositive.png", _role, Vec2(enemy_x, enemy_y));
+	enemy1->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
+	vec_enemy.push_back(enemy1->getEnemy());
+	_normal = enemy1;
+	this->addChild(enemy1);
+	this->addChild(enemy1->getEnemy());
+}
+//当人走到相应格子，再生成怪
+bool First::initEnemy2()
 {
 	if (setEnemy(_role->getHero()->getPosition()))
 	{
@@ -365,14 +324,12 @@ bool First::initEnemy()
 		this->addChild(enemy1);
 		this->addChild(enemy1->getEnemy());
 
-
-
 		//hasEnemy = 1;
 		return 1;
 	}
 	return 0;
 }
-
+//当人走到Boss格子再生成
 bool First::initBoss()
 {
 	if (setBoss(_role->getHero()->getPosition()))
@@ -513,43 +470,30 @@ void First::Press(EventKeyboard::KeyCode code, Event*event) {
 }
 
 void First::Released(EventKeyboard::KeyCode code, Event*event) {
-	MenuItemFont::setFontName("Times New Roman");
-	MenuItemFont::setFontSize(32);
-	MenuItemFont *item_exit = MenuItemFont::create("Exit",
-		CC_CALLBACK_1(First::MenuItemExitCallback, this));
-	Menu *pause_menu = Menu::create(item_exit, NULL);
 	switch (code) {
 	case EventKeyboard::KeyCode::KEY_A:Left = 0; break;
 	case EventKeyboard::KeyCode::KEY_S:down = 0; break;
 	case EventKeyboard::KeyCode::KEY_D:Right = 0; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 0; break;
-	case EventKeyboard::KeyCode::KEY_ESCAPE: {
-		this->pause();
-		for (const auto& node : this->getChildren()) {
-			node->pause();
-		}
-		pause_menu->alignItemsVertically();//将菜单项垂直对齐
-
-
-
-		pause_menu->setPosition(_role->getHero()->getPositionX(), _role->getHero()->getPositionY());
-
-		this->addChild(pause_menu);
-		break;
 	}
-	default:removeChild(pause_menu);
-	}
-}
-
-void First::MenuItemExitCallback(Ref *pSender) {
-	MenuItem *item_exit = (MenuItem*)pSender;
-	log("Touch Exit Menu Item %p", item_exit);
-	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
-
-	Director::getInstance()->popToRootScene();
 }
 
 void First::settheVectorsame() {
+	if (_weapon_type == 1)
+	{
+		setMachineVector();
+	}
+	else if (_weapon_type == 2)
+	{
+		setShotVector();
+	}
+	else if (_weapon_type == 3)
+	{
+		setPoorVector();
+	}
+}
+void First::setMachineVector()
+{
 	if (_magic) {
 		_magic->setVector(gun->getVector());
 	}
@@ -567,5 +511,48 @@ void First::settheVectorsame() {
 	}
 	if (_boss) {
 		_boss->setVector(gun->getVector());
+	}
+}
+
+void First::setPoorVector()
+{
+	if (_magic) {
+		_magic->setVector(_poorgun->getVector());
+	}
+	if (_easy) {
+		_easy->setVector(_poorgun->getVector());
+	}
+	if (_normal) {
+		_normal->setVector(_poorgun->getVector());
+	}
+	if (_normal_1) {
+		_normal_1->setVector(_poorgun->getVector());
+	}
+	if (_hard) {
+		_hard->setVector(_poorgun->getVector());
+	}
+	if (_boss) {
+		_boss->setVector(_poorgun->getVector());
+	}
+}
+void First::setShotVector()
+{
+	if (_magic) {
+		_magic->setVector(_shotgun->getVector());
+	}
+	if (_easy) {
+		_easy->setVector(_shotgun->getVector());
+	}
+	if (_normal) {
+		_normal->setVector(_shotgun->getVector());
+	}
+	if (_normal_1) {
+		_normal_1->setVector(_shotgun->getVector());
+	}
+	if (_hard) {
+		_hard->setVector(_shotgun->getVector());
+	}
+	if (_boss) {
+		_boss->setVector(_shotgun->getVector());
 	}
 }
