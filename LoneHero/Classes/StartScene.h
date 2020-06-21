@@ -9,7 +9,16 @@ class Start : public cocos2d::Layer
 private:
 	
 public:
+	cocos2d::TMXLayer* _safeCollidable;
+	cocos2d::TMXTiledMap* _safeMap;
 	static cocos2d::Scene* createScene();
+
+	void MenuItemWeapon1Callback(cocos2d::Ref *pSender);
+	void MenuItemWeapon2Callback(cocos2d::Ref *pSender);
+	void MenuItemWeapon3Callback(cocos2d::Ref *pSender);
+	void MenuItemWeapon4Callback(cocos2d::Ref *pSender);
+
+	void MenuItemBackCallback(cocos2d::Ref *pSender);
 
 	virtual bool init();
 

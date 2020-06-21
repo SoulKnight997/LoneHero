@@ -10,6 +10,10 @@
 #include "Enemy_hard_magic.h"
 #include "Knife.h"
 
+#define PLAYER_LIFE 5
+#define MY_BAR 128
+#define BLOOD_BAR 7
+
 USING_NS_CC;
 
 Scene* First::createScene()
@@ -51,7 +55,7 @@ bool First::init()
 	float hero_y = spwanPoint["y"].asFloat();
 
 	//log("%f,%f", hero_x, hero_y);
-	auto hero = Hero::create(5, 5, 200, "heropositive.png");
+	auto hero = Hero::create(PLAYER_LIFE, 5, 200, "heropositive.png");
 	hero->getHero()->setPosition(Vec2(hero_x, hero_y));
 	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
 	hero->getHero()->setPhysicsBody(body);
@@ -69,32 +73,33 @@ bool First::init()
 	this->addChild(weapon->getWeapon());
 	gun = weapon;
 
-	auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", hero,weapon->getVector());
-	enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
-		origin.y + visibleSize.height / 2 - 50));
+	/*ValueMap spwanPoint1 = group->getObject("enemy");
+	float enemy_x = spwanPoint1["x"].asFloat();
+	float enemy_y = spwanPoint1["y"].asFloat();
+	auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", hero,Vec2(enemy_x,enemy_y));
+	enemy->getEnemy()->setPosition(Vec2(enemy_x,enemy_y));
 	vec_enemy.push_back(enemy->getEnemy());
 	this->addChild(enemy);
 	this->addChild(enemy->getEnemy());
 
-	auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", hero,weapon->getVector());
-	enemy1->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 100,
-		origin.y + visibleSize.height / 2 - 100));
+	auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", hero,Vec2(enemy_x,enemy_y));
+	enemy1->getEnemy()->setPosition(Vec2(enemy_x,enemy_y));
 	vec_enemy.push_back(enemy1->getEnemy());
-	magic = enemy1;
 	this->addChild(enemy1);
 	this->addChild(enemy1->getEnemy());
 
-	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero,weapon->getVector());
-	boss->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 + 50,
-		origin.y + visibleSize.height / 2 + 50));
+	ValueMap spwanPoint2 = group->getObject("boss");
+	float boss_x = spwanPoint2["x"].asFloat();
+	float boss_y = spwanPoint2["y"].asFloat();
+	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero,Vec2(boss_x,boss_y));
+	boss->getEnemy()->setPosition(Vec2(boss_x,boss_y));
 	vec_enemy.push_back(boss->getEnemy());
 	this->addChild(boss);
-	this->addChild(boss->getEnemy());
+	this->addChild(boss->getEnemy());*/
 
 	_collidable = _tileMap->getLayer("collision");
-	//this->addChild(_collidable, 0, 10000000);
-	//if (_collidable == NULL)
-		//log("too fuck");
+	_enemyDoor = _tileMap->getLayer("enemydoor");
+	_bossDoor = _tileMap->getLayer("bossdoor");
 	//_collidable->setVisible(false);
 
 	auto listener = EventListenerKeyboard::create();
@@ -103,14 +108,46 @@ bool First::init()
 	EventDispatcher*eve = Director::getInstance()->getEventDispatcher();
 	eve->addEventListenerWithSceneGraphPriority(listener, _role);
 
+	auto bar = Sprite::create("BloodBar.png");//创建进度框
+	bar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - 2));
+	bar->setTag(MY_BAR);
+	this->addChild(bar);
+	auto Blood = Sprite::create("Blood.png");//创建血条
+	ProgressTimer * progress = ProgressTimer::create(Blood);//创建progress对象
+	progress->setType(ProgressTimer::Type::BAR);
+	progress->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - 2));
+	progress->setMidpoint(Point(0, 0.5));//从右到左减少血量
+	progress->setBarChangeRate(Point(1, 0));
+	progress->setTag(BLOOD_BAR);//做一个标记
+
+	this->addChild(progress);
+	this->schedule(schedule_selector(First::scheduleBlood), 0.1f);
+
+
 	this->scheduleUpdate();
 
 	return true;
 }
 
+void First::scheduleBlood(float delta)
+{
+	auto progress = (ProgressTimer*)this->getChildByTag(BLOOD_BAR);
+	auto bar = (Sprite*)this->getChildByTag(MY_BAR);
+	float existLife = _role->getBlood();
+	progress->setPercentage(((float)existLife /PLAYER_LIFE) * 100);
+	progress->setPosition(Vec2(_role->getHero()->getPositionX(),
+		_role->getHero()->getPositionY() + 32));
+	bar->setPosition(Vec2(_role->getHero()->getPositionX(),
+		_role->getHero()->getPositionY() + 32));
+	if (progress->getPercentage() < 0)
+	{
+		this->unschedule(schedule_selector(First::scheduleBlood));
+	}
+}
+
 int Right = 0, Left = 0, up = 0, down = 0;
+int hasEnemy = 0; int hasBoss = 0;
 void First::update(float dt) {
-	magic->setVector(gun->getVector());
 	this->setViewpointCenter(_role->getHero()->getPosition());
 	//this->setRolePosition(_role->getHero()->getPosition());
 	auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -149,8 +186,68 @@ void First::update(float dt) {
 		}
 		i = i - 1;
 	}
+	//生成怪和BOSS
+	if (hasEnemy == 0)
+	{
+		if (initEnemy())
+		{
+			hasEnemy = 1;
+		}
+	}
+	if (hasBoss == 0)
+	{
+		if (initBoss())
+		{
+			hasBoss = 1;
+		}
+	}
 }
 
+bool First::initEnemy()
+{
+	if (setEnemy(_role->getHero()->getPosition()))
+	{
+		TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
+		ValueMap spwanPoint1 = group->getObject("enemy");
+		float enemy_x = spwanPoint1["x"].asFloat();
+		float enemy_y = spwanPoint1["y"].asFloat();
+		auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", _role, Vec2(enemy_x, enemy_y));
+		enemy->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
+		vec_enemy.push_back(enemy->getEnemy());
+		this->addChild(enemy);
+		this->addChild(enemy->getEnemy());
+
+		auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", _role, Vec2(enemy_x, enemy_y));
+		enemy1->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
+		vec_enemy.push_back(enemy1->getEnemy());
+		this->addChild(enemy1);
+		this->addChild(enemy1->getEnemy());
+
+		//hasEnemy = 1;
+		return 1;
+	}
+	return 0;
+}
+
+bool First::initBoss()
+{
+	if (setBoss(_role->getHero()->getPosition()))
+	{
+		TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
+		ValueMap spwanPoint2 = group->getObject("boss");
+		float boss_x = spwanPoint2["x"].asFloat();
+		float boss_y = spwanPoint2["y"].asFloat();
+		auto boss = Boss_zrt::create(100, 2, "huaji.png", _role, Vec2(boss_x, boss_y));
+		boss->getEnemy()->setPosition(Vec2(boss_x, boss_y));
+		vec_enemy.push_back(boss->getEnemy());
+		this->addChild(boss);
+		this->addChild(boss->getEnemy());
+
+		//hasBoss = 1;
+		return 1;
+	}
+	return 0;
+}
 void First::setViewpointCenter(Vec2 position)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -198,7 +295,7 @@ bool First::setRolePosition(Vec2 position)
 
 		if (collision == "true")//碰撞检测成功
 		{
-			log("collision is true");
+			//log("collision is true");
 			return 0;
 		}
 	}
@@ -207,13 +304,50 @@ bool First::setRolePosition(Vec2 position)
 
 Vec2 First::tileCoordFromPosition(Vec2 pos)
 {
-	log("%f,%f", pos.x, pos.y);
-	int x = (pos.x *4.3) / _tileMap->getTileSize().width;
-	int y = ((_tileMap->getMapSize().height*_tileMap->getTileSize().height / 4.2) - pos.y) /
-		(_tileMap->getTileSize().height / 4.2);
+	//log("%f,%f", pos.x, pos.y);
+	int x = (pos.x *4.25) / _tileMap->getTileSize().width;
+	int y = ((_tileMap->getMapSize().height*_tileMap->getTileSize().height / 4.25) - pos.y) /
+		(_tileMap->getTileSize().height / 4.25);
 	return Vec2(x, y);
 }
 
+//当人物走到相应的门时，再生成怪物而不是让怪一直生成
+//检测第一个门，生成小怪
+bool First::setEnemy(Vec2 position)
+{
+	Vec2 tileCoord = this->tileCoordFromPosition(position);
+	int tileGid = _enemyDoor->getTileGIDAt(tileCoord);
+	if (tileGid > 0)
+	{
+		Value prop = _tileMap->getPropertiesForGID(tileGid);
+		ValueMap propValueMap = prop.asValueMap();
+		std::string enemydoor = propValueMap["EnemyDoor"].asString();
+		if (enemydoor == "true")//碰撞检测成功
+		{
+			log("create enemy");
+			return 1;
+		}
+	}
+	return 0;
+}
+//检测第二个门，生成大boss
+bool First::setBoss(Vec2 position)
+{
+	Vec2 tileCoord = this->tileCoordFromPosition(position);
+	int tileGid = _bossDoor->getTileGIDAt(tileCoord);
+	if (tileGid > 0)
+	{
+		Value prop = _tileMap->getPropertiesForGID(tileGid);
+		ValueMap propValueMap = prop.asValueMap();
+		std::string bossdoor = propValueMap["BossDoor"].asString();
+		if (bossdoor == "true")//碰撞检测成功
+		{
+			log("create boss");
+			return 1;
+		}
+	}
+	return 0;
+}
 void First::Press(EventKeyboard::KeyCode code, Event*event) {
 	auto target = event->getCurrentTarget();
 	switch (code) {

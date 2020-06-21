@@ -7,7 +7,11 @@
 class Second : public cocos2d::Layer
 {
 private:
-
+	cocos2d::TMXLayer* _collidable;
+	cocos2d::TMXLayer* _enemyDoor;
+	cocos2d::TMXLayer* _bossDoor;
+	cocos2d::TMXTiledMap* _tileMap;
+	Hero* _role;
 public:
 	static cocos2d::Scene* createScene();
 
@@ -16,8 +20,21 @@ public:
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
 
+	/*void setViewpointCenter(cocos2d::Vec2 position);
+	void update(float dt);
+	bool setRolePosition(cocos2d::Vec2 position);
+	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2);
+	void Press(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
+	void Released(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
 
+	bool setEnemy(cocos2d::Vec2 posotion);
+	bool setBoss(cocos2d::Vec2 position);
 
+	void moveHero();
+	void moveBoss();
+	void moveEnemy();
+
+	void showHeroState();*/
 	// implement the "static create()" method manually
 	CREATE_FUNC(Second);
 };

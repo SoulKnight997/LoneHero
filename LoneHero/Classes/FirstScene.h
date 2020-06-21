@@ -14,6 +14,8 @@ class First : public cocos2d::Layer
 {
 private:
 	cocos2d::TMXLayer* _collidable;
+	cocos2d::TMXLayer* _enemyDoor;
+	cocos2d::TMXLayer* _bossDoor;
 	cocos2d::TMXTiledMap* _tileMap;
 	Hero* _role;
 	Weapon_machinegun*gun;
@@ -33,8 +35,13 @@ public:
 	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2);
 	void Press(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
 	void Released(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event*event);
-
-
+	
+	bool initEnemy();
+	bool initBoss();
+	bool setEnemy(cocos2d::Vec2 posotion);
+	bool setBoss(cocos2d::Vec2 position);
+	
+	void scheduleBlood(float delta);
 	// implement the "static create()" method manually
 	CREATE_FUNC(First);
 };
