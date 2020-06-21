@@ -172,7 +172,7 @@ void First::scheduleBlood(float delta)
 	if (_magic&&_hard&&_normal&&_normal_1&&_easy) {
 		if (_magic->getBlood() <= 0 && _hard->getBlood() <= 0 && _normal->getBlood() <= 0 && _normal_1->getBlood() <= 0 && _easy->getBlood() <= 0) {
 
-			auto second_scene =Second::createScene();
+			auto second_scene =Second::createScene(_weapon_type);
 			Director::getInstance()->pushScene(second_scene);
 		} 
 	}
@@ -469,12 +469,40 @@ void First::Press(EventKeyboard::KeyCode code, Event*event) {
 	}
 }
 
+void First::MenuItemExitCallback(Ref *pSender) {
+	MenuItem *item_exit = (MenuItem*)pSender;
+	log("Touch Exit Menu Item %p", item_exit);
+	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
+
+	Director::getInstance()->popToRootScene();
+}
+
 void First::Released(EventKeyboard::KeyCode code, Event*event) {
+	MenuItemFont::setFontName("Times New Roman");
+	MenuItemFont::setFontSize(32);
+	MenuItemFont *item_exit = MenuItemFont::create("Exit",
+		CC_CALLBACK_1(First::MenuItemExitCallback, this));
+	Menu *pause_menu = Menu::create(item_exit, NULL);
 	switch (code) {
 	case EventKeyboard::KeyCode::KEY_A:Left = 0; break;
 	case EventKeyboard::KeyCode::KEY_S:down = 0; break;
 	case EventKeyboard::KeyCode::KEY_D:Right = 0; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 0; break;
+	case EventKeyboard::KeyCode::KEY_ESCAPE: {
+		this->pause();
+		for (const auto& node : this->getChildren()) {
+			node->pause();
+		}
+		pause_menu->alignItemsVertically();//将菜单项垂直对齐
+
+
+
+		pause_menu->setPosition(_role->getHero()->getPositionX(), _role->getHero()->getPositionY());
+
+		this->addChild(pause_menu);
+		break;
+	}
+	default:removeChild(pause_menu);
 	}
 }
 

@@ -49,6 +49,8 @@ public:
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
 	void setViewpointCenter(cocos2d::Vec2 position);
+	void MenuItemExitCallback(cocos2d::Ref *pSender);
+
 	void update(float dt);
 	bool setRolePosition(cocos2d::Vec2 position);
 	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2);

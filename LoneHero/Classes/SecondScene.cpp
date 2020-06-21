@@ -160,6 +160,18 @@ void Second::scheduleBlood(float delta)
 	float existLife = _role->getBlood();
 	progress->setPercentage(((float)existLife / PLAYER_LIFE) * 100);
 
+	if (_role->getBlood() <= 0) {
+
+		Director::getInstance()->popToRootScene();
+	}
+
+	if (_magic&&_hard&&_normal&&_normal_1&&_boss) {
+		if (_magic->getBlood() <= 0 && _hard->getBlood() <= 0 && _normal->getBlood() <= 0 && _normal_1->getBlood() <= 0 && _boss->getBlood() <= 0) {
+
+			Director::getInstance()->popToRootScene();
+		}
+	}
+
 	progress->setPosition(Vec2(_role->getHero()->getPositionX(),
 		_role->getHero()->getPositionY() + 32));
 	bar->setPosition(Vec2(_role->getHero()->getPositionX(),
@@ -271,10 +283,10 @@ void Second::initEnemy()
 	ValueMap spwanPoint1 = group->getObject("enemy2");
 	float enemy_x = spwanPoint1["x"].asFloat();
 	float enemy_y = spwanPoint1["y"].asFloat();
-	auto enemy = Enemy_easy::create(50, 1, 4.0f, "enemy.png", _role, Vec2(enemy_x, enemy_y));
+	auto enemy = Enemy_hard::create(50, 1, 4.0f, "shuimu.png", _role, Vec2(enemy_x, enemy_y));
 	enemy->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
 	vec_enemy.push_back(enemy->getEnemy());
-	_easy = enemy;
+	_hard = enemy;
 	this->addChild(enemy);
 	this->addChild(enemy->getEnemy());
 
@@ -322,10 +334,10 @@ bool Second::initBoss()
 		ValueMap spwanPoint2 = group->getObject("boss");
 		float boss_x = spwanPoint2["x"].asFloat();
 		float boss_y = spwanPoint2["y"].asFloat();
-		auto boss = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", _role, Vec2(boss_x, boss_y));
+		auto boss = Boss_zrt::create(50, 1, "huaji.png", _role, Vec2(boss_x, boss_y));
 		boss->getEnemy()->setPosition(Vec2(boss_x, boss_y));
 		vec_enemy.push_back(boss->getEnemy());
-		_hard = boss;
+		_boss = boss;
 		this->addChild(boss);
 		this->addChild(boss->getEnemy());
 
@@ -453,12 +465,37 @@ void Second::Press(EventKeyboard::KeyCode code, Event*event) {
 }
 
 void Second::Released(EventKeyboard::KeyCode code, Event*event) {
+	MenuItemFont::setFontName("Times New Roman");
+	MenuItemFont::setFontSize(32);
+	MenuItemFont *item_exit = MenuItemFont::create("Exit",
+		CC_CALLBACK_1(Second::MenuItemExitCallback, this));
+	Menu *pause_menu = Menu::create(item_exit, NULL);
 	switch (code) {
 	case EventKeyboard::KeyCode::KEY_A:Left = 0; break;
 	case EventKeyboard::KeyCode::KEY_S:down = 0; break;
 	case EventKeyboard::KeyCode::KEY_D:Right = 0; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 0; break;
+	case EventKeyboard::KeyCode::KEY_ESCAPE: {
+		this->pause();
+		for (const auto& node : this->getChildren()) {
+			node->pause();
+		}
+		pause_menu->alignItemsVertically();//将菜单项垂直对齐
+		pause_menu->setPosition(_role->getHero()->getPositionX(), _role->getHero()->getPositionY());
+
+		this->addChild(pause_menu);
+		break;
 	}
+	default:removeChild(pause_menu);
+	}
+}
+
+void Second::MenuItemExitCallback(Ref *pSender) {
+	MenuItem *item_exit = (MenuItem*)pSender;
+	log("Touch Exit Menu Item %p", item_exit);
+	SimpleAudioEngine::getInstance()->playEffect("Music/Button.mp3");
+
+	Director::getInstance()->popToRootScene();
 }
 
 void Second::settheVectorsame() {
@@ -468,11 +505,11 @@ void Second::settheVectorsame() {
 	}
 	else if (_weapon_type2 == 2)
 	{
-		setPoorVector();
+		setShotVector();
 	}
 	else if (_weapon_type2 == 3)
 	{
-		setShotVector();
+		setPoorVector();
 	}
 }
 void Second::setMachineVector()
