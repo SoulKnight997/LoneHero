@@ -334,7 +334,7 @@ bool Second::initBoss()
 		ValueMap spwanPoint2 = group->getObject("boss");
 		float boss_x = spwanPoint2["x"].asFloat();
 		float boss_y = spwanPoint2["y"].asFloat();
-		auto boss = Boss_zrt::create(50, 1, "huaji.png", _role, Vec2(boss_x, boss_y));
+		auto boss = Boss_zrt::create(200, 1, "huaji.png", _role, Vec2(boss_x, boss_y));
 		boss->getEnemy()->setPosition(Vec2(boss_x, boss_y));
 		vec_enemy.push_back(boss->getEnemy());
 		_boss = boss;

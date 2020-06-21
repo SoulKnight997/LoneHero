@@ -11,7 +11,7 @@ Weapon_machinegun* Weapon_machinegun::create(float a, int h, int b, const std::s
 }
 
 void Weapon_machinegun::Attack(float dt) {
-	auto bullet = HeroBullet::create(7, angle, 10, "bulletpoorgun.png");
+	auto bullet = HeroBullet::create(7, angle, 2, "bulletpoorgun.png");
 	auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 	bullet->getBullet()->setPhysicsBody(body);
 	bullet->getBullet()->setPosition(Vec2(weapon->getPosition()));

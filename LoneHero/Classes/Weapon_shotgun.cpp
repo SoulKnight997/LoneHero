@@ -11,7 +11,7 @@ Weapon_shotgun* Weapon_shotgun::create(float a, int h, int b, const std::string&
 }
 
 void Weapon_shotgun::Attack(float dt) {
-	auto bullet1 = HeroBullet::create(7, angle, 5, "bulletshotgun.png");
+	auto bullet1 = HeroBullet::create(7, angle, 1, "bulletshotgun.png");
 	auto body1 = PhysicsBody::createEdgeBox(bullet1->getBullet()->getContentSize());
 
 	//_bullet.push_back(bullet1);
@@ -21,7 +21,7 @@ void Weapon_shotgun::Attack(float dt) {
 	_bullet.push_back(bullet1);
 	this->addChild(bullet1->getBullet());
 	this->addChild(bullet1);
-	auto bullet2 = HeroBullet::create(7, angle + 0.3, 5, "bulletshotgun.png");
+	auto bullet2 = HeroBullet::create(7, angle + 0.3, 2, "bulletshotgun.png");
 	auto body2 = PhysicsBody::createEdgeBox(bullet2->getBullet()->getContentSize());
 
 	//_bullet.push_back(bullet2);
@@ -31,7 +31,7 @@ void Weapon_shotgun::Attack(float dt) {
 	_bullet.push_back(bullet2);
 	this->addChild(bullet2->getBullet());
 	this->addChild(bullet2);
-	auto bullet3 = HeroBullet::create(7, angle + 0.6, 5, "bulletshotgun.png");
+	auto bullet3 = HeroBullet::create(7, angle + 0.6, 2, "bulletshotgun.png");
 	auto body3 = PhysicsBody::createEdgeBox(bullet3->getBullet()->getContentSize());
 
 	//_bullet.push_back(bullet3);
@@ -41,7 +41,7 @@ void Weapon_shotgun::Attack(float dt) {
 	_bullet.push_back(bullet3); 
 	this->addChild(bullet3->getBullet());
 	this->addChild(bullet3);
-	auto bullet4 = HeroBullet::create(7, angle - 0.3, 5, "bulletshotgun.png");
+	auto bullet4 = HeroBullet::create(7, angle - 0.3, 2, "bulletshotgun.png");
 	auto body4 = PhysicsBody::createEdgeBox(bullet4->getBullet()->getContentSize());
 
 	//_bullet.push_back(bullet4);
@@ -51,7 +51,7 @@ void Weapon_shotgun::Attack(float dt) {
 	_bullet.push_back(bullet4);
 	this->addChild(bullet4->getBullet());
 	this->addChild(bullet4);
-	auto bullet5 = HeroBullet::create(7, angle - 0.6, 5, "bulletshotgun.png");
+	auto bullet5 = HeroBullet::create(7, angle - 0.6, 2, "bulletshotgun.png");
 	auto body5 = PhysicsBody::createEdgeBox(bullet5->getBullet()->getContentSize());
 
 	//_bullet.push_back(bullet5);
