@@ -24,7 +24,7 @@ private:
 	cocos2d::TMXLayer* _bossDoor;
 	cocos2d::TMXTiledMap* _tileMap;
 	Hero* _role;
-	Weapon_machinegun*gun;
+	Weapon_machinegun* gun;
 	vector<cocos2d::Sprite*>vec_enemy;
 	vector<HeroBullet*>vec_bullet;
 	Enemy_hard_magic*_magic;

@@ -27,15 +27,26 @@ cocos2d::Sprite* TurnBullet::getBullet() {
 void TurnBullet::update(float dt) {
 	number++;
 	bullet->setPosition(bullet->getPositionX() + speed * cos(angle), bullet->getPositionY() + speed * sin(angle));
-	if (bullet->getBoundingBox().intersectsRect(hero->getHero()->getBoundingBox())) {
-		this->unscheduleUpdate();
-		this->unschedule(schedule_selector(TurnBullet::Turn));
-		bullet->removeFromParent();
+	if (bullet) {
+		if (bullet->getBoundingBox().intersectsRect(hero->getHero()->getBoundingBox())) {
+			this->unscheduleUpdate();
+			this->unschedule(schedule_selector(TurnBullet::Turn));
+			this->removeFromParent();
+			bullet->removeFromParent();
+			bullet = NULL;
+		}
 	}
-	if (number >= 60) {
-		this->unscheduleUpdate();
-		bullet->removeFromParent();
+	if (bullet) {
+		if (number*speed >= 240) {
+			this->unscheduleUpdate();
+			this->removeFromParent();
+			bullet->removeFromParent();
+			bullet = NULL;
+		}
 	}
+	
+
+	
 }
 
 int TurnBullet::getSpeed() {
@@ -68,11 +79,14 @@ void TurnBullet::setHurt(int h) {
 
 void TurnBullet::Turn(float dt) {
 	double x1, y1, x2, y2;
-	x1 = bullet->getPositionX(), y1 = bullet->getPositionY(), x2 = hero->getHero()->getPositionX(), y2 = hero->getHero()->getPositionY();
-	if ((x1 != x2) || (y1 != y2)) {
-		if (x1 <= x2)
-			this->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
-		else
-			this->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+	if (bullet) {
+		x1 = bullet->getPositionX(), y1 = bullet->getPositionY(), x2 = hero->getHero()->getPositionX(), y2 = hero->getHero()->getPositionY();
+		if ((x1 != x2) || (y1 != y2)) {
+			if (x1 <= x2)
+				this->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+			else
+				this->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+		}
 	}
+	
 }
