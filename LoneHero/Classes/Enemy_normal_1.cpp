@@ -4,12 +4,12 @@
 #include <cstdlib>
 #include <ctime>
 #include "Bullet.h"
-
+#define RANGE 
 USING_NS_CC;
 
-Enemy_normal_1* Enemy_normal_1::create(int b, int s, float i, const std::string& filename, Hero* he) {
+Enemy_normal_1* Enemy_normal_1::create(int b, int s, float i, const std::string& filename, Hero* he,Vec2 pos) {
 	Enemy_normal_1*p = new(std::nothrow)Enemy_normal_1;
-	p->init(b, s, i, filename, he);
+	p->init(b, s, i, filename, he,pos);
 	srand(time(NULL));
 	return p;
 }

@@ -4,12 +4,12 @@
 #include <cstdlib>
 #include <ctime>
 #include "Bullet.h"
-
+#define RANGE 120
 USING_NS_CC;
 
-Boss_zrt* Boss_zrt::create(int b, int s, const std::string& filename, Hero* he) {
+Boss_zrt* Boss_zrt::create(int b, int s, const std::string& filename, Hero* he,Vec2 pos) {
 	Boss_zrt*p = new(std::nothrow)Boss_zrt;
-	p->init(b, s, 2.0f,filename, he);
+	p->init(b, s, 2.0f,filename, he,pos);
 	srand(time(NULL));
 	return p;
 }
@@ -44,17 +44,17 @@ void Boss_zrt::directionChange(float dt) {
 
 void Boss_zrt::Move(float dt) {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	if ((enemy->getPositionX() >= 0) && (enemy->getPositionY() >= 0) && (enemy->getPositionX() <= visibleSize.width) && (enemy->getPositionY() <= visibleSize.height))
+	if ((enemy->getPositionX() >= origin_pos.x - RANGE) && (enemy->getPositionY() >= origin_pos.y - RANGE) && (enemy->getPositionX() <= origin_pos.x + RANGE) && (enemy->getPositionY() <= origin_pos.y + RANGE))
 		enemy->setPosition(enemy->getPositionX() + speed * cos(direction), enemy->getPositionY() + speed * sin(direction));
 	else {
-		if (enemy->getPositionX() < 0)
-			enemy->setPositionX(0);
-		else if (enemy->getPositionY() < 0)
-			enemy->setPositionY(0);
-		else if (enemy->getPositionX() > visibleSize.width)
-			enemy->setPositionX(visibleSize.width);
-		else if (enemy->getPositionY() > visibleSize.height)
-			enemy->setPositionY(visibleSize.height);
+		if (enemy->getPositionX() < origin_pos.x - RANGE)
+			enemy->setPositionX(origin_pos.x - RANGE);
+		else if (enemy->getPositionY() < origin_pos.y - RANGE)
+			enemy->setPositionY(origin_pos.y - RANGE);
+		else if (enemy->getPositionX() > origin_pos.x + RANGE)
+			enemy->setPositionX(origin_pos.x + RANGE);
+		else if (enemy->getPositionY() > origin_pos.y + RANGE)
+			enemy->setPositionY(origin_pos.y + RANGE);
 	}
 
 }

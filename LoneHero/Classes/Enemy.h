@@ -15,8 +15,9 @@ protected:
 	Hero* _hero;
 	double angle;
 	float interval;
+	cocos2d::Vec2 origin_pos;
 public:
-	bool init(int, int,float, const std::string&,Hero*);
+	bool init(int, int,float, const std::string&,Hero*,cocos2d::Vec2 );
 	cocos2d::Sprite* getEnemy();
 	int getBlood();
 	float getDirection();

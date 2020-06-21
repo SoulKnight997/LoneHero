@@ -7,7 +7,7 @@
 class Boss_zrt :public Enemy
 {
 public:
-	static Boss_zrt* create(int, int, const std::string&, Hero*);
+	static Boss_zrt* create(int, int, const std::string&, Hero*,cocos2d::Vec2);
 	void directionChange(float dt);
 	void Move(float dt);
 	void Attack(float dt);

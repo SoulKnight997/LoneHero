@@ -179,7 +179,7 @@ void Second::menuCloseCallback(Ref* pSender)
 }
 
 /*
-//当人物走到相应的门时，再生成怪物而不是让怪随机
+//当人物走到相应的门时，再生成怪物而不是让怪一直生成
 //检测第一个门，生成小怪
 bool Second::setEnemy(Vec2 position)
 {
