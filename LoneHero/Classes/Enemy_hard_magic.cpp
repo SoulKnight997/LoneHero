@@ -38,7 +38,7 @@ void Enemy_hard_magic::Move(float dt) {
 void Enemy_hard_magic::Attack(float dt) {
 	double angle = 0;
 	for (angle = 0;angle < 6.28;angle += 0.5) {
-		auto bullet = TurnBullet::create(4, angle, 5, "purplebullet.png", hero);
+		auto bullet = TurnBullet::create(4, angle, 5, "purplebullet.png", _hero);
 		auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 		bullet->getBullet()->setPhysicsBody(body);
 		bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));
