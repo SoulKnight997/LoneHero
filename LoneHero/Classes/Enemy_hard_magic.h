@@ -6,7 +6,7 @@
 class Enemy_hard_magic :public Enemy
 {
 public:
-	static Enemy_hard_magic* create(int, int, float, const std::string&, cocos2d::Sprite*);
+	static Enemy_hard_magic* create(int, int, float, const std::string&, Hero*);
 	void directionChange(float dt);
 	void Move(float dt);
 	void Attack(float dt);

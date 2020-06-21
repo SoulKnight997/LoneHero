@@ -2,6 +2,7 @@
 #define __ENEMY_H__
 
 #include"cocos2d.h"
+#include"Hero.h"
 
 class Enemy :public cocos2d::Node
 {
@@ -11,10 +12,11 @@ protected:
 	int speed;
 	cocos2d::Sprite* enemy;
 	cocos2d::Sprite* hero;
+	Hero* _hero;
 	double angle;
 	float interval;
 public:
-	bool init(int, int,float, const std::string&,cocos2d::Sprite*);
+	bool init(int, int,float, const std::string&,Hero*);
 	cocos2d::Sprite* getEnemy();
 	int getBlood();
 	float getDirection();

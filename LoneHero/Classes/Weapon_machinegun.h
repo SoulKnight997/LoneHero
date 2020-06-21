@@ -6,7 +6,7 @@
 class Weapon_machinegun :public Weapon
 {
 public:
-	static Weapon_machinegun* create(float, int, int, const std::string&, cocos2d::Sprite*);
+	static Weapon_machinegun* create(float, int, int, const std::string&, cocos2d::Sprite*,vector<HeroBullet*>);
 	void Attack(float dt);
 };
 #endif

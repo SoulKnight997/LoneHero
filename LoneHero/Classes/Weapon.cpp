@@ -4,9 +4,10 @@
 
 USING_NS_CC;
 
-bool Weapon::init(float a, int h, int b, const std::string& filename,cocos2d::Sprite* he) {
+bool Weapon::init(float a, int h, int b, const std::string& filename,cocos2d::Sprite* he,vector<HeroBullet*>bullet) {
 	attack_interval = a, hurt = h, blue_consume = b;
 	hero = he;
+	_bullet = bullet;
 	angle = 0;
 	time = clock();
 	weapon = cocos2d::Sprite::create(filename);
@@ -24,7 +25,9 @@ bool Weapon::init(float a, int h, int b, const std::string& filename,cocos2d::Sp
 	listener->onKeyReleased = [=](EventKeyboard::KeyCode keycode, Event*event) {
 		if (keycode == EventKeyboard::KeyCode::KEY_J)
 			this->unschedule(schedule_selector(Weapon::Attack));
+
 	};
+
 	EventDispatcher*eve = Director::getInstance()->getEventDispatcher();
 	eve->addEventListenerWithSceneGraphPriority(listener, weapon);
 	return true;
@@ -44,6 +47,10 @@ int Weapon::getHurt() {
 
 int Weapon::getBlueConsume() {
 	return blue_consume;
+}
+
+vector<HeroBullet*> Weapon::getVector() {
+	return _bullet;
 }
 
 double Weapon::getAngle() {

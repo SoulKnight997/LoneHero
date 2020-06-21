@@ -1,20 +1,18 @@
-#ifndef __BULLET_H__
-#define __BULLET_H__
+#ifndef __HEROBULLET_H__
+#define __HEROBULLET_H__
 
 #include"cocos2d.h"
-#include"Hero.h"
-class Bullet :public cocos2d::Node
+
+class HeroBullet :public cocos2d::Node
 {
 private:
 	cocos2d::Sprite*bullet;
-	Hero*hero;//英雄位置
 	int speed;//子弹飞行速度
 	double angle;//子弹与水平方向夹角
 	int hurt;//子弹的伤害
-	int number = 0;
 public:
-	static Bullet*create(int, double, int, const std::string& filename,Hero*);
-	bool init(int, double, int, const std::string& filename,Hero*);
+	static HeroBullet*create(int, double, int, const std::string& filename);
+	bool init(int, double, int, const std::string& filename);
 	virtual void update(float dt);
 	cocos2d::Sprite* getBullet();
 	int getSpeed();

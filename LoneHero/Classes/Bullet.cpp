@@ -4,14 +4,15 @@
 
 USING_NS_CC;
 
-Bullet* Bullet::create(int s, double a, int h, const std::string& filename) {
+Bullet* Bullet::create(int s, double a, int h, const std::string& filename,Hero*he) {
 	Bullet*p = new(std::nothrow)Bullet;
-	p->init(s, a, h, filename);
+	p->init(s, a, h, filename,he);
 	return p;
 }
 
-bool Bullet::init(int s, double a, int h, const std::string& filename) {
+bool Bullet::init(int s, double a, int h, const std::string& filename,Hero*he) {
 	speed = s, angle = a, hurt = h;
+	hero = he;
 	bullet = cocos2d::Sprite::create(filename);
 	auto listener = EventListenerKeyboard::create();
 	this->scheduleUpdate();
@@ -23,7 +24,16 @@ cocos2d::Sprite* Bullet::getBullet() {
 }
 
 void Bullet::update(float dt) {
+	number++;
 	bullet->setPosition(bullet->getPositionX() + speed * cos(angle), bullet->getPositionY() + speed * sin(angle));
+	if (bullet->getBoundingBox().intersectsRect(hero->getHero()->getBoundingBox())){
+		this->unscheduleUpdate();
+		bullet->removeFromParent();
+	}
+	if (number >= 60) {
+		this->unscheduleUpdate();
+		bullet->removeFromParent();
+	}
 }
 
 int Bullet::getSpeed() {
