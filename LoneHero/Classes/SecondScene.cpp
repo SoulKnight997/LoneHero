@@ -1,4 +1,4 @@
-#include "FirstScene.h"
+#include "SecondScene.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "Weapon_poorgun.h"
@@ -23,7 +23,7 @@ Scene* Second::createScene()
 	auto scene = Scene::createWithPhysics();
 
 	// 'layer' is an autorelease object
-	auto layer = First::create();
+	auto layer = Second::create();
 	// add layer as a child to scene
 	scene->addChild(layer);
 
@@ -106,8 +106,8 @@ bool Second::init()
 	//_collidable->setVisible(false);
 
 	auto listener = EventListenerKeyboard::create();
-	listener->onKeyPressed = CC_CALLBACK_2(First::Press, this);
-	listener->onKeyReleased = CC_CALLBACK_2(First::Released, this);
+	listener->onKeyPressed = CC_CALLBACK_2(Second::Press, this);
+	listener->onKeyReleased = CC_CALLBACK_2(Second::Released, this);
 	EventDispatcher*eve = Director::getInstance()->getEventDispatcher();
 	eve->addEventListenerWithSceneGraphPriority(listener, _role);
 
@@ -124,7 +124,7 @@ bool Second::init()
 	progress->setTag(BLOOD_BAR);//做一个标记
 
 	this->addChild(progress);
-	this->schedule(schedule_selector(First::scheduleBlood), 0.1f);
+	this->schedule(schedule_selector(Second::scheduleBlood), 0.1f);
 
 	/*MenuItemFont::setFontName("Times New Roman");
 	MenuItemFont::setFontSize(12);
@@ -150,13 +150,10 @@ void Second::scheduleBlood(float delta)
 		_role->getHero()->getPositionY() + 32));
 	if (progress->getPercentage() < 0)
 	{
-		this->unschedule(schedule_selector(First::scheduleBlood));
+		this->unschedule(schedule_selector(Second::scheduleBlood));
 	}
 }
 
-
-int Right = 0, Left = 0, up = 0, down = 0;
-int hasEnemy = 0; int hasBoss = 0;
 void Second::update(float dt) {
 	this->settheVectorsame();
 	this->setViewpointCenter(_role->getHero()->getPosition());
@@ -393,7 +390,7 @@ void Second::Released(EventKeyboard::KeyCode code, Event*event) {
 	}
 }
 
-void Sceond::settheVectorsame() {
+void Second::settheVectorsame() {
 	if (_magic) {
 		_magic->setVector(gun->getVector());
 	}

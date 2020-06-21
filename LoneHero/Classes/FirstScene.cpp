@@ -107,13 +107,13 @@ bool First::init()
 	_bossDoor = _tileMap->getLayer("bossdoor");
 	//_collidable->setVisible(false);
 
-	MenuItemFont::setFontName("Times New Roman");
+	/*MenuItemFont::setFontName("Times New Roman");
 	MenuItemFont::setFontSize(12);
 	MenuItemFont *item_pause = MenuItemFont::create("Pause",
 		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
 	auto pauseMenu = Menu::create(item_pause, NULL);
 	pauseMenu->setPosition(Vec2(origin.x + 15, origin.y + visibleSize.height - 15));
-	this->addChild(pauseMenu, 20, 999);
+	this->addChild(pauseMenu, 20, 999);*/
 
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(First::Press, this);
@@ -136,16 +136,11 @@ bool First::init()
 	this->addChild(progress);
 	this->schedule(schedule_selector(First::scheduleBlood), 0.1f);
 
-<<<<<<< HEAD
 	/*MenuItemFont::setFontName("Times New Roman");
 	MenuItemFont::setFontSize(12);
 	MenuItemFont *item_pause = MenuItemFont::create("Pause",
 		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
 	auto pauseMenu = Menu::create(item_pause, NULL);*/
-
-
-=======
->>>>>>> e90d6d0e2ce935b0b566f732970795163880f04a
 	this->scheduleUpdate();
 
 	return true;
@@ -180,8 +175,6 @@ void First::scheduleBlood(float delta)
 	Director::getInstance()->pushScene(first_scene);
 }*/
 
-int Right = 0, Left = 0, up = 0, down = 0;
-int hasEnemy = 0; int hasBoss = 0;
 void First::update(float dt) {
 	this->settheVectorsame();
 	this->setViewpointCenter(_role->getHero()->getPosition());
