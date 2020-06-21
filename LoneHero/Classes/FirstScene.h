@@ -19,6 +19,8 @@ using namespace std;
 class First : public cocos2d::Layer
 {
 private:
+	int Right = 0, Left = 0, up = 0, down = 0;
+	int hasEnemy = 0; int hasBoss = 0;
 	cocos2d::TMXLayer* _collidable;
 	cocos2d::TMXLayer* _enemyDoor;
 	cocos2d::TMXLayer* _bossDoor;

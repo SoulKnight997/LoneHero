@@ -154,9 +154,6 @@ void Second::scheduleBlood(float delta)
 	}
 }
 
-
-int Right = 0, Left = 0, up = 0, down = 0;
-int hasEnemy = 0; int hasBoss = 0;
 void Second::update(float dt) {
 	this->settheVectorsame();
 	this->setViewpointCenter(_role->getHero()->getPosition());

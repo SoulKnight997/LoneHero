@@ -16,9 +16,11 @@
 
 using namespace std;
 
-class Second : public cocos2d::Layer
+class Second: public cocos2d::Layer
 {
 private:
+	int Right = 0, Left = 0, up = 0, down = 0;
+	int hasEnemy = 0; int hasBoss = 0;
 	cocos2d::TMXLayer* _collidable;
 	cocos2d::TMXLayer* _enemyDoor;
 	cocos2d::TMXLayer* _bossDoor;
@@ -34,6 +36,7 @@ private:
 	Enemy_normal_1*  _normal_1;
 	Boss_zrt* _boss;
 public:
+
 	static cocos2d::Scene* createScene();
 	void settheVectorsame();
 	virtual bool init();
