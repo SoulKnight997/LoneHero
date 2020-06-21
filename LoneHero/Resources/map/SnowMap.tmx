@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="23" nextobjectid="10">
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="24" nextobjectid="10">
  <tileset firstgid="1" source="../help/icefloor.tsx"/>
  <tileset firstgid="2" source="Icedecorate.tsx"/>
  <tileset firstgid="100" source="Snowdecorate.tsx"/>
@@ -15,9 +15,14 @@
   <object id="8" name="enemy" x="2340" y="2908" width="80" height="80"/>
   <object id="9" name="enemy2" x="590" y="1514" width="66" height="72"/>
  </objectgroup>
- <layer id="20" name="collision" width="120" height="120" opacity="0.25">
+ <layer id="23" name="decorate" width="120" height="120">
   <data encoding="base64" compression="zlib">
-   eJztkrFtBEEQw77/Nr5RB04dGMKPZepIYOIlxH2/Xq+353me53me53meN3PSb2DfW9oN7HtLu4F9b2k3sO8t7Qb2vaXdwL63uOk29t3GvtvYdxv7bmPfbey7Tavvp9/1r/2Mfbex7zb23ca+29h3G/tuY99t7LuNfbex7zb23ca+29h3G/tuQ9yK6NyCuBXRuQVxK6JzC+JWROcWxK2Izi2IWxGdWxC3Ijq3IG5FdG5B3Iro3IK4FdG5BXEronML4lZE5xbErYjOLYhbEZ1bELciOrcgbkV0bkHciujcgrgV0bkFcSuicwviVkTnFsStiM4tiFsRnVsQtyI6tyBuRXRuQdyK6NyCuBXRuQVxK6JzC+JWROcWxK2Izi2IWxGdWxC3Ijq3IG5FdG7x262Sa75t32/su81yX8++nn29/92XTLuhfW9pN7TvLe2G9r2l3dC+t7Qb2veWdkP73tJuaN9b2g3te0u7oX1vedJGZPcU+zLcU+zLcE+xL8M9xb4M9xT7MtxT7MtwT7Evwz3Fvgz3FPsy3FPsy3BPeVLfJ2Lfbey7jX23se829t3Gvts8qS/ZPcW+DPcU+zLcU+zLcE+xL8M9xb4M9xT7MtxT7MtwT7Evwz3Fvgz3FPsy3FPsy3BPsS/DPcW+DPeUv+pLPjLt7TzP8zzP+8x9AR4kq4k=
+   eJzt3DEOglAQRVHXrGuhY7E2lhRKdPzvcU4y/WRuqAjcbgAAAAAAAAD8y3Yw9NgPhj6e326eXwAAAAAAAAAAAAAAgLU8/r0AP6VvN3276dtN3276dtO3W2rf1L2npd4pde9pqXdK3Xta6p1S956WeqfUvael3il172mpd0rde1rqnVL3nvZ4c1bZY3InAAAAAAAAAACAafcPhl76dtO3m77d9O22ct/tNZy3ct/9NZy3cl8AAAAAAADg+7wj7KZvN327XbXvVf6Pqm83fbvpm803Zsda+l6d/88DAAAAv/AEs1g1HQ==
+  </data>
+ </layer>
+ <layer id="20" name="collision" width="120" height="120" opacity="0.21">
+  <data encoding="base64" compression="zlib">
+   eJzt0kFug1AQBFHf/xq+aBZZ2CigwDffTTX1pNl4AcOUn4/H4+k4juM4juM4juPUjPIN7DtXuoF950o3sO9c6Qb2nSvdwL5zpRvYdy5v2s2+DKO3ti+Dfe/Bvt3sq3f27Zbqe/Z7/a+ts283+3azbzf7drNvN/t2s283+3azbzf7drNvN/t2s283+3Yj3oq4cwrxVsSdU4i3Iu6cQrwVcecU4q2IO6cQb0XcOYV4K+LOKcRbEXdOId6KuHMK8VZn7ny1bzubfbvZt5t9u9m3m3272bebfZmOfJ99eey7/1lE9t3/LCL77n8WkX33P4vIvvufRWTf/c8isu/3n/WJvXtQv+8I4s4pxFsRd04h3oq4cwrxVsSdU4i3Iu6cQrwVcecU4q2IO6fsvdXIJN9t31/27dbc17GvY1/n2n3J0g3tO1e6oX3nSje071zphvadK93QvnOlG9p3rnRD+/5FvJF9z3elG9n3fN5oibz7GvsukXdfc+W+idvZ1772te9VXLlvAnn3UfZl7D7KvozdR9mXsfso+zJ2H2Vfxu6j7tT3juzbzb7d7NvNvt3s282+3e7Ul7z7KPsydt/y3372Zey+xb4v5N232PeFvPuWu/Zdeydl9yPsu/yNsPsR9l3+Rtj9CPsufyPs/u7T/ex7vd3PRO975J1X2/0b6H2PIO8+yr6M3UfZl7H7qG/1JQ9Z+naO4ziO45wzPxKG9B8=
   </data>
  </layer>
  <layer id="21" name="enemydoor" width="120" height="120">
