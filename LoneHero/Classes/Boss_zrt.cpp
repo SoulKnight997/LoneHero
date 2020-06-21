@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-Boss_zrt* Boss_zrt::create(int b, int s, const std::string& filename, cocos2d::Sprite* he) {
+Boss_zrt* Boss_zrt::create(int b, int s, const std::string& filename, Hero* he) {
 	Boss_zrt*p = new(std::nothrow)Boss_zrt;
 	p->init(b, s, 2.0f,filename, he);
 	srand(time(NULL));
@@ -56,6 +56,7 @@ void Boss_zrt::Move(float dt) {
 		else if (enemy->getPositionY() > visibleSize.height)
 			enemy->setPositionY(visibleSize.height);
 	}
+
 }
 
 void Boss_zrt::Attack_tiannvsanhua() {
@@ -72,7 +73,7 @@ void Boss_zrt::Attack_huajichongzhuang() {
 
 void Boss_zrt::StraightBullet(float dt) {
 	angle += 0.314;
-	auto bullet = Bullet::create(7, angle, 5, "redbullet.png");
+	auto bullet = Bullet::create(7, angle, 5, "redbullet.png",_hero);
 	auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 	bullet->getBullet()->setPhysicsBody(body);
 	bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));
@@ -83,7 +84,7 @@ void Boss_zrt::StraightBullet(float dt) {
 void Boss_zrt::CircleBullet(float dt) {
 	double angle = 0;
 	for (angle = 0;angle < 6.28;angle += 0.5) {
-		auto bullet = Bullet::create(4, angle, 5, "purplebullet.png");
+		auto bullet = Bullet::create(4, angle, 5, "purplebullet.png",_hero);
 		auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 		bullet->getBullet()->setPhysicsBody(body);
 		bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));
@@ -96,7 +97,7 @@ void Boss_zrt::HuajiBullet(float dt) {
 	double angle = 0;
 	angle = rand() % 629;
 	angle = angle * 0.01;
-	auto bullet = Bullet::create(4, angle, 5, "orangebullet.png");
+	auto bullet = Bullet::create(4, angle, 5, "orangebullet.png",_hero);
 	auto body = PhysicsBody::createEdgeBox(bullet->getBullet()->getContentSize());
 	bullet->getBullet()->setPhysicsBody(body);
 	bullet->getBullet()->setPosition(Vec2(enemy->getPosition()));

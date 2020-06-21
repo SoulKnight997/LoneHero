@@ -7,6 +7,8 @@
 #include "Weapon_shotgun.h"
 #include "Enemy_normal.h"
 #include "Enemy_hard.h"
+#include "Enemy_hard_magic.h"
+#include "Knife.h"
 
 USING_NS_CC;
 
@@ -58,23 +60,33 @@ bool First::init()
 
 	_role = hero;
 
-	auto weapon = Weapon_shotgun::create(1, 5, 0, "poorgun.png", hero->getHero());
+	auto weapon = Weapon_machinegun::create(0.2, 5, 0, "poorgun.png", hero->getHero(),vec_bullet);
 	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 	weapon->getWeapon()->setPhysicsBody(bod);
-	weapon->getWeapon()->setPosition(hero->getHero()->getPositionX() + 320,
+	weapon->getWeapon()->setPosition(hero->getHero()->getPositionX(),
 		hero->getHero()->getPositionY());
 	this->addChild(weapon);
 	this->addChild(weapon->getWeapon());
+	gun = weapon;
 
-	auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", hero->getHero());
+	auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", hero);
 	enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
 		origin.y + visibleSize.height / 2 - 50));
+	vec_enemy.push_back(enemy->getEnemy());
 	this->addChild(enemy);
 	this->addChild(enemy->getEnemy());
 
-	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero->getHero());
+	auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", hero);
+	enemy1->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 100,
+		origin.y + visibleSize.height / 2 - 100));
+	vec_enemy.push_back(enemy1->getEnemy());
+	this->addChild(enemy1);
+	this->addChild(enemy1->getEnemy());
+
+	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero);
 	boss->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 + 50,
 		origin.y + visibleSize.height / 2 + 50));
+	vec_enemy.push_back(boss->getEnemy());
 	this->addChild(boss);
 	this->addChild(boss->getEnemy());
 
@@ -95,7 +107,7 @@ bool First::init()
 	return true;
 }
 
-int right = 0, left = 0, up = 0, down = 0;
+int Right = 0, Left = 0, up = 0, down = 0;
 void First::update(float dt) {
 	this->setViewpointCenter(_role->getHero()->getPosition());
 	//this->setRolePosition(_role->getHero()->getPosition());
@@ -106,18 +118,35 @@ void First::update(float dt) {
 	float pos_x = hero->getPositionX();
 	float pos_y = hero->getPositionY();
 
-	if (right == 1)
-		if (setRolePosition(Vec2(pos_x + 1, pos_y)))
-			hero->setPosition(Vec2(hero->getPositionX() + 1, hero->getPositionY())), hero->setTexture("heropositive.png");
-	if (left == 1)
-		if (setRolePosition(Vec2(pos_x - 1, pos_y)))
-			hero->setPosition(Vec2(hero->getPositionX() - 1, hero->getPositionY())), hero->setTexture("herocounter.png");
+	if (Right == 1)
+		if (setRolePosition(Vec2(pos_x + 2, pos_y)))
+			hero->setPosition(Vec2(hero->getPositionX() + 2, hero->getPositionY())), hero->setTexture("heropositive.png");
+	if (Left == 1)
+		if (setRolePosition(Vec2(pos_x - 2, pos_y)))
+			hero->setPosition(Vec2(hero->getPositionX() - 2, hero->getPositionY())), hero->setTexture("herocounter.png");
 	if (up == 1)
-		if (setRolePosition(Vec2(pos_x, pos_y + 1)))
-			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() + 1));
+		if (setRolePosition(Vec2(pos_x, pos_y + 2)))
+			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() + 2));
 	if (down == 1)
-		if (setRolePosition(Vec2(pos_x, pos_y - 1)))
-			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() - 1));
+		if (setRolePosition(Vec2(pos_x, pos_y - 2)))
+			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() - 2));
+	long distance = 1000000;
+	double x1, y1, x2, y2;
+	int i = vec_enemy.size();
+	i = i - 1;
+	while (i >= 0) {
+		if ((pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2)) < distance) {
+			distance = (pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2));
+			x1 = gun->getWeapon()->getPositionX(), y1 = gun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
+			if ((x1 != x2) || (y1 != y2)) {
+				if (x1 <= x2)
+					gun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+				else
+					gun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+			}
+		}
+		i = i - 1;
+	}
 }
 
 void First::setViewpointCenter(Vec2 position)
@@ -186,9 +215,9 @@ Vec2 First::tileCoordFromPosition(Vec2 pos)
 void First::Press(EventKeyboard::KeyCode code, Event*event) {
 	auto target = event->getCurrentTarget();
 	switch (code) {
-	case EventKeyboard::KeyCode::KEY_A:left = 1; break;
+	case EventKeyboard::KeyCode::KEY_A:Left = 1; break;
 	case EventKeyboard::KeyCode::KEY_S:down = 1; break;
-	case EventKeyboard::KeyCode::KEY_D:right = 1; break;
+	case EventKeyboard::KeyCode::KEY_D:Right = 1; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 1; break;
 	case EventKeyboard::KeyCode::KEY_K: {
 		/*if ((frequency == 0) || (clock() - time >= 20)) {
@@ -203,9 +232,9 @@ void First::Press(EventKeyboard::KeyCode code, Event*event) {
 
 void First::Released(EventKeyboard::KeyCode code, Event*event) {
 	switch (code) {
-	case EventKeyboard::KeyCode::KEY_A:left = 0; break;
+	case EventKeyboard::KeyCode::KEY_A:Left = 0; break;
 	case EventKeyboard::KeyCode::KEY_S:down = 0; break;
-	case EventKeyboard::KeyCode::KEY_D:right = 0; break;
+	case EventKeyboard::KeyCode::KEY_D:Right = 0; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 0; break;
 	}
 }

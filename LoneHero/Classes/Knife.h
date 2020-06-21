@@ -1,13 +1,10 @@
-#ifndef __WEAPON_H__
-#define __WEAPON_H__
+#ifndef __KNIFE_H__
+#define __KNIFE_H__
 
 #include"cocos2d.h"
 #include <time.h>
-#include "heroBullet.h"
-#include <vector>
 
-using namespace std;
-class Weapon :public cocos2d::Node
+class Knife:public cocos2d::Node
 {
 protected:
 	float attack_interval;
@@ -16,22 +13,18 @@ protected:
 	cocos2d::Sprite* weapon;
 	cocos2d::Sprite* hero;
 	clock_t time;
-	double angle;
-	vector<HeroBullet*>_bullet;
 public:
-	bool init(float, int, int, const std::string& filename,cocos2d::Sprite*,vector<HeroBullet*>);
+	static Knife* create(float, int, int, const std::string&, cocos2d::Sprite*);
+	bool init(float, int, int, const std::string& filename, cocos2d::Sprite*);
 	cocos2d::Sprite* getWeapon();
 	float getAttackInterval();
 	int getHurt();
 	int getBlueConsume();
-	vector<HeroBullet*> getVector();
-	double getAngle();
 	void setWeapon(const std::string& filename);
 	void setAttackIterval(float);
 	void setHurt(int);
 	void setBlueConsume(int);
 	void FollowMyHero(float dt);
-	void setAngle(double);
-	virtual void Attack(float dt);
+	void Attack(float dt);
 };
 #endif

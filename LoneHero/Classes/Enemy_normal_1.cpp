@@ -7,7 +7,7 @@
 
 USING_NS_CC;
 
-Enemy_normal_1* Enemy_normal_1::create(int b, int s, float i, const std::string& filename, cocos2d::Sprite* he) {
+Enemy_normal_1* Enemy_normal_1::create(int b, int s, float i, const std::string& filename, Hero* he) {
 	Enemy_normal_1*p = new(std::nothrow)Enemy_normal_1;
 	p->init(b, s, i, filename, he);
 	srand(time(NULL));
@@ -45,14 +45,14 @@ void Enemy_normal_1::Strightbullet(float dt) {
 		else
 			angle = 3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2)));
 	}
-	auto bullet1 = Bullet::create(5, 0, 5, "magic.png");
+	auto bullet1 = Bullet::create(5, 0, 5, "magic.png",_hero);
 	auto body1 = PhysicsBody::createEdgeBox(bullet1->getBullet()->getContentSize());
 	bullet1->getBullet()->setPhysicsBody(body1);
 	bullet1->getBullet()->setPosition(Vec2(enemy->getPosition()));
 	bullet1->setAngle(angle);
 	this->addChild(bullet1->getBullet());
 	this->addChild(bullet1);
-	auto bullet2 = Bullet::create(5, 0, 5, "magic.png");
+	auto bullet2 = Bullet::create(5, 0, 5, "magic.png",_hero);
 	auto body2 = PhysicsBody::createEdgeBox(bullet2->getBullet()->getContentSize());
 	bullet2->getBullet()->setPhysicsBody(body2);
 	bullet2->getBullet()->setPosition(Vec2(enemy->getPosition())-Vec2(0,5));
