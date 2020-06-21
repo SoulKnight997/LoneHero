@@ -24,7 +24,9 @@ bool Weapon::init(float a, int h, int b, const std::string& filename,cocos2d::Sp
 	listener->onKeyReleased = [=](EventKeyboard::KeyCode keycode, Event*event) {
 		if (keycode == EventKeyboard::KeyCode::KEY_J)
 			this->unschedule(schedule_selector(Weapon::Attack));
+
 	};
+
 	EventDispatcher*eve = Director::getInstance()->getEventDispatcher();
 	eve->addEventListenerWithSceneGraphPriority(listener, weapon);
 	return true;

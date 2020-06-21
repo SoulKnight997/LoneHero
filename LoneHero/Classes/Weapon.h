@@ -3,6 +3,8 @@
 
 #include"cocos2d.h"
 #include <time.h>
+#include <vector>
+using namespace std;
 
 class Weapon :public cocos2d::Node
 {

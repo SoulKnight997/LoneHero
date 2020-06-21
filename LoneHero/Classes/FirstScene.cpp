@@ -7,8 +7,11 @@
 #include "Weapon_shotgun.h"
 #include "Enemy_normal.h"
 #include "Enemy_hard.h"
+#include <vector>
+
 
 USING_NS_CC;
+using namespace std;
 
 Scene* First::createScene()
 {
@@ -95,7 +98,7 @@ bool First::init()
 	return true;
 }
 
-int right = 0, left = 0, up = 0, down = 0;
+int Right = 0, Left = 0, up = 0, down = 0;
 void First::update(float dt) {
 	this->setViewpointCenter(_role->getHero()->getPosition());
 	//this->setRolePosition(_role->getHero()->getPosition());
@@ -106,10 +109,17 @@ void First::update(float dt) {
 	float pos_x = hero->getPositionX();
 	float pos_y = hero->getPositionY();
 
-	if (right == 1)
+	//log("%d", _bullet.size());
+	//if (_bullet.size() > 0) {
+	//	updateBullet();//更新bullet
+	//}
+	
+
+
+	if (Right == 1)
 		if (setRolePosition(Vec2(pos_x + 1, pos_y)))
 			hero->setPosition(Vec2(hero->getPositionX() + 1, hero->getPositionY())), hero->setTexture("heropositive.png");
-	if (left == 1)
+	if (Left == 1)
 		if (setRolePosition(Vec2(pos_x - 1, pos_y)))
 			hero->setPosition(Vec2(hero->getPositionX() - 1, hero->getPositionY())), hero->setTexture("herocounter.png");
 	if (up == 1)
@@ -120,8 +130,39 @@ void First::update(float dt) {
 			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() - 1));
 }
 
-void First::setViewpointCenter(Vec2 position)
-{
+//void First::updateBullet() {
+//	for (int bullet_i = 0; bullet_i != _bullet.size();) {
+//		
+//		bool temp = true;
+//		_bullet[bullet_i]->getBullet()->setVisible(true);
+//		if (_bullet[bullet_i]->isContact(_bullet[bullet_i]->getPosition())) {
+//			_bullet[bullet_i]->stopBullet();
+//			_bullet[bullet_i] = _bullet.erase(_bullet[bullet_i]);
+//			temp = false;
+//		}
+//		if (temp == true) {
+//			bullet_i++;
+//		}
+//	}
+//}
+
+//void First::updateBullet() {
+//	for (auto bullet_i = _bullet.begin(); bullet_i != _bullet.end();) {
+//
+//		bool temp = true;
+//		(*bullet_i)->getBullet()->setVisible(true);
+//		if ((*bullet_i)->isContact((*bullet_i)->getPosition())) {
+//			(*bullet_i)->stopBullet();
+//			bullet_i = _bullet.erase(bullet_i);
+//			temp = false;
+//		}
+//		if (temp == true) {
+//			bullet_i++;
+//		}
+//	}
+//}
+
+void First::setViewpointCenter(Vec2 position) {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	int x = MAX(position.x, visibleSize.width / 2);
 	int y = MAX(position.y, visibleSize.height / 2);
@@ -183,19 +224,29 @@ Vec2 First::tileCoordFromPosition(Vec2 pos)
 	return Vec2(x, y);
 }
 
+
+//Vec2 First::tileCoordForPosition(const Vec2& position)
+//{
+//	Size mapSize = _tileMap->getMapSize();      // 获取以tiles数量为单位的地图尺寸
+//	Size tileSize = _tileMap->getTileSize();    // 获取以像素点为单位的tile尺寸属性
+//	int x = position.x / tileSize.width;
+//	int y = (mapSize.height*tileSize.height - position.y) / tileSize.height;
+//	return Vec2(x, y);
+//}
+
 void First::Press(EventKeyboard::KeyCode code, Event*event) {
 	auto target = event->getCurrentTarget();
 	switch (code) {
-	case EventKeyboard::KeyCode::KEY_A:left = 1; break;
+	case EventKeyboard::KeyCode::KEY_A:Left = 1; break;
 	case EventKeyboard::KeyCode::KEY_S:down = 1; break;
-	case EventKeyboard::KeyCode::KEY_D:right = 1; break;
+	case EventKeyboard::KeyCode::KEY_D:Right = 1; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 1; break;
 	case EventKeyboard::KeyCode::KEY_K: {
 		/*if ((frequency == 0) || (clock() - time >= 20)) {
 			time = clock();
 			frequency += 1;
 			buff = 1;
-		}*/
+		*/
 		log("%f", _role->getPositionX());
 	}
 	}
@@ -203,9 +254,9 @@ void First::Press(EventKeyboard::KeyCode code, Event*event) {
 
 void First::Released(EventKeyboard::KeyCode code, Event*event) {
 	switch (code) {
-	case EventKeyboard::KeyCode::KEY_A:left = 0; break;
+	case EventKeyboard::KeyCode::KEY_A:Left = 0; break;
 	case EventKeyboard::KeyCode::KEY_S:down = 0; break;
-	case EventKeyboard::KeyCode::KEY_D:right = 0; break;
+	case EventKeyboard::KeyCode::KEY_D:Right = 0; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 0; break;
 	}
 }
