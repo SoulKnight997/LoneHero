@@ -28,6 +28,7 @@ void Bullet::update(float dt) {
 	bullet->setPosition(bullet->getPositionX() + speed * cos(angle), bullet->getPositionY() + speed * sin(angle));
 	if (bullet) {
 		if (bullet->getBoundingBox().intersectsRect(hero->getHero()->getBoundingBox())) {
+			hero->setBlood(hero->getBlood() - 1);
 			this->unscheduleUpdate();
 			this->removeFromParent();
 			bullet->removeFromParent();

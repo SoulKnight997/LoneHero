@@ -242,10 +242,10 @@ bool First::initEnemy()
 		ValueMap spwanPoint1 = group->getObject("enemy");
 		float enemy_x = spwanPoint1["x"].asFloat();
 		float enemy_y = spwanPoint1["y"].asFloat();
-		auto enemy = Enemy_hard::create(50, 1, 4.0f, "magic.png", _role, Vec2(enemy_x, enemy_y));
+		auto enemy = Enemy_hard_magic::create(50, 1, 2.0f, "jiangshi.png", _role, Vec2(enemy_x, enemy_y));
 		enemy->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
 		vec_enemy.push_back(enemy->getEnemy());
-		_hard = enemy;
+		_magic = enemy;
 		this->addChild(enemy);
 		this->addChild(enemy->getEnemy());
 
@@ -272,10 +272,10 @@ bool First::initBoss()
 		ValueMap spwanPoint2 = group->getObject("boss");
 		float boss_x = spwanPoint2["x"].asFloat();
 		float boss_y = spwanPoint2["y"].asFloat();
-		auto boss = Boss_zrt::create(100, 2, "huaji.png", _role, Vec2(boss_x, boss_y));
+		auto boss = Enemy_hard::create(50, 1, 4.0f,"jiangshi.png", _role, Vec2(boss_x, boss_y));
 		boss->getEnemy()->setPosition(Vec2(boss_x, boss_y));
 		vec_enemy.push_back(boss->getEnemy());
-		_boss = boss;
+		_hard = boss;
 		this->addChild(boss);
 		this->addChild(boss->getEnemy());
 
@@ -414,5 +414,20 @@ void First::Released(EventKeyboard::KeyCode code, Event*event) {
 void First::settheVectorsame() {
 	if (_magic) {
 		_magic->setVector(gun->getVector());
+	}
+	if (_easy) {
+		_easy->setVector(gun->getVector());
+	}
+	if (_normal) {
+		_normal->setVector(gun->getVector());
+	}
+	if (_normal_1) {
+		_normal_1->setVector(gun->getVector());
+	}
+	if (_hard) {
+		_hard->setVector(gun->getVector());
+	}
+	if (_boss) {
+		_boss->setVector(gun->getVector());
 	}
 }
