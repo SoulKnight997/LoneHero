@@ -40,7 +40,7 @@ bool Help::init()
 		origin.y + 4 * visiblesize.height / 5));
 	this->addChild(help_title_label, 1);
 
-	auto help_label = LabelTTF::create("WASD: Move  J: Attack  K: Buff","Arial",12);
+	auto help_label = LabelTTF::create("WASD: Move  J: Attack  Esc: Pause","Arial",12);
 	help_label->setPosition(Vec2(origin.x + visiblesize.width / 2,
 									origin.y + 2 * visiblesize.height / 3));
 	this->addChild(help_label, 1);

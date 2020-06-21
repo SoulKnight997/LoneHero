@@ -113,7 +113,7 @@ void First::initWeapon()
 {
 	if (_weapon_type == 1)
 	{
-		auto weapon = Weapon_machinegun::create(0.2, 5, 0, "poorgun.png",_role->getHero(), vec_bullet);
+		auto weapon = Weapon_machinegun::create(0.1, 5, 0, "poorgun.png",_role->getHero(), vec_bullet);
 		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 		weapon->getWeapon()->setPhysicsBody(bod);
 		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
@@ -124,7 +124,7 @@ void First::initWeapon()
 	}
 	else if (_weapon_type == 2)
 	{
-		auto weapon = Weapon_shotgun::create(0.2, 5, 0, "machinegun.png", _role->getHero(), vec_bullet);
+		auto weapon = Weapon_shotgun::create(0.3, 5, 0, "machinegun.png", _role->getHero(), vec_bullet);
 		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 		weapon->getWeapon()->setPhysicsBody(bod);
 		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
@@ -135,7 +135,7 @@ void First::initWeapon()
 	}
 	else if (_weapon_type == 3)
 	{
-		auto weapon = Weapon_poorgun::create(0.2, 5, 0, "machinegun.png", _role->getHero(), vec_bullet);
+		auto weapon = Weapon_poorgun::create(0.5, 5, 0, "machinegun.png", _role->getHero(), vec_bullet);
 		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
 		weapon->getWeapon()->setPhysicsBody(bod);
 		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
