@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Bullet.h"
-#define RANGE 
+#define RANGE 60
 USING_NS_CC;
 
 Enemy_normal_1* Enemy_normal_1::create(int b, int s, float i, const std::string& filename, Hero* he,Vec2 pos) {
@@ -21,17 +21,17 @@ void Enemy_normal_1::directionChange(float dt) {
 
 void Enemy_normal_1::Move(float dt) {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	if ((enemy->getPositionX() >= 0) && (enemy->getPositionY() >= 0) && (enemy->getPositionX() <= visibleSize.width) && (enemy->getPositionY() <= visibleSize.height))
+	if ((enemy->getPositionX() >= origin_pos.x - RANGE) && (enemy->getPositionY() >= origin_pos.y - RANGE) && (enemy->getPositionX() <= origin_pos.x + RANGE) && (enemy->getPositionY() <= origin_pos.y + RANGE))
 		enemy->setPosition(enemy->getPositionX() + speed * cos(direction), enemy->getPositionY() + speed * sin(direction));
 	else {
-		if (enemy->getPositionX() < 0)
-			enemy->setPositionX(0);
-		else if (enemy->getPositionY() < 0)
-			enemy->setPositionY(0);
-		else if (enemy->getPositionX() > visibleSize.width)
-			enemy->setPositionX(visibleSize.width);
-		else if (enemy->getPositionY() > visibleSize.height)
-			enemy->setPositionY(visibleSize.height);
+		if (enemy->getPositionX() < origin_pos.x - RANGE)
+			enemy->setPositionX(origin_pos.x - RANGE);
+		else if (enemy->getPositionY() < origin_pos.y - RANGE)
+			enemy->setPositionY(origin_pos.y - RANGE);
+		else if (enemy->getPositionX() > origin_pos.x + RANGE)
+			enemy->setPositionX(origin_pos.x + RANGE);
+		else if (enemy->getPositionY() > origin_pos.y + RANGE)
+			enemy->setPositionY(origin_pos.y + RANGE);
 	}
 }
 

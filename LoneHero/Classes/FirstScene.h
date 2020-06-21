@@ -8,6 +8,12 @@
 #include "heroBullet.h"
 #include "Knife.h"
 #include "Enemy_hard_magic.h"
+#include "Enemy_hard.h"
+#include "Enemy_easy.h"
+#include "Enemy_normal.h"
+#include "Enemy_normal_1.h"
+#include "Boss_zrt.h"
+
 using namespace std;
 
 class First : public cocos2d::Layer
@@ -21,8 +27,12 @@ private:
 	Weapon_machinegun*gun;
 	vector<cocos2d::Sprite*>vec_enemy;
 	vector<HeroBullet*>vec_bullet;
-	Enemy_hard_magic*magic;
-
+	Enemy_hard_magic*_magic;
+	Enemy_hard* _hard;
+	Enemy_easy* _easy;
+	Enemy_normal* _normal;
+	Enemy_normal_1* _normal_1;
+	Boss_zrt* _boss;
 public:
 	static cocos2d::Scene* createScene();
 	void settheVectorsame();
@@ -42,7 +52,7 @@ public:
 	bool setEnemy(cocos2d::Vec2 posotion);
 	bool setBoss(cocos2d::Vec2 position);
 
-	void MenuItemPauseCallback(cocos2d::Ref *pSender);
+	//void MenuItemPauseCallback(cocos2d::Ref *pSender);
 	
 	void scheduleBlood(float delta);
 	// implement the "static create()" method manually

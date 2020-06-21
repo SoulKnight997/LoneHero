@@ -13,9 +13,9 @@
   <object id="6" name="hero" x="327.871" y="3234.66" width="185.956" height="195.744"/>
  </objectgroup>
  <group id="19" name="组 1"/>
- <layer id="20" name="collision" width="120" height="120">
+ <layer id="20" name="collision" width="120" height="120" opacity="0.25">
   <data encoding="base64" compression="zlib">
-   eJzt0UENACAQwDD82zijfJDAA5Y2mYKtBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPCHOdE0l+JN/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+ZVm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zvm79t/rb52+Zv2wbU0iML
+   eJztkrFtBEEQw77/Nr5RB04dGMKPZepIYOIlxH2/Xq+353me53me53meN3PSb2DfW9oN7HtLu4F9b2k3sO8t7Qb2vaXdwL63uOk29t3GvtvYdxv7bmPfbey7Tavvp9/1r/2Mfbex7zb23ca+29h3G/tuY99t7LuNfbex7zb23ca+29h3G/tuQ9yK6NyCuBXRuQVxK6JzC+JWROcWxK2Izi2IWxGdWxC3Ijq3IG5FdG5B3Iro3IK4FdG5BXEronML4lZE5xbErYjOLYhbEZ1bELciOrcgbkV0bkHciujcgrgV0bkFcSuicwviVkTnFsStiM4tiFsRnVsQtyI6tyBuRXRuQdyK6NyCuBXRuQVxK6JzC+JWROcWxK2Izi2IWxGdWxC3Ijq3IG5FdG7x262Sa75t32/su81yX8++nn29/92XTLuhfW9pN7TvLe2G9r2l3dC+t7Qb2veWdkP73tJuaN9b2g3te0u7oX1vedJGZPcU+zLcU+zLcE+xL8M9xb4M9xT7MtxT7MtwT7Evwz3Fvgz3FPsy3FPsy3BPeVLfJ2Lfbey7jX23se829t3Gvts8qS/ZPcW+DPcU+zLcU+zLcE+xL8M9xb4M9xT7MtxT7MtwT7Evwz3Fvgz3FPsy3FPsy3BPsS/DPcW+DPeUv+pLPjLt7TzP8zzP+8x9AR4kq4k=
   </data>
  </layer>
 </map>
