@@ -29,6 +29,7 @@ void TurnBullet::update(float dt) {
 	bullet->setPosition(bullet->getPositionX() + speed * cos(angle), bullet->getPositionY() + speed * sin(angle));
 	if (bullet->getBoundingBox().intersectsRect(hero->getHero()->getBoundingBox())) {
 		this->unscheduleUpdate();
+		this->unschedule(schedule_selector(TurnBullet::Turn));
 		bullet->removeFromParent();
 	}
 	if (number >= 60) {

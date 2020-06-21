@@ -148,6 +148,7 @@ void First::scheduleBlood(float delta)
 int Right = 0, Left = 0, up = 0, down = 0;
 int hasEnemy = 0; int hasBoss = 0;
 void First::update(float dt) {
+	this->settheVectorsame();
 	this->setViewpointCenter(_role->getHero()->getPosition());
 	//this->setRolePosition(_role->getHero()->getPosition());
 	auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -174,14 +175,16 @@ void First::update(float dt) {
 	int i = vec_enemy.size();
 	i = i - 1;
 	while (i >= 0) {
-		if ((pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2)) < distance) {
-			distance = (pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2));
-			x1 = gun->getWeapon()->getPositionX(), y1 = gun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
-			if ((x1 != x2) || (y1 != y2)) {
-				if (x1 <= x2)
-					gun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
-				else
-					gun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+		if (vec_enemy[i] != NULL) {
+			if ((pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2)) < distance) {
+				distance = (pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2));
+				x1 = gun->getWeapon()->getPositionX(), y1 = gun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
+				if ((x1 != x2) || (y1 != y2)) {
+					if (x1 <= x2)
+						gun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+					else
+						gun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+				}
 			}
 		}
 		i = i - 1;
@@ -220,6 +223,7 @@ bool First::initEnemy()
 		auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", _role, Vec2(enemy_x, enemy_y));
 		enemy1->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
 		vec_enemy.push_back(enemy1->getEnemy());
+		magic = enemy1;
 		this->addChild(enemy1);
 		this->addChild(enemy1->getEnemy());
 
@@ -372,5 +376,11 @@ void First::Released(EventKeyboard::KeyCode code, Event*event) {
 	case EventKeyboard::KeyCode::KEY_S:down = 0; break;
 	case EventKeyboard::KeyCode::KEY_D:Right = 0; break;
 	case EventKeyboard::KeyCode::KEY_W:up = 0; break;
+	}
+}
+
+void First::settheVectorsame() {
+	if (magic) {
+		magic->setVector(gun->getVector());
 	}
 }

@@ -22,9 +22,10 @@ private:
 	vector<cocos2d::Sprite*>vec_enemy;
 	vector<HeroBullet*>vec_bullet;
 	Enemy_hard_magic*magic;
+
 public:
 	static cocos2d::Scene* createScene();
-
+	void settheVectorsame();
 	virtual bool init();
 
 	// a selector callback
