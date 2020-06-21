@@ -16,10 +16,9 @@
 
 using namespace std;
 
-class Second: public cocos2d::Layer
+class Second : public cocos2d::Layer
 {
 private:
-
 	cocos2d::TMXLayer* _collidable;
 	cocos2d::TMXLayer* _enemyDoor;
 	cocos2d::TMXLayer* _bossDoor;
@@ -35,7 +34,6 @@ private:
 	Enemy_normal_1*  _normal_1;
 	Boss_zrt* _boss;
 public:
-
 	static cocos2d::Scene* createScene();
 	void settheVectorsame();
 	virtual bool init();
