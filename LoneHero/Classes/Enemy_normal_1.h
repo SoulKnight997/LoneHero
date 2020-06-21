@@ -6,7 +6,7 @@
 class Enemy_normal_1 :public Enemy
 {
 public:
-	static Enemy_normal_1* create(int, int, float, const std::string&, Hero*);
+	static Enemy_normal_1* create(int, int, float, const std::string&, Hero*, vector<HeroBullet*>);
 	void directionChange(float dt);
 	void Move(float dt);
 	void Attack(float dt);

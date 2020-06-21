@@ -7,6 +7,7 @@
 #include "Weapon_machinegun.h"
 #include "heroBullet.h"
 #include "Knife.h"
+#include "Enemy_hard_magic.h"
 using namespace std;
 
 class First : public cocos2d::Layer
@@ -18,6 +19,7 @@ private:
 	Weapon_machinegun*gun;
 	vector<cocos2d::Sprite*>vec_enemy;
 	vector<HeroBullet*>vec_bullet;
+	Enemy_hard_magic*magic;
 public:
 	static cocos2d::Scene* createScene();
 

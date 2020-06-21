@@ -7,9 +7,9 @@
 
 USING_NS_CC;
 
-Enemy_normal_1* Enemy_normal_1::create(int b, int s, float i, const std::string& filename, Hero* he) {
+Enemy_normal_1* Enemy_normal_1::create(int b, int s, float i, const std::string& filename, Hero* he, vector<HeroBullet*>bullet) {
 	Enemy_normal_1*p = new(std::nothrow)Enemy_normal_1;
-	p->init(b, s, i, filename, he);
+	p->init(b, s, i, filename, he,bullet);
 	srand(time(NULL));
 	return p;
 }

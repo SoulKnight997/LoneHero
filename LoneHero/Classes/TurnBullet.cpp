@@ -4,13 +4,13 @@
 
 USING_NS_CC;
 
-TurnBullet* TurnBullet::create(int s, double a, int h, const std::string& filename,cocos2d::Sprite*he) {
+TurnBullet* TurnBullet::create(int s, double a, int h, const std::string& filename,Hero*he) {
 	TurnBullet*p = new(std::nothrow)TurnBullet;
 	p->init(s, a, h, filename,he);
 	return p;
 }
 
-bool TurnBullet::init(int s, double a, int h, const std::string& filename,cocos2d::Sprite*he) {
+bool TurnBullet::init(int s, double a, int h, const std::string& filename,Hero*he) {
 	speed = s, angle = a, hurt = h;
 	hero = he;
 	bullet = cocos2d::Sprite::create(filename);
@@ -25,7 +25,16 @@ cocos2d::Sprite* TurnBullet::getBullet() {
 }
 
 void TurnBullet::update(float dt) {
+	number++;
 	bullet->setPosition(bullet->getPositionX() + speed * cos(angle), bullet->getPositionY() + speed * sin(angle));
+	if (bullet->getBoundingBox().intersectsRect(hero->getHero()->getBoundingBox())) {
+		this->unscheduleUpdate();
+		bullet->removeFromParent();
+	}
+	if (number >= 60) {
+		this->unscheduleUpdate();
+		bullet->removeFromParent();
+	}
 }
 
 int TurnBullet::getSpeed() {
@@ -58,7 +67,7 @@ void TurnBullet::setHurt(int h) {
 
 void TurnBullet::Turn(float dt) {
 	double x1, y1, x2, y2;
-	x1 = bullet->getPositionX(), y1 = bullet->getPositionY(), x2 = hero->getPositionX(), y2 = hero->getPositionY();
+	x1 = bullet->getPositionX(), y1 = bullet->getPositionY(), x2 = hero->getHero()->getPositionX(), y2 = hero->getHero()->getPositionY();
 	if ((x1 != x2) || (y1 != y2)) {
 		if (x1 <= x2)
 			this->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));

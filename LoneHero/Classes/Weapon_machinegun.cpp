@@ -16,7 +16,6 @@ void Weapon_machinegun::Attack(float dt) {
 	bullet->getBullet()->setPhysicsBody(body);
 	bullet->getBullet()->setPosition(Vec2(weapon->getPosition()));
 	_bullet.push_back(bullet);
-	log("%d", _bullet.size());
 	this->addChild(bullet->getBullet());
 	this->addChild(bullet);
 }

@@ -3,6 +3,7 @@
 
 #include"cocos2d.h"
 #include"Hero.h"
+#include"heroBullet.h"
 
 class Enemy :public cocos2d::Node
 {
@@ -12,11 +13,12 @@ protected:
 	int speed;
 	cocos2d::Sprite* enemy;
 	cocos2d::Sprite* hero;
+	vector<HeroBullet*>bullet;
 	Hero* _hero;
 	double angle;
 	float interval;
 public:
-	bool init(int, int,float, const std::string&,Hero*);
+	bool init(int, int,float, const std::string&,Hero*,vector<HeroBullet*>);
 	cocos2d::Sprite* getEnemy();
 	int getBlood();
 	float getDirection();
@@ -25,6 +27,7 @@ public:
 	void setBlood(int);
 	void setDirection(float);
 	void setSpeed(int);
+	void setVector(vector<HeroBullet*>);
 	virtual void directionChange(float dt);
 	virtual void Move(float dt);
 	virtual void Attack(float dt);

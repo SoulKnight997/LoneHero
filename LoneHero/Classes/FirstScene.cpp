@@ -69,21 +69,22 @@ bool First::init()
 	this->addChild(weapon->getWeapon());
 	gun = weapon;
 
-	auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", hero);
+	auto enemy = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", hero,weapon->getVector());
 	enemy->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 50,
 		origin.y + visibleSize.height / 2 - 50));
 	vec_enemy.push_back(enemy->getEnemy());
 	this->addChild(enemy);
 	this->addChild(enemy->getEnemy());
 
-	auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", hero);
+	auto enemy1 = Enemy_hard_magic::create(50, 1, 4.0f, "jiangshi.png", hero,weapon->getVector());
 	enemy1->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 - 100,
 		origin.y + visibleSize.height / 2 - 100));
 	vec_enemy.push_back(enemy1->getEnemy());
+	magic = enemy1;
 	this->addChild(enemy1);
 	this->addChild(enemy1->getEnemy());
 
-	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero);
+	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero,weapon->getVector());
 	boss->getEnemy()->setPosition(Vec2(origin.x + visibleSize.width / 2 + 50,
 		origin.y + visibleSize.height / 2 + 50));
 	vec_enemy.push_back(boss->getEnemy());
@@ -109,6 +110,7 @@ bool First::init()
 
 int Right = 0, Left = 0, up = 0, down = 0;
 void First::update(float dt) {
+	magic->setVector(gun->getVector());
 	this->setViewpointCenter(_role->getHero()->getPosition());
 	//this->setRolePosition(_role->getHero()->getPosition());
 	auto visibleSize = Director::getInstance()->getVisibleSize();

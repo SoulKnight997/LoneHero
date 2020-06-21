@@ -4,10 +4,11 @@
 
 USING_NS_CC;
 
-bool Enemy::init(int b,int s, float i,const std::string& filename,Hero* he) {
+bool Enemy::init(int b, int s, float i, const std::string& filename, Hero* he, vector<HeroBullet*>bu) {
 	blood = b;
 	speed = s;
 	direction = 0;
+	bullet = bu;
 	_hero = he;
 	hero = _hero->getHero();
 	angle = 0;
@@ -49,6 +50,10 @@ void Enemy::setSpeed(int s) {
 
 void Enemy::setDirection(float d) {
 	direction = d;
+}
+
+void Enemy::setVector(vector<HeroBullet*>bu) {
+	bullet = bu;
 }
 
 void Enemy::Move(float dt) {

@@ -7,9 +7,9 @@
 
 USING_NS_CC;
 
-Boss_zrt* Boss_zrt::create(int b, int s, const std::string& filename, Hero* he) {
+Boss_zrt* Boss_zrt::create(int b, int s, const std::string& filename, Hero* he, vector<HeroBullet*>bullet) {
 	Boss_zrt*p = new(std::nothrow)Boss_zrt;
-	p->init(b, s, 2.0f,filename, he);
+	p->init(b, s, 2.0f,filename, he,bullet);
 	srand(time(NULL));
 	return p;
 }
