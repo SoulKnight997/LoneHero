@@ -28,6 +28,8 @@ public:
 	void settheVectorsame();
 	virtual bool init();
 
+	bool isMenu = true;
+
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
 	void setViewpointCenter(cocos2d::Vec2 position);
@@ -42,7 +44,10 @@ public:
 	bool setEnemy(cocos2d::Vec2 posotion);
 	bool setBoss(cocos2d::Vec2 position);
 
-	void MenuItemPauseCallback(cocos2d::Ref *pSender);
+	void MenuItemExitCallback(cocos2d::Ref *pSender);
+	//void MenuItemBackCallback(cocos2d::Ref *pSender);
+
+	//void MenuItemPauseCallback(cocos2d::Ref *pSender);
 	
 	void scheduleBlood(float delta);
 	// implement the "static create()" method manually
