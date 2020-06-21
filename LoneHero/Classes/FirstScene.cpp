@@ -12,6 +12,7 @@
 #include "Enemy_hard_magic.h"
 #include "Knife.h"
 #include "SimpleAudioEngine.h"
+#include "SecondScene.h"
 
 #define PLAYER_LIFE 5
 #define MY_BAR 128
@@ -253,6 +254,14 @@ void First::scheduleBlood(float delta)
 
 		Director::getInstance()->popToRootScene();
 	}
+
+	if (_magic&&_hard&&_normal&&_normal_1&&_easy) {
+		if (_magic->getBlood() <= 0 && _hard->getBlood() <= 0 && _normal->getBlood() <= 0 && _normal_1->getBlood() <= 0 && _easy->getBlood() <= 0) {
+
+			auto second_scene =Second::createScene();
+			Director::getInstance()->pushScene(second_scene);
+		} 
+	}
 	progress->setPosition(Vec2(_role->getHero()->getPositionX(),
 		_role->getHero()->getPositionY() + 32));
 	bar->setPosition(Vec2(_role->getHero()->getPositionX(),
@@ -451,6 +460,7 @@ Vec2 First::tileCoordFromPosition(Vec2 pos)
 //检测第一个门，生成小怪
 bool First::setEnemy(Vec2 position)
 {
+
 	Vec2 tileCoord = this->tileCoordFromPosition(position);
 	int tileGid = _enemyDoor->getTileGIDAt(tileCoord);
 	if (tileGid > 0)
