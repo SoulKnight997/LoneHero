@@ -17,8 +17,11 @@
 
 USING_NS_CC;
 
-Scene* Second::createScene()
+using namespace CocosDenshion;
+int _weapon_type2 = 0;
+Scene* Second::createScene(int weapon_type)
 {
+	_weapon_type2 = weapon_type;
 	// 'scene' is an autorelease object
 	auto scene = Scene::createWithPhysics();
 
@@ -44,66 +47,10 @@ bool Second::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	log("fuck");
-	_tileMap = CCTMXTiledMap::create("map/IceMap.tmx");
-	_tileMap->setAnchorPoint(Vec2(0, 0));
-	log("fuck");
-	addChild(_tileMap, 0, 1000000);
-
-	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
-	ValueMap spwanPoint = group->getObject("hero");
-	float hero_x = spwanPoint["x"].asFloat();
-	float hero_y = spwanPoint["y"].asFloat();
-
-	//log("%f,%f", hero_x, hero_y);
-	auto hero = Hero::create(PLAYER_LIFE, 5, 200, "heropositive.png");
-	hero->getHero()->setPosition(Vec2(hero_x, hero_y));
-	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
-	hero->getHero()->setPhysicsBody(body);
-	this->addChild(hero);
-	this->addChild(hero->getHero());//里面的类
-
-	_role = hero;
-
-	auto weapon = Weapon_machinegun::create(0.2, 5, 0, "poorgun.png", hero->getHero(), vec_bullet);
-	auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
-	weapon->getWeapon()->setPhysicsBody(bod);
-	weapon->getWeapon()->setPosition(hero->getHero()->getPositionX(),
-		hero->getHero()->getPositionY());
-	this->addChild(weapon);
-	this->addChild(weapon->getWeapon());
-	gun = weapon;
-
-	ValueMap spwanPoint1 = group->getObject("enemy2");
-	float enemy_x = spwanPoint1["x"].asFloat();
-	float enemy_y = spwanPoint1["y"].asFloat();
-	auto enemy = Enemy_easy::create(50, 1, 4.0f, "enemy.png", hero, Vec2(enemy_x, enemy_y));
-	enemy->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
-	vec_enemy.push_back(enemy->getEnemy());
-	_easy = enemy;
-	this->addChild(enemy);
-	this->addChild(enemy->getEnemy());
-
-	auto enemy1 = Enemy_normal::create(50, 1, 4.0f, "snowpositive.png", hero, Vec2(enemy_x, enemy_y));
-	enemy1->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
-	vec_enemy.push_back(enemy1->getEnemy());
-	_normal = enemy1;
-	this->addChild(enemy1);
-	this->addChild(enemy1->getEnemy());
-
-	/*ValueMap spwanPoint2 = group->getObject("boss");
-	float boss_x = spwanPoint2["x"].asFloat();
-	float boss_y = spwanPoint2["y"].asFloat();
-	auto boss = Boss_zrt::create(100, 2, "huaji.png", hero,Vec2(boss_x,boss_y));
-	boss->getEnemy()->setPosition(Vec2(boss_x,boss_y));
-	vec_enemy.push_back(boss->getEnemy());
-	this->addChild(boss);
-	this->addChild(boss->getEnemy());*/
-
-	_collidable = _tileMap->getLayer("collision");
-	_enemyDoor = _tileMap->getLayer("enemydoor");
-	_bossDoor = _tileMap->getLayer("bossdoor");
-	//_collidable->setVisible(false);
+	initMap();
+	initHero();
+	initWeapon();
+	initEnemy();
 
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(Second::Press, this);
@@ -126,28 +73,100 @@ bool Second::init()
 	this->addChild(progress);
 	this->schedule(schedule_selector(Second::scheduleBlood), 0.1f);
 
-	/*MenuItemFont::setFontName("Times New Roman");
-	MenuItemFont::setFontSize(12);
-	MenuItemFont *item_pause = MenuItemFont::create("Pause",
-		CC_CALLBACK_1(First::MenuItemPauseCallback, this));
-	auto pauseMenu = Menu::create(item_pause, NULL);*/
-
-
 	this->scheduleUpdate();
 
 	return true;
 }
 
+void Second::initMap()
+{
+	_tileMap = CCTMXTiledMap::create("map/SnowMap.tmx");
+	_tileMap->setAnchorPoint(Vec2(0, 0));
+	addChild(_tileMap, 0, 1000000);
+	_collidable = _tileMap->getLayer("collision");
+	_enemyDoor = _tileMap->getLayer("enemydoor");
+	_bossDoor = _tileMap->getLayer("bossdoor");
+	_collidable->setVisible(false);
+}
+
+void Second::initHero()
+{
+	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
+	ValueMap spwanPoint = group->getObject("hero");
+	float hero_x = spwanPoint["x"].asFloat();
+	float hero_y = spwanPoint["y"].asFloat();
+
+	//log("%f,%f", hero_x, hero_y);
+	auto hero = Hero::create(PLAYER_LIFE, 5, 200, "heropositive.png");
+	hero->getHero()->setPosition(Vec2(hero_x, hero_y));
+	auto body = PhysicsBody::createEdgeBox(hero->getHero()->getContentSize());
+	hero->getHero()->setPhysicsBody(body);
+	this->addChild(hero);
+	this->addChild(hero->getHero());//里面的类
+
+	_role = hero;
+}
+void Second::initWeapon()
+{
+	if (_weapon_type2 == 1)
+	{
+		auto weapon = Weapon_machinegun::create(0.2, 5, 0, "poorgun.png", _role->getHero(), vec_bullet);
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
+			_role->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		gun = weapon;
+	}
+	else if (_weapon_type2 == 2)
+	{
+		auto weapon = Weapon_shotgun::create(0.2, 5, 0, "machinegun.png", _role->getHero(), vec_bullet);
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
+			_role->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		_shotgun = weapon;
+	}
+	else if (_weapon_type2 == 3)
+	{
+		auto weapon = Weapon_poorgun::create(0.2, 5, 0, "machinegun.png", _role->getHero(), vec_bullet);
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
+			_role->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		_poorgun = weapon;
+	}
+	else if (_weapon_type2 == 4)
+	{
+		auto weapon = Knife::create(0.2, 5, 0, "knife.png", _role->getHero());
+		auto bod = PhysicsBody::createEdgeBox(weapon->getWeapon()->getContentSize());
+		weapon->getWeapon()->setPhysicsBody(bod);
+		weapon->getWeapon()->setPosition(_role->getHero()->getPositionX(),
+			_role->getHero()->getPositionY());
+		this->addChild(weapon);
+		this->addChild(weapon->getWeapon());
+		_knife = weapon;
+	}
+}
 void Second::scheduleBlood(float delta)
 {
 	auto progress = (ProgressTimer*)this->getChildByTag(BLOOD_BAR);
 	auto bar = (Sprite*)this->getChildByTag(MY_BAR);
 	float existLife = _role->getBlood();
 	progress->setPercentage(((float)existLife / PLAYER_LIFE) * 100);
+
 	progress->setPosition(Vec2(_role->getHero()->getPositionX(),
 		_role->getHero()->getPositionY() + 32));
 	bar->setPosition(Vec2(_role->getHero()->getPositionX(),
 		_role->getHero()->getPositionY() + 32));
+
+	//
+
 	if (progress->getPercentage() < 0)
 	{
 		this->unschedule(schedule_selector(Second::scheduleBlood));
@@ -157,10 +176,76 @@ void Second::scheduleBlood(float delta)
 void Second::update(float dt) {
 	this->settheVectorsame();
 	this->setViewpointCenter(_role->getHero()->getPosition());
-	//this->setRolePosition(_role->getHero()->getPosition());
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto hero = _role->getHero();
+	this->updateHeroPosition();
 
+	long distance = 1000000;
+	double x1, y1, x2, y2;
+	int i = vec_enemy.size();
+	i = i - 1;
+	while (i >= 0) {
+		if (vec_enemy[i] != NULL) {
+			if (_weapon_type2 == 1)
+			{
+				if ((pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2)) < distance) {
+					distance = (pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2));
+					x1 = gun->getWeapon()->getPositionX(), y1 = gun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
+					if ((x1 != x2) || (y1 != y2)) {
+						if (x1 <= x2)
+							gun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+						else
+							gun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+					}
+				}
+			}
+			else if (_weapon_type2 == 2)
+			{
+				if ((pow((vec_enemy[i]->getPositionX() - _shotgun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - _shotgun->getWeapon()->getPositionY()), 2)) < distance) {
+					distance = (pow((vec_enemy[i]->getPositionX() - _shotgun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - _shotgun->getWeapon()->getPositionY()), 2));
+					x1 = _shotgun->getWeapon()->getPositionX(), y1 = _shotgun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
+					if ((x1 != x2) || (y1 != y2)) {
+						if (x1 <= x2)
+							_shotgun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+						else
+							_shotgun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+					}
+				}
+			}
+			else if (_weapon_type2 == 3)
+			{
+				if ((pow((vec_enemy[i]->getPositionX() - _poorgun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - _poorgun->getWeapon()->getPositionY()), 2)) < distance) {
+					distance = (pow((vec_enemy[i]->getPositionX() - _poorgun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - _poorgun->getWeapon()->getPositionY()), 2));
+					x1 = _poorgun->getWeapon()->getPositionX(), y1 = _poorgun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
+					if ((x1 != x2) || (y1 != y2)) {
+						if (x1 <= x2)
+							_poorgun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+						else
+							_poorgun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
+					}
+				}
+			}
+		}
+		i = i - 1;
+	}
+	//生成怪和BOSS
+	if (hasEnemy == 0)
+	{
+		if (initEnemy2())
+		{
+			hasEnemy = 1;
+		}
+	}
+	if (hasBoss == 0)
+	{
+		if (initBoss())
+		{
+			hasBoss = 1;
+		}
+	}
+}
+void Second::updateHeroPosition()
+{
+	auto hero = _role->getHero();
 	Vec2 pos = hero->getPosition();
 	float pos_x = hero->getPositionX();
 	float pos_y = hero->getPositionY();
@@ -177,43 +262,31 @@ void Second::update(float dt) {
 	if (down == 1)
 		if (setRolePosition(Vec2(pos_x, pos_y - 2)))
 			hero->setPosition(Vec2(hero->getPositionX(), hero->getPositionY() - 2));
-	long distance = 1000000;
-	double x1, y1, x2, y2;
-	int i = vec_enemy.size();
-	i = i - 1;
-	while (i >= 0) {
-		if (vec_enemy[i] != NULL) {
-			if ((pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2)) < distance) {
-				distance = (pow((vec_enemy[i]->getPositionX() - gun->getWeapon()->getPositionX()), 2) + pow((vec_enemy[i]->getPositionY() - gun->getWeapon()->getPositionY()), 2));
-				x1 = gun->getWeapon()->getPositionX(), y1 = gun->getWeapon()->getPositionY(), x2 = vec_enemy[i]->getPositionX(), y2 = vec_enemy[i]->getPositionY();
-				if ((x1 != x2) || (y1 != y2)) {
-					if (x1 <= x2)
-						gun->setAngle(asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
-					else
-						gun->setAngle(3.14159 - asin((y2 - y1) / sqrt(pow((y2 - y1), 2) + pow((x2 - x1), 2))));
-				}
-			}
-		}
-		i = i - 1;
-	}
-	//生成怪和BOSS
-	if (hasEnemy == 0)
-	{
-		if (initEnemy())
-		{
-			hasEnemy = 1;
-		}
-	}
-	if (hasBoss == 0)
-	{
-		if (initBoss())
-		{
-			hasBoss = 1;
-		}
-	}
-}
 
-bool Second::initEnemy()
+}
+//刚开始生成两个怪
+void Second::initEnemy()
+{
+	TMXObjectGroup* group = _tileMap->getObjectGroup("objects");
+	ValueMap spwanPoint1 = group->getObject("enemy2");
+	float enemy_x = spwanPoint1["x"].asFloat();
+	float enemy_y = spwanPoint1["y"].asFloat();
+	auto enemy = Enemy_easy::create(50, 1, 4.0f, "enemy.png", _role, Vec2(enemy_x, enemy_y));
+	enemy->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
+	vec_enemy.push_back(enemy->getEnemy());
+	_easy = enemy;
+	this->addChild(enemy);
+	this->addChild(enemy->getEnemy());
+
+	auto enemy1 = Enemy_normal::create(50, 1, 4.0f, "snowpositive.png", _role, Vec2(enemy_x, enemy_y));
+	enemy1->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
+	vec_enemy.push_back(enemy1->getEnemy());
+	_normal = enemy1;
+	this->addChild(enemy1);
+	this->addChild(enemy1->getEnemy());
+}
+//当人走到相应格子，再生成怪
+bool Second::initEnemy2()
 {
 	if (setEnemy(_role->getHero()->getPosition()))
 	{
@@ -221,10 +294,10 @@ bool Second::initEnemy()
 		ValueMap spwanPoint1 = group->getObject("enemy");
 		float enemy_x = spwanPoint1["x"].asFloat();
 		float enemy_y = spwanPoint1["y"].asFloat();
-		auto enemy = Enemy_hard::create(50, 1, 4.0f, "magic.png", _role, Vec2(enemy_x, enemy_y));
+		auto enemy = Enemy_hard_magic::create(50, 1, 2.0f, "jiangshi.png", _role, Vec2(enemy_x, enemy_y));
 		enemy->getEnemy()->setPosition(Vec2(enemy_x, enemy_y));
 		vec_enemy.push_back(enemy->getEnemy());
-		_hard = enemy;
+		_magic = enemy;
 		this->addChild(enemy);
 		this->addChild(enemy->getEnemy());
 
@@ -235,14 +308,12 @@ bool Second::initEnemy()
 		this->addChild(enemy1);
 		this->addChild(enemy1->getEnemy());
 
-
-
 		//hasEnemy = 1;
 		return 1;
 	}
 	return 0;
 }
-
+//当人走到Boss格子再生成
 bool Second::initBoss()
 {
 	if (setBoss(_role->getHero()->getPosition()))
@@ -251,10 +322,10 @@ bool Second::initBoss()
 		ValueMap spwanPoint2 = group->getObject("boss");
 		float boss_x = spwanPoint2["x"].asFloat();
 		float boss_y = spwanPoint2["y"].asFloat();
-		auto boss = Boss_zrt::create(100, 2, "huaji.png", _role, Vec2(boss_x, boss_y));
+		auto boss = Enemy_hard::create(50, 1, 4.0f, "jiangshi.png", _role, Vec2(boss_x, boss_y));
 		boss->getEnemy()->setPosition(Vec2(boss_x, boss_y));
 		vec_enemy.push_back(boss->getEnemy());
-		_boss = boss;
+		_hard = boss;
 		this->addChild(boss);
 		this->addChild(boss->getEnemy());
 
@@ -391,7 +462,80 @@ void Second::Released(EventKeyboard::KeyCode code, Event*event) {
 }
 
 void Second::settheVectorsame() {
+	if (_weapon_type2 == 1)
+	{
+		setMachineVector();
+	}
+	else if (_weapon_type2 == 2)
+	{
+		setPoorVector();
+	}
+	else if (_weapon_type2 == 3)
+	{
+		setShotVector();
+	}
+}
+void Second::setMachineVector()
+{
 	if (_magic) {
 		_magic->setVector(gun->getVector());
+	}
+	if (_easy) {
+		_easy->setVector(gun->getVector());
+	}
+	if (_normal) {
+		_normal->setVector(gun->getVector());
+	}
+	if (_normal_1) {
+		_normal_1->setVector(gun->getVector());
+	}
+	if (_hard) {
+		_hard->setVector(gun->getVector());
+	}
+	if (_boss) {
+		_boss->setVector(gun->getVector());
+	}
+}
+
+void Second::setPoorVector()
+{
+	if (_magic) {
+		_magic->setVector(_poorgun->getVector());
+	}
+	if (_easy) {
+		_easy->setVector(_poorgun->getVector());
+	}
+	if (_normal) {
+		_normal->setVector(_poorgun->getVector());
+	}
+	if (_normal_1) {
+		_normal_1->setVector(_poorgun->getVector());
+	}
+	if (_hard) {
+		_hard->setVector(_poorgun->getVector());
+	}
+	if (_boss) {
+		_boss->setVector(_poorgun->getVector());
+	}
+}
+void Second::setShotVector()
+{
+	if (_magic) {
+		_magic->setVector(_shotgun->getVector());
+	}
+	if (_easy) {
+		_easy->setVector(_shotgun->getVector());
+	}
+	if (_normal) {
+		_normal->setVector(_shotgun->getVector());
+	}
+	if (_normal_1) {
+		_normal_1->setVector(_shotgun->getVector());
+	}
+	if (_hard) {
+		_hard->setVector(_shotgun->getVector());
+	}
+	if (_boss) {
+		_boss->setVector(_shotgun->getVector());
 	}
 }
